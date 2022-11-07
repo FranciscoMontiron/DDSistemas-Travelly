@@ -69,7 +69,4 @@ public class AvionController {
         return new ResponseEntity(new Mensaje("Avion eliminado"),HttpStatus.OK);
     }
     
-    
-            
-    
 }
