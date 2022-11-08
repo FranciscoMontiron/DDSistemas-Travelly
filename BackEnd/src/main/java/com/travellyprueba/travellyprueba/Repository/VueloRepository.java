@@ -8,6 +8,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface VueloRepository extends JpaRepository<Vuelo, Integer>{
+    @Override
     public Optional<Vuelo> findById(Integer id);
+    @Override
     public boolean existsById(Integer id);
 }
