@@ -1,10 +1,13 @@
 
 package com.travellyprueba.travellyprueba.Entity;
 
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,6 +23,11 @@ public class Avion {
     private String matricula;
     
     private String marca;
+    
+    @OneToMany
+    @JoinColumn(name = "id_avion")
+    private List<Asiento> asientos;
+  
 
     public Avion() {
     }

@@ -1,10 +1,12 @@
 
 package com.travellyprueba.travellyprueba.Entity;
 
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,6 +27,9 @@ public class Aeropuerto {
     private String nombre;
     
     private String region;
+    
+    @ManyToOne
+    private Pais pais;
     
 
     public Aeropuerto() {
