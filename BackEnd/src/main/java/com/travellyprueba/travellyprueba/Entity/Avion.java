@@ -1,32 +1,34 @@
 
 package com.travellyprueba.travellyprueba.Entity;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import lombok.Getter;
-import lombok.Setter;
+import javax.validation.constraints.NotNull;
+
 
 @Entity
-@Getter @Setter
 public class Avion {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     
+    @NotNull
     private Integer cantidadAsientos;
     
+    @NotNull
     private String matricula;
     
+    @NotNull
     private String marca;
     
-    @OneToMany
-    @JoinColumn(name = "id_avion")
-    private List<Asiento> asientos;
+    @OneToMany(mappedBy = "avion", cascade = CascadeType.ALL)
+    private Set<Asiento> asientos = new HashSet<>();
   
 
     public Avion() {
@@ -37,5 +39,54 @@ public class Avion {
         this.matricula = matricula;
         this.marca = marca;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Integer getCantidadAsientos() {
+        return cantidadAsientos;
+    }
+
+    public void setCantidadAsientos(Integer cantidadAsientos) {
+        this.cantidadAsientos = cantidadAsientos;
+    }
+
+    public String getMatricula() {
+        return matricula;
+    }
+
+    public void setMatricula(String matricula) {
+        this.matricula = matricula;
+    }
+
+    public String getMarca() {
+        return marca;
+    }
+
+    public void setMarca(String marca) {
+        this.marca = marca;
+    }
+
+    public Set<Asiento> getAsientos() {
+        return asientos;
+    }
+
+    public void setAsientos(Set<Asiento> asientos) {
+        this.asientos = asientos;
+        for(Asiento asiento : asientos){
+            asiento.setAvion(this);
+        }
+    }
+
+    
+    
+    
+
+
       
 }

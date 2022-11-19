@@ -2,9 +2,12 @@
 package com.travellyprueba.travellyprueba.Entity;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import java.util.Calendar;
 import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -32,11 +35,6 @@ public class Vuelo {
     
     private Float precio;
     
-    @ManyToOne
-    private Avion avion;
-    
-    @ManyToMany
-    private List<Aeropuerto> aeropuertos;
 
     public Vuelo() {
     }

@@ -1,11 +1,15 @@
 
 package com.travellyprueba.travellyprueba.Controller;
 
-import com.travellyprueba.travellyprueba.Dto.AsientoDto;
-import com.travellyprueba.travellyprueba.Dto.Mensaje;
+
 import com.travellyprueba.travellyprueba.Entity.Asiento;
-import com.travellyprueba.travellyprueba.Service.AsientoService;
+import com.travellyprueba.travellyprueba.Entity.Avion;
+import com.travellyprueba.travellyprueba.Repository.AsientoRepository;
+import com.travellyprueba.travellyprueba.Repository.AvionRepository;
+import java.net.URI;
 import java.util.List;
+import java.util.Optional;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,55 +22,81 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-@RequestMapping("/asientos")
+@RequestMapping("/api/asientos")
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
 public class AsientoController {
     
-    @Autowired AsientoService asientoService;
+    @Autowired
+    private AvionRepository avionRepository;
     
-    @GetMapping("/list")
-    public ResponseEntity<List<Asiento>> list(){
-        List<Asiento>list=asientoService.list();
+    @Autowired
+    private AsientoRepository asientoRepository;
+    
+    @PostMapping("/crear")
+    public ResponseEntity<Asiento> guardarAsiento(@Valid @RequestBody Asiento asiento){
+		Optional<Avion> avionOptional = avionRepository.findById(asiento.getAvion().getId());
+		
+		if(!avionOptional.isPresent()){
+			return ResponseEntity.unprocessableEntity().build();
+		}
+		
+		asiento.setAvion(avionOptional.get());
+		Asiento asientoGuardado = asientoRepository.save(asiento);
+		URI ubicacion = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+				.buildAndExpand(asientoGuardado.getId()).toUri();
+		
+		return ResponseEntity.created(ubicacion).body(asientoGuardado);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Asiento> guardarAsiento(@Valid @RequestBody Asiento asiento, @PathVariable Integer id){
+		Optional<Avion> avionOptional = avionRepository.findById(asiento.getAvion().getId());
+		
+		if(!avionOptional.isPresent()){
+			return ResponseEntity.unprocessableEntity().build();
+		}
+                
+                Optional<Asiento> asientoOptional = asientoRepository.findById(id);
+                if(!asientoOptional.isPresent()){
+			return ResponseEntity.unprocessableEntity().build();
+		}
+                
+		
+		asiento.setAvion(avionOptional.get());
+                asiento.setId(asientoOptional.get().getId());
+                asientoRepository.save(asiento);
+		
+		return ResponseEntity.noContent().build();
+    }
+    
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Asiento> eliminarAsiento(@PathVariable Integer id){
+        
+        Optional<Asiento> asientoOptional = asientoRepository.findById(id);
+        
+        asientoRepository.delete(asientoOptional.get());
+        
+        return ResponseEntity.noContent().build();
+    }
+    
+    @GetMapping("/{id}")
+    public ResponseEntity<Asiento> obtenerAsientoPorId(@PathVariable Integer id){
+        Optional<Asiento> asientoOptional = asientoRepository.findById(id);
+        
+        if(!asientoOptional.isPresent()){
+            return ResponseEntity.unprocessableEntity().build();
+        }
+        
+        return ResponseEntity.ok(asientoOptional.get());
+        
+    }
+    
+    @GetMapping("/listar")
+    public ResponseEntity <List<Asiento>> listarAsientos(){
+        List<Asiento> list = asientoRepository.findAll();
         return new ResponseEntity(list,HttpStatus.OK);
-    }
-    
-    @GetMapping("/detail/{id}")
-    public ResponseEntity<Asiento> getById(@PathVariable("id") int id){
-        if(!asientoService.existsById(id))
-            return new ResponseEntity(new Mensaje("no existe"), HttpStatus.NOT_FOUND);
-        Asiento asiento = asientoService.getOne(id).get();
-        return new ResponseEntity(asiento, HttpStatus.OK);
-    }
-    
-    @PostMapping("/create")
-    public ResponseEntity<?>create(@RequestBody AsientoDto asientoDto){
-        Asiento asiento=new Asiento(asientoDto.getEstado(),asientoDto.getNumero(),asientoDto.getClase(),asientoDto.getAsientoColumna());
-        asientoService.save(asiento);
-        return new ResponseEntity(new Mensaje("Asiento agregado"),HttpStatus.OK);
-    }
-    
-    @PutMapping("/update/{id}")
-    public ResponseEntity<?>update(@PathVariable("id")int id,@RequestBody AsientoDto asientoDto){
-        // Validamos si existe el ID
-        if(!asientoService.existsById(id))
-            return new ResponseEntity(new Mensaje("El ID no existe"),HttpStatus.BAD_REQUEST);
-        Asiento asiento=asientoService.getOne(id).get();
-        asiento.setEstado(asientoDto.getEstado());
-        asiento.setNumero(asientoDto.getNumero());
-        asiento.setClase(asientoDto.getClase());
-        asiento.setAsientoColumna(asientoDto.getAsientoColumna());
-        asientoService.save(asiento);
-        return new ResponseEntity(new Mensaje("Asiento Actualizado"),HttpStatus.OK);
-    }
-    
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?>delete(@PathVariable("id")int id){
-    // Validamos si existe el ID
-        if(!asientoService.existsById(id))
-            return new ResponseEntity(new Mensaje("El ID no existe"),HttpStatus.BAD_REQUEST);
-        asientoService.delete(id);
-        return new ResponseEntity(new Mensaje("Asiento eliminado"),HttpStatus.OK);
     }
 }

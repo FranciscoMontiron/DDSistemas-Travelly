@@ -1,11 +1,14 @@
 
 package com.travellyprueba.travellyprueba.Controller;
 
-import com.travellyprueba.travellyprueba.Dto.Mensaje;
-import com.travellyprueba.travellyprueba.Dto.ReservaDto;
 import com.travellyprueba.travellyprueba.Entity.Reserva;
-import com.travellyprueba.travellyprueba.Service.ReservaService;
+import com.travellyprueba.travellyprueba.Entity.Usuario;
+import com.travellyprueba.travellyprueba.Repository.ReservaRepository;
+import com.travellyprueba.travellyprueba.Repository.UsuarioRepository;
+import java.net.URI;
 import java.util.List;
+import java.util.Optional;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,54 +21,82 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-@RequestMapping("/reservas")
+@RequestMapping("/api/reservas")
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
 public class ReservaController {
     
-    @Autowired ReservaService reservaService;
+    @Autowired
+    private UsuarioRepository usuarioRepository;
     
-    @GetMapping("/list")
-    public ResponseEntity<List<Reserva>> list(){
-        List<Reserva>list=reservaService.list();
+    @Autowired
+    private ReservaRepository reservaRepository;
+    
+    @PostMapping("/crear")
+    public ResponseEntity<Reserva> guardarReserva(@Valid @RequestBody Reserva reserva){
+        Optional<Usuario> usuarioOptional = usuarioRepository.findById(reserva.getUsuario().getId());
+
+        if(!usuarioOptional.isPresent()){
+                return ResponseEntity.unprocessableEntity().build();
+        }
+
+        reserva.setUsuario(usuarioOptional.get());
+        Reserva reservaGuardado = reservaRepository.save(reserva);
+        URI ubicacion = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                        .buildAndExpand(reservaGuardado.getId()).toUri();
+
+        return ResponseEntity.created(ubicacion).body(reservaGuardado);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Reserva> editarReserva(@Valid @RequestBody Reserva reserva, @PathVariable Integer id){
+        Optional<Usuario> usuarioOptional = usuarioRepository.findById(reserva.getUsuario().getId());
+
+        if(!usuarioOptional.isPresent()){
+                return ResponseEntity.unprocessableEntity().build();
+        }
+
+        Optional<Reserva> reservaOptional = reservaRepository.findById(id);
+        if(!reservaOptional.isPresent()){
+                return ResponseEntity.unprocessableEntity().build();
+        }
+
+
+        reserva.setUsuario(usuarioOptional.get());
+        reserva.setId(reservaOptional.get().getId());
+        reservaRepository.save(reserva);
+
+        return ResponseEntity.noContent().build();
+    }
+    
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Reserva> eliminarReserva(@PathVariable Integer id){
+        
+        Optional<Reserva> reservaOptional = reservaRepository.findById(id);
+        
+        reservaRepository.delete(reservaOptional.get());
+        
+        return ResponseEntity.noContent().build();
+    }
+    
+    @GetMapping("/{id}")
+    public ResponseEntity<Reserva> obtenerReservaPorId(@PathVariable Integer id){
+        Optional<Reserva> reservaOptional = reservaRepository.findById(id);
+        
+        if(!reservaOptional.isPresent()){
+            return ResponseEntity.unprocessableEntity().build();
+        }
+        
+        return ResponseEntity.ok(reservaOptional.get());
+        
+    }
+    
+    @GetMapping("/listar")
+    public ResponseEntity <List<Reserva>> listarReservas(){
+        List<Reserva> list = reservaRepository.findAll();
         return new ResponseEntity(list,HttpStatus.OK);
-    }
-    
-    @GetMapping("/detail/{id}")
-    public ResponseEntity<Reserva> getById(@PathVariable("id") int id){
-        if(!reservaService.existsById(id))
-            return new ResponseEntity(new Mensaje("no existe"), HttpStatus.NOT_FOUND);
-        Reserva reserva = reservaService.getOne(id).get();
-        return new ResponseEntity(reserva, HttpStatus.OK);
-    }
-    
-    @PostMapping("/create")
-    public ResponseEntity<?>create(@RequestBody ReservaDto reservaDto){
-        Reserva reserva=new Reserva(reservaDto.getEstado(),reservaDto.getFechaYHora());
-        reservaService.save(reserva);
-        return new ResponseEntity(new Mensaje("Reserva agregada"),HttpStatus.OK);
-    }
-    
-    @PutMapping("/update/{id}")
-    public ResponseEntity<?>update(@PathVariable("id")int id,@RequestBody ReservaDto reservaDto){
-        // Validamos si existe el ID
-        if(!reservaService.existsById(id))
-            return new ResponseEntity(new Mensaje("El ID no existe"),HttpStatus.BAD_REQUEST);
-        Reserva reserva=reservaService.getOne(id).get();
-        reserva.setEstado(reservaDto.getEstado());
-        reserva.setFechaYHora(reservaDto.getFechaYHora());
-        reservaService.save(reserva);
-        return new ResponseEntity(new Mensaje("Reserva Actualizada"),HttpStatus.OK);
-    }
-    
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?>delete(@PathVariable("id")int id){
-    // Validamos si existe el ID
-        if(!reservaService.existsById(id))
-            return new ResponseEntity(new Mensaje("El ID no existe"),HttpStatus.BAD_REQUEST);
-        reservaService.delete(id);
-        return new ResponseEntity(new Mensaje("Reserva eliminada"),HttpStatus.OK);
     }
     
 }

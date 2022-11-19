@@ -1,8 +1,8 @@
 
 package com.travellyprueba.travellyprueba.Controller;
 
-import com.travellyprueba.travellyprueba.Entity.Pais;
-import com.travellyprueba.travellyprueba.Repository.PaisRepository;
+import com.travellyprueba.travellyprueba.Entity.Usuario;
+import com.travellyprueba.travellyprueba.Repository.UsuarioRepository;
 import java.net.URI;
 import java.util.List;
 import java.util.Optional;
@@ -21,65 +21,65 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-@RequestMapping("/api/pais")
+@RequestMapping("/api/usuario")
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
-public class PaisController {
+public class UsuarioController {
     
     @Autowired
-    private PaisRepository paisRepository;
+    private UsuarioRepository usuarioRepository;
     
     
     @GetMapping("/{id}")
-    public ResponseEntity<Pais> obtenerPaisPorId(@PathVariable Integer id){
-        Optional<Pais> paisOptional = paisRepository.findById(id);
+    public ResponseEntity<Usuario> obtenerUsuarioPorId(@PathVariable Integer id){
+        Optional<Usuario> usuarioOptional = usuarioRepository.findById(id);
         
-        if(!paisOptional.isPresent()){
+        if(!usuarioOptional.isPresent()){
             return ResponseEntity.unprocessableEntity().build();
         }
         
-        return ResponseEntity.ok(paisOptional.get());
+        return ResponseEntity.ok(usuarioOptional.get());
         
     }
     
     @GetMapping("/listar")
-    public ResponseEntity <List<Pais>> listarPaises(){
-        List<Pais> list = paisRepository.findAll();
+    public ResponseEntity <List<Usuario>> listarUsuarios(){
+        List<Usuario> list = usuarioRepository.findAll();
         return new ResponseEntity(list,HttpStatus.OK);
     }
     
     
     @PostMapping("/crear")
-    public ResponseEntity<Pais> guardarPais(@Valid @RequestBody Pais pais){
-        Pais paisGuardado = paisRepository.save(pais);
+    public ResponseEntity<Usuario> guardarUsuario(@Valid @RequestBody Usuario usuario){
+        Usuario usuarioGuardado = usuarioRepository.save(usuario);
         URI ubicacion = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-                .buildAndExpand(paisGuardado.getId()).toUri();
+                .buildAndExpand(usuarioGuardado.getId()).toUri();
         
-        return ResponseEntity.created(ubicacion).body(paisGuardado);
+        return ResponseEntity.created(ubicacion).body(usuarioGuardado);
     }
     
     @PutMapping("/{id}")
-    public ResponseEntity<Pais> editarPais(@PathVariable Integer id, @Valid @RequestBody Pais pais){
-        Optional<Pais> paisOptional = paisRepository.findById(id);
+    public ResponseEntity<Usuario> editarUsuario(@PathVariable Integer id, @Valid @RequestBody Usuario usuario){
+        Optional<Usuario> usuarioOptional = usuarioRepository.findById(id);
         
-        if(!paisOptional.isPresent()){
+        if(!usuarioOptional.isPresent()){
             return ResponseEntity.unprocessableEntity().build();
         }
         
-        pais.setId(paisOptional.get().getId());
-        paisRepository.save(pais);
+        usuario.setId(usuarioOptional.get().getId());
+        usuarioRepository.save(usuario);
         return ResponseEntity.noContent().build();
     }
     
     @DeleteMapping("/{id}")
-    public ResponseEntity<Pais> eliminarPais(@PathVariable Integer id){
-        Optional<Pais> paisOptional = paisRepository.findById(id);
+    public ResponseEntity<Usuario> eliminarUsuario(@PathVariable Integer id){
+        Optional<Usuario> usuarioOptional = usuarioRepository.findById(id);
         
-        if(!paisOptional.isPresent()){
+        if(!usuarioOptional.isPresent()){
             return ResponseEntity.unprocessableEntity().build();
         }
         
-        paisRepository.delete(paisOptional.get());
+        usuarioRepository.delete(usuarioOptional.get());
         return ResponseEntity.noContent().build();
     }
 }

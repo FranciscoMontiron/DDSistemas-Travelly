@@ -1,11 +1,13 @@
 
 package com.travellyprueba.travellyprueba.Entity;
 
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import lombok.Getter;
 import lombok.Setter;
@@ -28,7 +30,9 @@ public class Aeropuerto {
     
     private String region;
     
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "pais_id")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Pais pais;
     
 
