@@ -2,7 +2,6 @@
 package com.travellyprueba.travellyprueba.Controller;
 
 import com.travellyprueba.travellyprueba.Entity.Pago;
-import com.travellyprueba.travellyprueba.Entity.Reserva;
 import com.travellyprueba.travellyprueba.Entity.Usuario;
 import com.travellyprueba.travellyprueba.Repository.PagoRepository;
 import com.travellyprueba.travellyprueba.Repository.UsuarioRepository;

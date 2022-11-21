@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -28,6 +29,10 @@ public class Asiento {
     private String clase;
     
     private String asientoColumna;
+    
+    @OneToOne
+    @JoinColumn(name = "pasajero_id")
+    private Pasajero pasajero;
     
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "avion_id")

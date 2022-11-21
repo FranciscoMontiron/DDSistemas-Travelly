@@ -29,8 +29,12 @@ public class Avion {
     
     @OneToMany(mappedBy = "avion", cascade = CascadeType.ALL)
     private Set<Asiento> asientos = new HashSet<>();
-  
+    
+    
+    @OneToMany(mappedBy = "avion", cascade = CascadeType.ALL)
+    private Set<Vuelo> vuelos = new HashSet<>();
 
+  
     public Avion() {
     }
 
@@ -82,11 +86,16 @@ public class Avion {
             asiento.setAvion(this);
         }
     }
-
     
-    
-    
+    public Set<Vuelo> getVuelos() {
+        return vuelos;
+    }
 
-
+    public void setVuelos(Set<Vuelo> vuelos) {
+        this.vuelos = vuelos;
+        for(Vuelo vuelo : vuelos){
+            vuelo.setAvion(this);
+        }
+    }  
       
 }

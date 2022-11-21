@@ -35,6 +35,14 @@ public class Aeropuerto {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Pais pais;
     
+    
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "vuelo_id")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private Vuelo vuelo;
+    
+    
+    
 
     public Aeropuerto() {
     }

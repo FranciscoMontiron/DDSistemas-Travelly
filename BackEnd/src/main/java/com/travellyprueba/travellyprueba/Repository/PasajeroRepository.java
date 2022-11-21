@@ -9,8 +9,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PasajeroRepository extends JpaRepository<Pasajero, Integer> {
-    @Override
-    public Optional<Pasajero> findById(Integer id);
-    @Override
-    public boolean existsById(Integer id);
 }

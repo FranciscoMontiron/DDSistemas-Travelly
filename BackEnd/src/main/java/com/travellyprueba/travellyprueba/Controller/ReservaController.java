@@ -3,10 +3,10 @@ package com.travellyprueba.travellyprueba.Controller;
 
 import com.travellyprueba.travellyprueba.Entity.Reserva;
 import com.travellyprueba.travellyprueba.Entity.Usuario;
+import com.travellyprueba.travellyprueba.Entity.Vuelo;
 import com.travellyprueba.travellyprueba.Repository.ReservaRepository;
 import com.travellyprueba.travellyprueba.Repository.UsuarioRepository;
-import java.net.URI;
-import java.util.List;
+import java.util.Collection;
 import java.util.Optional;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RequestMapping("/api/reservas")
 @RestController
@@ -34,20 +33,11 @@ public class ReservaController {
     @Autowired
     private ReservaRepository reservaRepository;
     
+
+    
     @PostMapping("/crear")
-    public ResponseEntity<Reserva> guardarReserva(@Valid @RequestBody Reserva reserva){
-        Optional<Usuario> usuarioOptional = usuarioRepository.findById(reserva.getUsuario().getId());
-
-        if(!usuarioOptional.isPresent()){
-                return ResponseEntity.unprocessableEntity().build();
-        }
-
-        reserva.setUsuario(usuarioOptional.get());
-        Reserva reservaGuardado = reservaRepository.save(reserva);
-        URI ubicacion = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-                        .buildAndExpand(reservaGuardado.getId()).toUri();
-
-        return ResponseEntity.created(ubicacion).body(reservaGuardado);
+    public ResponseEntity<?> guardarReserva(@RequestBody Reserva reserva){
+        return new ResponseEntity<>(reservaRepository.save(reserva), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
@@ -72,13 +62,9 @@ public class ReservaController {
     }
     
     @DeleteMapping("/{id}")
-    public ResponseEntity<Reserva> eliminarReserva(@PathVariable Integer id){
-        
-        Optional<Reserva> reservaOptional = reservaRepository.findById(id);
-        
-        reservaRepository.delete(reservaOptional.get());
-        
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<Void> eliminarReserva(@PathVariable Integer id){
+        reservaRepository.deleteById(id);
+        return new ResponseEntity<Void>(HttpStatus.OK);
     }
     
     @GetMapping("/{id}")
@@ -94,9 +80,11 @@ public class ReservaController {
     }
     
     @GetMapping("/listar")
-    public ResponseEntity <List<Reserva>> listarReservas(){
-        List<Reserva> list = reservaRepository.findAll();
-        return new ResponseEntity(list,HttpStatus.OK);
+    public ResponseEntity <Collection<Reserva>> listarReservas(){
+        return new ResponseEntity<>(reservaRepository.findAll(),HttpStatus.OK);
     }
+   
     
+        
 }
+

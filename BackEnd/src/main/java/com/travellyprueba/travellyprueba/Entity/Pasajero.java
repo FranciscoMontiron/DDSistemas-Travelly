@@ -19,6 +19,8 @@ public class Pasajero {
     private String nombre;
     private String apellido;
     private Integer dni;
+    
+    
 
     public Pasajero() {
     }
