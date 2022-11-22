@@ -1,0 +1,9 @@
+#login{
+    background-color: greenyellow;
+    background: linear-gradient(to right, rgb(39, 192, 192), rgb(62, 190, 30))!important;
+  }
+
+.bg{
+    background-image: url(../../../assets/dstravel.png);
+    background-position: center center;
+}

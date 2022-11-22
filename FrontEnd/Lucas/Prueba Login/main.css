@@ -1,0 +1,80 @@
+.carousel-inner {
+    max-height: 39rem;
+}
+
+.servicio-fila {
+
+    width: 100% !important;
+    text-align: center;
+}
+
+.titulo{
+    text-align: center;
+    color: brown;
+}
+
+.equipo{
+    text-align: center;
+}
+
+.mapa{
+    width: 100%;
+    height: 500%;
+    text-align: center;
+}
+
+.plane{
+width: 15px;
+height: 15px;
+}
+
+.cabecera{
+    background-color: #82D4D0;
+}
+
+.barra{
+    background-color: #82D4D0;
+}
+
+.producto{
+    width: 908px;
+    height: 130px;
+    left: 197px;
+    top: 177px;
+    text-align: center;
+    background-color: aqua;
+    right: 50px;
+}
+
+.container-lg{
+
+    position: relative;
+    width: 850px;
+    height: 130px;
+    left: 25px;
+    top: 70px;
+    margin-bottom: 50px;
+    background: #82D4D0;
+    border: 1px solid #000000;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+}
+
+.titulo-central{
+    text-align: center;
+    margin-top: 50px;
+}
+
+.compra{
+
+    text-align: right;
+    margin-top: 40px;
+}
+
+.pie{
+
+    margin-bottom: 0px;
+    margin-top: 50px;
+    background: #82D4D0;
+
+}
