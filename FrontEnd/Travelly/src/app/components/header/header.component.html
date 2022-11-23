@@ -22,8 +22,9 @@
             </form>
           </div>
       </nav>
-
-      <button class="btn btn-outline-success float-end" type="submit">Iniciar Sesión</button>
+    
+      <button type="button" class="btn btn-outline-success float-end" (click)="login()" *ngIf="!isLogged">Iniciar Sesion</button>
+      <button type="button" class="btn btn-outline-success float-end" (click)="onLogOut()" *ngIf="isLogged">Cerrar Sesion</button>
     
     </div>
   </nav>
