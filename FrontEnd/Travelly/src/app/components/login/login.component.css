@@ -1,6 +1,6 @@
-#login{
-    background-color: greenyellow;
-    background: linear-gradient(to right, rgb(39, 192, 192), rgb(62, 190, 30))!important;
+.login{
+    background-color: greenyellow !important;
+    background: linear-gradient(to right, rgb(39, 192, 192), rgb(62, 190, 30)) !important;
   }
 
 .bg{

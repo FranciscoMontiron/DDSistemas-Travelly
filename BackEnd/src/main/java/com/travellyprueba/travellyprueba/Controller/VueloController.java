@@ -7,6 +7,7 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,12 +40,14 @@ public class VueloController {
                     return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
             }
     }
-
+    
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/crear")
     public ResponseEntity<?> guardarVuelo(@RequestBody Vuelo vuelo){
             return new ResponseEntity<>(vueloRepository.save(vuelo),HttpStatus.CREATED);
     }
-
+    
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminarVuelo(@PathVariable Integer id){
             vueloRepository.deleteById(id);
