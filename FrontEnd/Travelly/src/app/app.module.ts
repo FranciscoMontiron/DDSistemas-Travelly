@@ -9,6 +9,8 @@ import { LoginComponent } from './components/login/login.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { interceptorProvider } from './service/interceptor-service';
+import { VuelosComponent } from './components/vuelos/vuelos.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 
 @NgModule({
@@ -16,7 +18,9 @@ import { interceptorProvider } from './service/interceptor-service';
     AppComponent,
     HomeComponent,
     HeaderComponent,
-    LoginComponent
+    LoginComponent,
+    VuelosComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
