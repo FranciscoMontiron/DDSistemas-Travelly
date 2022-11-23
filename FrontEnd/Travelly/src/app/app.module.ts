@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { interceptorProvider } from './service/interceptor-service';
 
+
 @NgModule({
   declarations: [
     AppComponent,
