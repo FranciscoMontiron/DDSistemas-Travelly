@@ -13,35 +13,58 @@
 
     <!-- Cabecera-->
 
-    <div class="cabecera"><i class="fa-solid fa-plane"> DS TRAVEL</i></div>
+    <div class="cabecera">
+      
+      <div class="logo-principal">
+        <i class="fa-solid fa-plane"> DS TRAVEL</i>
+      </div>
+    
+    </div>
 
     <!-- Barra de navegacion-->
     
     <div class="barra">
- 
-      <nav class="navbar navbar-expand-lg">
 
         <div class="container-fluid">
-
-          <a class="navbar-brand" href="#"><i class="fa-solid fa-bars"></i></a>
 
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
 
           <nav class="navbar bg-#82D4D0">
-              <div class="container-fluid">
+              <div class="container-fluid" id="buscador">
                 <form class="d-flex" role="search">
-                  <input class="form-control me-1" type="search" placeholder="Buscá un vuelo" aria-label="Search">
-                  <button class="btn btn-outline-success" type="submit">Buscar</button>
+
+                  <p id="origen"><b>Origen:</b></p>
+
+                  <input class="form-control me-2" type="search" placeholder="Indicá el Origen" aria-label="Search" id="origen-buscador">
+
+                  <p id="destino"><b>Destino:</b></p>
+
+                  <input class="form-control me-2" type="search" placeholder="Indicá el destino" aria-label="Search" id="destino-buscador">
+              
+                  <button class="btn btn-dark" type="submit" id="buscar">Buscar</button>
+
+                  <!-- Barra de navegacion
+                  <i class="fa-solid fa-user" id="cant-pas"></i>
+
+                  <select class="form-select" aria-label="Default select example" id="cant-pas-op">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                  </select>
+                  -->
                 </form>
               </div>
           </nav>
 
-          <button class="btn btn-outline-success float-end" type="submit">Iniciar Sesión</button>
+          <div class="booking">
+            <button type="button" class="btn btn-dark">Mis Reservas</button>
+          </div>
+
+          <button type="button" class="btn btn-dark float-end" id="iniciar">Iniciar Sesión</button>
         
         </div>
-      </nav>
 
    </div>
 
@@ -90,7 +113,7 @@
 
     <div class="pie">
 
-      <nav class="info-pie">
+      <div class="info-pie">
 
         <br>
 
@@ -102,8 +125,25 @@
           <img src="./Logo UTN.jpeg" width="38px" alt="Logo">
         </div>
 
-      </nav>
+      </div>
 
+      <div class="info-pie-izq">
+
+        <p><b>Grupo Número 9:</b></p>
+
+        <ul>
+          <li>DENIS, Ruben</li>
+          <li>MARCZUK, Lucas</li>
+          <li>MONTIRON, Francisco</li>
+        </ul>
+
+      </div> 
+
+      <div class="info-pie-der">
+
+        <p><b>Año 2022</b></p>
+
+      </div>  
 
     </div>
 

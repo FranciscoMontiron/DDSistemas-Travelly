@@ -1,7 +1,3 @@
-.carousel-inner {
-    max-height: 39rem;
-}
-
 .servicio-fila {
 
     width: 100% !important;
@@ -22,18 +18,29 @@
 }
 
 .plane{
-width: 15px;
-height: 15px;
+    width: 15px;
+    height: 15px;
 }
 
 .cabecera{
     /*background-color: #82D4D0;*/
     background-color: greenyellow;
     background: linear-gradient(to right, rgb(39, 192, 192), rgb(62, 190, 30));
+    height: 30px;
+
+}
+
+.logo-principal{
+
+    position: relative;
+    top: 5px;
+    left: 10px;
+
 }
 
 .barra{
     /*background-color: #82D4D0;*/
+    height: 130px;
     background-color: greenyellow;
     background: linear-gradient(to right, rgb(39, 192, 192), rgb(62, 190, 30));
 }
@@ -54,26 +61,17 @@ height: 15px;
 
 .titulo-central{
     text-align: center;
-    margin-top: 50px;
-    margin-bottom: 20px;
+    margin-top: 20px;
+    margin-bottom: 10px;
 }
 
 .compra{
 
     text-align: right;
     margin-top: 40px;
+
 }
 
-.pie{
-
-    /*position: absolute;*/
-    margin-top: 50px;
-    margin-top: 50px;
-    height: 150px;
-    /*background-color: #82D4D0;*/
-    background-color: greenyellow;
-    background: linear-gradient(to right, rgb(39, 192, 192), rgb(62, 190, 30));
-}
 
 .datos{
 
@@ -87,9 +85,129 @@ height: 15px;
     width: 60px;
 }
 
-.info-pie{
+.booking{
 
-    text-align: center;
-    margin-top: 50px;
+    position: absolute;
+    right: 200px;
+    top: 35px;
+}
+
+#origen{
+
+    position: absolute;
+    top: -45px;
+    left: 700px;
 
 }
+
+#origen-buscador{
+
+    position: absolute;
+    top: -20px;
+    left: 700px;
+    width: 450px;
+}
+
+#destino{
+
+    position: absolute;
+    top: 20px;
+    left: 700px;
+
+}
+
+#destino-buscador{
+
+    position: absolute;
+    top: 50px;
+    left: 700px;
+    width: 450px;
+
+}
+
+#buscar{
+    position: absolute;
+    top: 50px;
+    left: 1200px;
+}
+
+#buscador{
+
+    position: relative;
+    top: -5px;
+    left: -1080px;
+    width: 50px;
+    height: 130px;
+
+}
+
+/*
+#cant-pas{
+
+    position: absolute;
+    top: -25px;
+    right: 100px;
+}
+
+#cant-pas-op{
+
+    position: absolute;
+    width: 40px;
+    top: -15px;
+    left: -312px;
+
+}
+*/
+
+#iniciar{
+
+    position: absolute;
+    top: 35px;
+    width: 150px;
+    right: 20px;
+}
+
+.pie{
+
+    /*position: absolute;*/
+    margin-top: 50px;
+    margin-top: 50px;
+    height: 150px;
+    /*background-color: #82D4D0;*/
+    background-color: greenyellow;
+    background: linear-gradient(to right, rgb(39, 192, 192), rgb(62, 190, 30));
+}
+
+
+.info-pie{
+
+    position: relative;
+    top: -10px;
+    height: 5px;
+    text-align: center;
+
+}
+
+.info-pie-izq{
+
+    position: relative;
+    height: 150px;
+    width: 200px;
+    left: 30px;
+    bottom: 5px;
+    top: 10px;
+}
+
+
+.info-pie-der{
+
+    position: fixed;
+    height: 150px;
+    width: 100px;
+    right: 50px;
+    bottom: -70px;
+
+}
+
+
+
