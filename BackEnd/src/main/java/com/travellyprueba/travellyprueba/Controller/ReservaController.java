@@ -3,7 +3,6 @@ package com.travellyprueba.travellyprueba.Controller;
 
 import com.travellyprueba.travellyprueba.Entity.Reserva;
 import com.travellyprueba.travellyprueba.Entity.Usuario;
-import com.travellyprueba.travellyprueba.Entity.Vuelo;
 import com.travellyprueba.travellyprueba.Repository.ReservaRepository;
 import com.travellyprueba.travellyprueba.Repository.UsuarioRepository;
 import java.util.Collection;
@@ -83,6 +82,7 @@ public class ReservaController {
     public ResponseEntity <Collection<Reserva>> listarReservas(){
         return new ResponseEntity<>(reservaRepository.findAll(),HttpStatus.OK);
     }
+   
    
     
         

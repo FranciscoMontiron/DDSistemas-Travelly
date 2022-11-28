@@ -13,8 +13,8 @@ import { VuelosComponent } from './components/vuelos/vuelos.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { VueloAdmComponent } from './components/vuelos-adm/vuelo-adm.component';
-import { HeaderAdmComponent } from './components/header-adm/header-adm.component';
 import { ReservasComponent } from './components/reservas/reservas.component';
+import { HeaderAdmComponent } from './components/header-adm/header-adm.component';
 
 
 
@@ -28,8 +28,8 @@ import { ReservasComponent } from './components/reservas/reservas.component';
     FooterComponent,
     AdminComponent,
     VueloAdmComponent,
-    HeaderAdmComponent,
-    ReservasComponent
+    ReservasComponent,
+    HeaderAdmComponent
   ],
   imports: [
     BrowserModule,

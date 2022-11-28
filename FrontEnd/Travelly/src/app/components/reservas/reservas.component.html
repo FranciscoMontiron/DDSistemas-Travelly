@@ -1,7 +1,7 @@
 <app-header></app-header>
-<div class="container">
+<div class="container mt-5">
 <div class="row">
-    <h1 class="titulo-central text-center"> Gestioná tus Reservas</h1>
+    <h1 class="display-5 text-center mb-3"> Gestioná tus Reservas</h1>
 
     <table class="table">
       <thead>
@@ -19,22 +19,22 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <th scope="row">*</th>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td><button type="button" class="btn btn-secondary"><i class="fa-solid fa-print"></i></button></td>
-          <td><button type="button" class="btn btn-danger"><i class="fa-regular fa-trash-can"></i></button></td>
+        <tr *ngFor="let reserva of reservas">
+          <th scope="row"><i class="fa-solid fa-calendar-days"></i></th>
+          <td>{{reserva.vuelo.avion.marca}}</td>
+          <td>{{reserva.vuelo.aeropuertoPartida.pais.nombre}}</td>
+          <td>{{reserva.vuelo.fechaYHoraPartida | date: 'dd/MM/yyyy'}}</td>
+          <td>{{reserva.vuelo.fechaYHoraPartida | date: 'HH:MM'}}</td>
+          <td>{{reserva.vuelo.aeropuertoLlegada.pais.nombre}}</td>
+          <td>{{reserva.vuelo.fechaYHoraArribo | date: 'dd/MM/yyyy'}}</td>
+          <td>{{reserva.vuelo.fechaYHoraArribo | date: 'HH:MM'}}</td>
+          <td><button type="button" class="btn btn-secondary" (click)="recibo()"><i class="fa-solid fa-print"></i></button></td>
+          <td><button type="button" class="btn btn-danger" (click)="delete(reserva.id)"><i class="fa-regular fa-trash-can"></i></button></td>
         </tr>
       </tbody>
     </table>
 </div>
 </div>
 <div class="container-fluid">
-<app-footer></app-footer>
+
 </div>

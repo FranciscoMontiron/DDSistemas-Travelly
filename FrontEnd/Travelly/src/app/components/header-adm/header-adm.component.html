@@ -1,51 +1,17 @@
-<div class="cabecera">
+
+<nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+    <a class="navbar-brand col-xs-12 col-sm-2 col-md-2 col-lg-2 d-none d-xl-inline-block d-sm-inline-block col-auto" href="/">
+      <img src="../../../assets/pngwing.com (1).png" alt="logo" width="70" height="70"
+        class="d-inline-block align-text-bot img-fluid">
+      <span class=" d-none d-xl-inline-block d-md-inline-block d-sm-inline-block"> DS TRAVEL </span>
+    </a>
+    <ul class="nav justify-content-end col-auto">
+      <li class="nav-item">
+        <button type="button" class="btn btn-dark m-2 px-2 float-end" (click)="login()" *ngIf="!isLogged">Iniciar Sesion</button>
+        <button type="button" class="btn btn-secondary m-2 px-2 float-end" (click)="onLogOut()" *ngIf="isLogged">Cerrar Sesion</button>
+      </li>
       
-    <div class="logo-principal">
-      <i class="fa-solid fa-plane"></i><h2>DS TRAVEL</h2>
-    </div>
-  
+    </ul>
   </div>
-
-  <!-- Barra de navegacion-->
-  
-  <div class="barra">
-
-      <div class="container-fluid">
-
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <nav class="navbar bg-#82D4D0">
-            <div class="container-fluid" id="buscador">
-              <form class="d-flex" role="search">
-
-                <p id="origen"><b>Origen:</b></p>
-
-                <input class="form-control me-2" type="search" placeholder="Indicá el Origen" aria-label="Search" id="origen-buscador">
-
-                <p id="destino"><b>Destino:</b></p>
-
-                <input class="form-control me-2" type="search" placeholder="Indicá el destino" aria-label="Search" id="destino-buscador">
-            
-                <button class="btn btn-dark" type="submit" id="buscar">Buscar</button>
-
-                <!-- Barra de navegacion
-                <i class="fa-solid fa-user" id="cant-pas"></i>
-
-                <select class="form-select" aria-label="Default select example" id="cant-pas-op">
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                </select>
-                -->
-              </form>
-            </div>
-        </nav>
-
-        <button type="button" class="btn btn-dark float-end" id="iniciar" (click)="login()" *ngIf="!isLogged">Iniciar Sesion</button>
-        <button type="button" class="btn btn-dark float-end" id="iniciar" (click)="onLogOut()" *ngIf="isLogged">Cerrar Sesion</button>
-      
-      </div>
-
- </div>
+  </nav>

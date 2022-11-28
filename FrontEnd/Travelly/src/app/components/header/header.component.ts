@@ -13,7 +13,7 @@ export class HeaderComponent implements OnInit {
 
   isLogged = false;
 
-  constructor(private router:Router, private tokenService: TokenService,private vueloService: VueloService) { }
+  constructor(private router:Router, private tokenService: TokenService) { }
 
   ngOnInit(): void {
     if(this.tokenService.getToken()){
@@ -25,6 +25,7 @@ export class HeaderComponent implements OnInit {
 
   onLogOut():void{
     this.tokenService.logOut();
+    this.router.navigate([''])
     window.location.reload();
   }
 
@@ -35,13 +36,5 @@ export class HeaderComponent implements OnInit {
   reservas(){
     this.router.navigate(['/reservas'])
   }
-
-  /*
-  cargarFiltrado(aeropuerto: string) : void{
-    this.vueloService.getList().subscribe( resp=>{
-      //console.log(resp[0].aeropuertoPartida.nombre == 'Ezeiza');
-      VuelosComponent.  = resp.filter((elem)=> elem.aeropuertoLlegada.nombre == aeropuerto);
-    })
-  }*/
 
 }
