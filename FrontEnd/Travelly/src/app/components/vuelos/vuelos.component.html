@@ -1,34 +1,29 @@
-<section class="contenedor-principal">
-      
-    <h1 class="titulo-central"> Nuestras Mejores Ofertas</h1>
 
-    <div class="container-lg">
-  
-      <nav class="compra">
-          <button type="button" class="btn btn-success" *ngIf="isLogged">Comprar</button>
-      </nav>
-
-      <nav class="info-vuelo">
-
-      </nav>
-  
+<div class="row mt-5">
+  <div class="col-12">
+    <div class="input-group input-group mb-3">
+      <span class="input-group-text" id="inputGroup-sizing-lg">Origen</span>
+      <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" name="origen" [(ngModel)]="origen" required>
+      <span class="input-group-text" id="inputGroup-sizing-lg">Destino</span>
+      <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" name="destino" [(ngModel)]="destino" required>
+      <span class="input-group-text" id="inputGroup-sizing-lg">Fecha</span>
+      <input type="date" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
+      <button class="btn btn-outline-secondary" type="button" id="button-addon2" (click)="cargarFiltrado()"><i class="fa-solid fa-magnifying-glass"></i></button>
     </div>
+  </div>
 
-    <div class="container-lg">
-  
-      <nav class="compra">
-          <button type="button" class="btn btn-success" *ngIf="isLogged">Comprar</button>
-      </nav>
-  
+  <div class="col-12 mt-5">
+    <p class="text-center display-5"> Nuestras Mejores Ofertas</p>
+  </div>
+  <div class="col-12 text-center"><button class="btn btn-outline-secondary" (click)="cargar()" ><i class="fa-solid fa-rotate-left"></i></button></div>
+  <div class="col-12 m-3" *ngFor="let vuelo of vuelos">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title"><p>{{vuelo.aeropuertoPartida.codigo}} : {{vuelo.fechaYHoraPartida | date: 'dd/MM/yyyy - HH:MM'}} <i class="fa-solid fa-arrow-right"></i> {{vuelo.aeropuertoLlegada.codigo}} : {{vuelo.fechaYHoraArribo | date: 'dd/MM/yyyy - HH:MM'}}</p></h5>
+        <p class="card-text lead">{{vuelo.avion.marca}}<strong class="float-end"> ${{vuelo.precio}} </strong></p>
+        <a href="#" class="btn btn-success float-end" *ngIf="isLogged">Comprar</a>
+      </div>
     </div>
+  </div>
 
-    <div class="container-lg">
-  
-      <nav class="compra">
-          <button type="button" class="btn btn-success" *ngIf="isLogged">Comprar</button>
-      </nav>
-  
-    </div>
-
-
-  </section>
+</div>

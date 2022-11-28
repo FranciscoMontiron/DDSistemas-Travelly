@@ -11,6 +11,11 @@ import { HttpClientModule } from '@angular/common/http';
 import { interceptorProvider } from './service/interceptor-service';
 import { VuelosComponent } from './components/vuelos/vuelos.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { AdminComponent } from './components/admin/admin.component';
+import { VueloAdmComponent } from './components/vuelos-adm/vuelo-adm.component';
+import { HeaderAdmComponent } from './components/header-adm/header-adm.component';
+import { ReservasComponent } from './components/reservas/reservas.component';
+
 
 
 @NgModule({
@@ -20,7 +25,11 @@ import { FooterComponent } from './components/footer/footer.component';
     HeaderComponent,
     LoginComponent,
     VuelosComponent,
-    FooterComponent
+    FooterComponent,
+    AdminComponent,
+    VueloAdmComponent,
+    HeaderAdmComponent,
+    ReservasComponent
   ],
   imports: [
     BrowserModule,
@@ -31,6 +40,7 @@ import { FooterComponent } from './components/footer/footer.component';
   providers: [
     interceptorProvider
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  exports: [ VuelosComponent] //componentes para que puedan ser utilizados por otros  modulos
 })
 export class AppModule { }

@@ -1,0 +1,19 @@
+<h1 class="titulo-central">Gestionar Vuelos</h1>
+
+  <div class="container-lg" *ngFor="let vuelo of vuelos">
+    
+    <nav class="compra text-center">
+        <div class="col-8">
+            <p>{{vuelo.aeropuertoPartida.codigo}} - {{vuelo.fechaYHoraPartida | date: 'dd/MM/yyyy - HH:MM'}} -> {{vuelo.aeropuertoLlegada.codigo}} - {{vuelo.fechaYHoraArribo | date: 'dd/MM/yyyy - HH:MM'}}</p>
+            <h5>Avion: {{vuelo.avion.marca}}  ${{vuelo.precio}}</h5>
+        </div>
+        <div class="col-4">
+            <button type="button" class="btn btn-warning"><i class="fa-solid fa-pen-to-square"></i></button>
+            <button type="button" class="btn btn-danger" (click)="delete(vuelo.id)"><i class="fa-regular fa-trash-can" ></i></button>
+        </div>
+        
+    </nav>
+
+  </div>
+
+

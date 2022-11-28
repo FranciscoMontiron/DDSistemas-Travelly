@@ -37,7 +37,14 @@ export class LoginComponent implements OnInit {
       this.tokenService.setUserName(data.nombreUsuario);
       this.tokenService.setAuthorities(data.authorities);
       this.roles = data.authorities;
-      this.router.navigate([''])
+      //console.log(JSON.stringify(data.authorities[0]));
+      if(JSON.stringify(data.authorities[0]) == '{"authority":"ROLE_ADMIN"}'){
+        this.router.navigate(['admin'])
+      } else if(JSON.stringify(data.authorities [1])== '{"authority":"ROLE_ADMIN"}'){
+        this.router.navigate(['admin'])
+      }else{
+        this.router.navigate([''])
+      }
     }, err =>{
       this.isLogged = false;
       this.isLogginFail = true;

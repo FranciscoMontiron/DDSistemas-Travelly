@@ -1,14 +1,12 @@
 
 package com.travellyprueba.travellyprueba.Entity;
 
-import java.util.HashSet;
-import java.util.Set;
-import javax.persistence.CascadeType;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+
 
 
 @Entity
@@ -22,8 +20,6 @@ public class Pais {
     
     private String nombre;
     
-    @OneToMany(mappedBy = "pais", cascade = CascadeType.ALL)
-    private Set<Aeropuerto> aeropuertos = new HashSet<>();
 
     public Pais() {
     }
@@ -56,20 +52,5 @@ public class Pais {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-
-    public Set<Aeropuerto> getAeropuertos() {
-        return aeropuertos;
-    }
-
-    public void setAeropuertos(Set<Aeropuerto> aeropuertos) {
-        this.aeropuertos = aeropuertos;
-        for(Aeropuerto aeropuerto : aeropuertos){
-            aeropuerto.setPais(this);
-        }
-    }
-    
-    
  
-    
-    
 }

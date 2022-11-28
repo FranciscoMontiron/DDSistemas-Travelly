@@ -1,24 +1,16 @@
 
 package com.travellyprueba.travellyprueba.Entity;
 
-
-import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Calendar;
-import java.util.HashSet;
-import java.util.Set;
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import lombok.Getter;
-import lombok.Setter;
 
 @Entity
 @Getter
@@ -38,15 +30,19 @@ public class Vuelo {
     private Float precio;
     
     
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @OneToOne
     @JoinColumn(name = "avion_id")
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Avion avion;
     
+    @OneToOne
+    @JoinColumn(name = "aeropuero_partida_id")
+    private Aeropuerto aeropuertoPartida;
+    
+    @OneToOne
+    @JoinColumn(name = "aeropuero_llegada_id")
+    private Aeropuerto aeropuertoLlegada;
     
     
-    @OneToMany(mappedBy = "vuelo", cascade = CascadeType.ALL)
-    private Set<Aeropuerto> aeropuertos = new HashSet<>();
     
     
     
@@ -79,15 +75,5 @@ public class Vuelo {
     public void setAvion(Avion avion) {
         this.avion = avion;
     }
-
-    public void setAeropuertos(Set<Aeropuerto> aeropuertos) {
-        this.aeropuertos = aeropuertos;
-        for(Aeropuerto aeropuerto : aeropuertos){
-            aeropuerto.setVuelo(this);
-        }
-    }
     
-    
-    
-     
 }
