@@ -4,6 +4,8 @@ package com.travellyprueba.travellyprueba.Controller;
 import com.travellyprueba.travellyprueba.Entity.Vuelo;
 import com.travellyprueba.travellyprueba.Repository.VueloRepository;
 import java.util.Collection;
+import java.util.Optional;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -52,6 +55,18 @@ public class VueloController {
     public ResponseEntity<Void> eliminarVuelo(@PathVariable Integer id){
             vueloRepository.deleteById(id);
             return new ResponseEntity<Void>(HttpStatus.OK);
+    }
+    
+    @PutMapping("/{id}")
+    public ResponseEntity<Vuelo> editarVuelo(@Valid @RequestBody Vuelo vuelo, @PathVariable Integer id){
+        Optional<Vuelo> reservaOptional = vueloRepository.findById(id);
+        if(!reservaOptional.isPresent()){
+                return ResponseEntity.unprocessableEntity().build();
+        }
+        vuelo.setId(reservaOptional.get().getId());
+        vueloRepository.save(vuelo);
+
+        return ResponseEntity.noContent().build();
     }
     
     

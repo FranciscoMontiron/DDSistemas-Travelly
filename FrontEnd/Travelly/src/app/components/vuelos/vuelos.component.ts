@@ -3,6 +3,7 @@ import { RouteConfigLoadEnd, Router } from '@angular/router';
 import { Vuelo } from 'src/app/model/vuelo';
 import { TokenService } from 'src/app/service/token.service';
 import { VueloService } from 'src/app/service/vuelo.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-vuelos',
@@ -52,6 +53,10 @@ export class VuelosComponent implements OnInit {
     this.vueloService.getList().subscribe( resp=>{
       this.vuelos = resp.filter((elem)=> elem.aeropuertoLlegada.pais.nombre == this.destino && elem.aeropuertoPartida.pais.nombre == this.origen);
     })
+  }
+
+  mensaje() : void{
+    Swal.fire('Esta seccion va a estar disponible proximamente <3')
   }
   
 

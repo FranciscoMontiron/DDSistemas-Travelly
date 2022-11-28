@@ -21,7 +21,7 @@
       <div class="card-body">
         <h5 class="card-title"><p>{{vuelo.aeropuertoPartida.codigo}} : {{vuelo.fechaYHoraPartida | date: 'dd/MM/yyyy - HH:MM'}} <i class="fa-solid fa-arrow-right"></i> {{vuelo.aeropuertoLlegada.codigo}} : {{vuelo.fechaYHoraArribo | date: 'dd/MM/yyyy - HH:MM'}}</p></h5>
         <p class="card-text lead">{{vuelo.avion.marca}}<strong class="float-end"> ${{vuelo.precio}} </strong></p>
-        <a href="#" class="btn btn-success float-end" *ngIf="isLogged">Comprar</a>
+        <a href="#" class="btn btn-success float-end" *ngIf="isLogged"(click)="mensaje()">Comprar</a>
       </div>
     </div>
   </div>

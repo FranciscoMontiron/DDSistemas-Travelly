@@ -82,7 +82,7 @@ public class ReservaController {
     public ResponseEntity <Collection<Reserva>> listarReservas(){
         return new ResponseEntity<>(reservaRepository.findAll(),HttpStatus.OK);
     }
-   
+    
    
     
         

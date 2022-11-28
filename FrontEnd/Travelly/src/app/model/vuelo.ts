@@ -1,9 +1,8 @@
 import { Aeropuerto } from "./aeropuerto";
 import { Avion } from "./avion";
-import { Pais } from "./pais";
 
 export class Vuelo {
-    id?: number;
+    id!: number;
     fechaYHoraArribo: Date;
     fechaYHoraPartida: Date;
     precio: number;

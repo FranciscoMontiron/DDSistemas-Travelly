@@ -3,6 +3,7 @@ import { Route, Router } from '@angular/router';
 import { LoginUsuario } from 'src/app/model/login-usuario';
 import { AuthService } from 'src/app/service/auth.service';
 import { TokenService } from 'src/app/service/token.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -52,6 +53,10 @@ export class LoginComponent implements OnInit {
       console.log(this.errMsj);
     })
 
+  }
+
+  mensaje(): void {
+    Swal.fire('Componente no disponible momentaneamente')
   }
 
 }

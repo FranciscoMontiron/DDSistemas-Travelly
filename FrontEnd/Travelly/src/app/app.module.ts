@@ -15,6 +15,8 @@ import { AdminComponent } from './components/admin/admin.component';
 import { VueloAdmComponent } from './components/vuelos-adm/vuelo-adm.component';
 import { ReservasComponent } from './components/reservas/reservas.component';
 import { HeaderAdmComponent } from './components/header-adm/header-adm.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { RegistroComponent } from './components/registro/registro.component';
 
 
 
@@ -29,13 +31,15 @@ import { HeaderAdmComponent } from './components/header-adm/header-adm.component
     AdminComponent,
     VueloAdmComponent,
     ReservasComponent,
-    HeaderAdmComponent
+    HeaderAdmComponent,
+    RegistroComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    NgbModule
   ],
   providers: [
     interceptorProvider

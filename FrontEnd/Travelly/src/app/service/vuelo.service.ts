@@ -23,11 +23,11 @@ export class VueloService {
   public save(vuelo : Vuelo) : Observable<any>{
     return this.httpClient.post<any>(this.URL + `crear`, vuelo);
   }
-  /*
+  
   public update(id : number, vuelo : Vuelo) : Observable<any>{
     return this.httpClient.put<any>(this.URL + `edit/${id}`, vuelo);
   }
-  */
+  
 
   public delete(id : number) : Observable<any>{
     return this.httpClient.delete<any>(this.URL + `${id}`);
