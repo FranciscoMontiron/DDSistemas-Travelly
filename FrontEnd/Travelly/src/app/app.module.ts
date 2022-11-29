@@ -17,6 +17,7 @@ import { ReservasComponent } from './components/reservas/reservas.component';
 import { HeaderAdmComponent } from './components/header-adm/header-adm.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RegistroComponent } from './components/registro/registro.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
 
@@ -39,7 +40,8 @@ import { RegistroComponent } from './components/registro/registro.component';
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    NgbModule
+    NgbModule,
+    BrowserAnimationsModule
   ],
   providers: [
     interceptorProvider
