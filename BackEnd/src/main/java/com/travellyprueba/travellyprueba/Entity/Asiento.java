@@ -3,6 +3,7 @@ package com.travellyprueba.travellyprueba.Entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -22,8 +23,9 @@ public class Asiento {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     
-    private String estado;
-    
+    @Column(columnDefinition="tinyint(1) default 1")
+    private Boolean estado;
+ 
     private Integer numero;
     
     private String clase;
@@ -42,7 +44,7 @@ public class Asiento {
     public Asiento() {
     }
 
-    public Asiento(String estado, Integer numero, String clase, String asientoColumna) {
+    public Asiento(Boolean estado, Integer numero, String clase, String asientoColumna) {
         this.estado = estado;
         this.numero = numero;
         this.clase = clase;

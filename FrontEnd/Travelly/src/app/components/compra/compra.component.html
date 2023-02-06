@@ -1,0 +1,166 @@
+<app-header></app-header>
+<div class="container mt-5">
+    <div class="row">
+        <!--
+        <button mat-raised-button (click)="isLinear = !isLinear" id="toggle-linear">
+            {{!isLinear ? 'Enable linear mode' : 'Disable linear mode'}}
+          </button>-->
+          <mat-stepper [linear]="isLinear" #stepper>
+            <mat-step>
+              <form>
+                
+                <div class="col-12 mt-5 mb-3">
+                <ng-template matStepLabel>Elegir asientos</ng-template>
+                </div>
+                <!--------------------- grilla de asientos ------------------------->
+                <div class="col"><p class="h3 text-center m-5">Seleccion de Asientos</p></div>
+                <div class="col text-center">
+                <table class="table mt-5">
+                  <thead>
+                    <tr>
+                      <th scope="col">Numero Asiento</th>
+                      <th scope="col">Clase</th>
+                      <th scope="col">Columna</th>
+                      <th scope="col">Selecciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let asiento of asientosDisponibles">
+                      <th scope="row p-1">{{asiento.numero}}</th>
+                      <td class="p-3">{{asiento.clase}}</td>
+                      <td class="p-3">{{asiento.asientoColumna}}</td>
+                      <td>
+                        <button class="btn btn-outline-secondary btn-lg btn-round p-2 m-2" id="btn-editar" 
+                        (click)="reserva(asiento)" [ngClass]="{'reservado': !asiento.estado}">
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+
+          
+                <div class="float-end btn btn-outline-success">
+                  <button mat-button matStepperNext (click)="datosPasajeros()">Siguiente</button>
+                </div>
+              </div>  
+              </form>
+            </mat-step>
+            <!------------------------------------ Datos de los pasajeros ---------------------------->
+            <mat-step>
+            <form class="formulario" [formGroup]="fg" (ngSubmit)="submitFormPasajeros()">
+              <div class="col-12 mt-5 mb-3">
+                <ng-template matStepLabel>Datos de los pasajeros</ng-template>
+              </div>
+            
+              <mat-table [dataSource]="dataSourcePacks">
+                <ng-container formArrayName="formsPasajeros">
+            
+                  <!-- Columna nombre -->
+                  <ng-container matColumnDef="nombre">
+                    <mat-header-cell *matHeaderCellDef> <h2>Nombre</h2></mat-header-cell>
+                    <mat-cell *matCellDef="let element;" [formGroup]="element">
+                      <mat-form-field>
+                        <input matInput placeholder="nombre" formControlName="nombre" required>
+                      </mat-form-field>
+                    </mat-cell>
+                  </ng-container>
+            
+                  <!-- Precio Column -->
+                  <ng-container matColumnDef="apellido">
+                    <mat-header-cell *matHeaderCellDef> <h2>Apellido</h2></mat-header-cell>
+                    <mat-cell *matCellDef="let element;" [formGroup]="element">
+                      <mat-form-field>
+                        <input matInput placeholder="apellido" formControlName="apellido" required>
+                      </mat-form-field>
+                    </mat-cell>
+                  </ng-container>
+            
+                  <!-- Delete Column -->
+                  <ng-container matColumnDef="dni">
+                    <mat-header-cell *matHeaderCellDef> <h2>DNI</h2></mat-header-cell>
+                    <mat-cell *matCellDef="let element;" [formGroup]="element">
+                      <mat-form-field>
+                        <input matInput placeholder="dni" formControlName="dni" required>
+                      </mat-form-field>
+                    </mat-cell>
+                  </ng-container>
+            
+                  <!-- header titles -->
+            
+                  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                  <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                </ng-container>
+              </mat-table>
+              
+              <div>
+                <button mat-button matStepperPrevious>Volver</button>
+                <button mat-button matStepperNext type="submit">Continuar</button>
+              </div>
+              <!--
+              <button class="btn-save" type="submit">Guardar</button>
+              -->
+            </form>
+          </mat-step>
+
+
+
+
+
+
+
+
+
+
+
+            <!-------------------------------- PAGO ------------------------------------>
+            <mat-step>
+              <ng-template matStepLabel>Pago</ng-template>
+              <p>You are now done.</p>
+              <div>
+                <button mat-button matStepperPrevious>Back</button>
+                <button mat-button (click)="stepper.reset()">Reset</button>
+              </div>
+            </mat-step>
+          </mat-stepper>
+
+
+
+
+        <!--
+        <h1 class="titulo-central"> Completá tus datos</h1>
+
+        <div class="datos">
+
+            <div class="mb-3">
+
+                <label for="exampleFormControlInput1" class="form-label">Cantidad de Pasajeros</label>
+                <input type="number" aria-label="cantidad de pasajeros" class="form-control" [defaultValue]="1" [(ngModel)]="cantidadPasajeros">
+                <button type="button" class="btn btn-success float-end" (click)="datosPasajeros()">Continuar</button>
+
+            </div>
+
+            <div class="pasajeros" *ngFor="let pasajero of pasajeros">
+
+            <div class="col input-group mt-5 ">
+                
+                <span class="input-group-text">Nombre</span>
+                <input type="text" aria-label="First name" class="form-control">
+                <span class="input-group-text">Apellido</span>
+                <input type="text" aria-label="Last name" class="form-control">
+                <span class="input-group-text">DNI</span>
+                <input type="number" aria-label="Last name" class="form-control">
+            </div>
+        </div>
+        <div class="compra mt-5">
+
+          <button type="button" class="btn btn-success float-end" *ngIf="mostrar">Continuar</button>
+          <button type="button" class="btn btn-danger">Volver</button>
+
+      </div>
+
+
+        </div>
+
+      -->
+    </div>
+</div>

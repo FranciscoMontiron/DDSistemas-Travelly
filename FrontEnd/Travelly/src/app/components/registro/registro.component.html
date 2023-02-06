@@ -1,0 +1,69 @@
+<div class="container w-75 mt-5 rounded shadow">
+
+    <div class="row align-items-stretch">
+        <div class="col bg d-none d-lg-block rounded">
+
+        </div>
+
+        <div class="col bg-white p-5 rounded-end">
+            <div class="text-end">
+                <img src="../../../assets/lgo-utn.png" width="48px" alt="Logo">
+            </div>
+
+            <h2 class="fw-bold text-center m-5">
+                Registrate!
+            </h2>
+
+            <!-- Login -->
+
+            <form #g="ngForm" (ngSubmit)="onRegister()" novalidate>
+
+                <div class="mb-3 m-3">
+                    <label for="nombre" class="form-label ">Nombre</label>
+                    <input type="text" class="form-control " id="nombre" name="nombre" [(ngModel)]="nombre" required>
+                </div>
+                <div class="mb-3 m-3">
+                    <label for="apellido" class="form-label">Apellido</label>
+                    <input type="text" class="form-control" id="apellido" name="apellido" [(ngModel)]="apellido" required>
+                </div>
+                <div class="mb-3 m-3">
+                    <label for="dni" class="form-label">Dni</label>
+                    <input type="number" class="form-control" id="dni" name="dni" [(ngModel)]="dni" required>
+                </div>
+                <div class="mb-3 m-3">
+                    <label for="direccion" class="form-label">Direccion</label>
+                    <input type="text" class="form-control" id="direccion" name="direccion" [(ngModel)]="direccion" required>
+                </div>    
+                <div class="mb-3 m-3">
+                    <label for="email" class="form-label">Correo Electrónico</label>
+                    <input type="email" class="form-control" id="email" aria-describedby="emailHelp" name="correro" [(ngModel)]="correo" required>
+                    <div id="emailHelp" class="form-text">Nunca compartiremos tu email con nadie.</div>
+                </div>
+                <div class="mb-3 m-3">
+                    <label for="usuario" class="form-label">Nombre de usuario</label>
+                    <input type="text" class="form-control" id="usuario" name="nombreUsuario" [(ngModel)]="nombreUsuario" required>
+                </div>
+
+                <div class="mb-3 m-3">
+                    <label for="password" class="form-label">Contraseña</label>
+                    <input type="password" id="password" class="form-control"
+                        aria-describedby="passwordHelpBlock" name="password" [(ngModel)]="password" required>
+                    <div id="passwordHelpBlock" class="form-text">
+                        Tu contraseña debe contener entre 8-20 caracteres, letras y números, y no puede contener
+                        espacios, caracteres especiales, o emojis.
+                    </div>
+                </div>
+
+                <br>
+                <!--
+                <div class="mb-3 m-3">
+                    <label for="exampleInputPassword1" class="form-label">Repetir Contraseña</label>
+                    <input type="password" class="form-control" id="exampleInputPassword1">
+                </div>-->
+                <button type="submit" class="btn btn-primary m-3 float-end">Registrarse</button>
+
+            </form>
+
+        </div>
+
+    </div>

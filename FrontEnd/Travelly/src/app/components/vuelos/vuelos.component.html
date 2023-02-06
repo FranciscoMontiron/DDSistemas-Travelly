@@ -1,27 +1,81 @@
-
 <div class="row mt-5">
+
+  <!--
   <div class="col-12">
     <div class="input-group input-group mb-3">
       <span class="input-group-text" id="inputGroup-sizing-lg">Origen</span>
-      <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" name="origen" [(ngModel)]="origen" required>
+      <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg"
+        name="origen" [(ngModel)]="origen" required>
       <span class="input-group-text" id="inputGroup-sizing-lg">Destino</span>
-      <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg" name="destino" [(ngModel)]="destino" required>
+      <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg"
+        name="destino" [(ngModel)]="destino" required>
       <span class="input-group-text" id="inputGroup-sizing-lg">Fecha</span>
       <input type="date" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
-      <button class="btn btn-outline-secondary" type="button" id="button-addon2" (click)="cargarFiltrado()"><i class="fa-solid fa-magnifying-glass"></i></button>
+      <button class="btn btn-outline-secondary" type="button" id="button-addon2" (click)="cargarFiltrado()"><i
+          class="fa-solid fa-magnifying-glass"></i></button>
     </div>
+   
+  </div> -->
+
+  <div class="buscador col-12 text-center">
+    <form>
+      <mat-form-field appearance="fill">
+        <mat-label><mat-icon>flight_takeoff</mat-icon> Origen </mat-label>
+        <input type="text" matInput [formControl]="myControl" [errorStateMatcher]="matcher" [matAutocomplete]="auto"
+          [(ngModel)]="origen">
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+          <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+            {{option.nombre}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label> <mat-icon>flight_land</mat-icon> Destino </mat-label>
+        <input type="text" matInput [formControl]="myControl" [errorStateMatcher]="matcher" [matAutocomplete]="auto"
+          [(ngModel)]="destino">
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+          <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+            {{option.nombre}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Fecha</mat-label>
+        <input matInput [formControl]="myControl" [matDatepicker]="picker" [errorStateMatcher]="matcher">
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+      <!--
+      <mat-form-field class="pasajeros" appearance="fill">
+        <mat-label><mat-icon>person_add</mat-icon> Pasajeros</mat-label>
+        <input type="number" matInput [formControl]="myControl" [errorStateMatcher]="matcher" [ngModel]="pasajeros">
+      </mat-form-field>
+    -->
+      <div class="m-3 d-inline-block">
+        <button mat-fab color="primary" aria-label="Example icon button with a bookmark icon">
+          <mat-icon>search</mat-icon>
+        </button>
+      </div>
+    </form>
   </div>
+
 
   <div class="col-12 mt-5">
     <p class="text-center display-5"> Nuestras Mejores Ofertas</p>
   </div>
-  <div class="col-12 text-center"><button class="btn btn-outline-secondary" (click)="cargar()" ><i class="fa-solid fa-rotate-left"></i></button></div>
+  <div class="col-12 text-center"><button class="btn btn-outline-secondary" (click)="cargar()"><i
+        class="fa-solid fa-rotate-left"></i></button></div>
   <div class="col-12 m-3" *ngFor="let vuelo of vuelos">
     <div class="card">
       <div class="card-body">
-        <h5 class="card-title"><p>{{vuelo.aeropuertoPartida.codigo}} : {{vuelo.fechaYHoraPartida | date: 'dd/MM/yyyy - HH:MM'}} <i class="fa-solid fa-arrow-right"></i> {{vuelo.aeropuertoLlegada.codigo}} : {{vuelo.fechaYHoraArribo | date: 'dd/MM/yyyy - HH:MM'}}</p></h5>
+        <h5 class="card-title">
+          <p>{{vuelo.aeropuertoPartida.codigo}} : {{vuelo.fechaYHoraPartida | date: 'dd/MM/yyyy - HH:MM'}} <i
+              class="fa-solid fa-arrow-right"></i> {{vuelo.aeropuertoLlegada.codigo}} : {{vuelo.fechaYHoraArribo | date:
+            'dd/MM/yyyy - HH:MM'}}</p>
+        </h5>
         <p class="card-text lead">{{vuelo.avion.marca}}<strong class="float-end"> ${{vuelo.precio}} </strong></p>
-        <a href="#" class="btn btn-success float-end" *ngIf="isLogged"(click)="mensaje()">Comprar</a>
+        <a href="/compra" class="btn btn-success float-end" *ngIf="isLogged,else elseBlock">Comprar</a>
+        <ng-template #elseBlock><p class="lead float-end text-secondary">Inicie sesion para comprar</p></ng-template>
       </div>
     </div>
   </div>

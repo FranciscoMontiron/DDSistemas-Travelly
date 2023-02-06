@@ -1,0 +1,14 @@
+.pasajeros {
+    margin-top: 100px !important;
+}
+
+.butaca {
+    content: center;
+    width: 35px;
+    height: 35px;
+    background-color: brown;
+}
+
+.reservado {
+    background-color: rgb(0, 193, 125) !important;
+  }

@@ -1,9 +1,22 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
 import { RouteConfigLoadEnd, Router } from '@angular/router';
+import { map, Observable, startWith } from 'rxjs';
+import { Pais } from 'src/app/model/pais';
 import { Vuelo } from 'src/app/model/vuelo';
+import { PaisService } from 'src/app/service/pais.service';
 import { TokenService } from 'src/app/service/token.service';
 import { VueloService } from 'src/app/service/vuelo.service';
 import Swal from 'sweetalert2';
+import { ErrorStateMatcher } from '@angular/material/core';
+
+export class MyErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    const isSubmitted = form && form.submitted;
+    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+  }
+}
+
 
 @Component({
   selector: 'app-vuelos',
@@ -12,54 +25,92 @@ import Swal from 'sweetalert2';
 })
 export class VuelosComponent implements OnInit {
 
+  matcher = new MyErrorStateMatcher();
+
+  myControl = new FormControl<string | Pais>('', [Validators.required]);
+  options: Pais[] = [];
+  filteredOptions?: Observable<Pais[]>;
+
   origen: string = '';
   destino: string = '';
-  fecha: Date = new Date("");
+  fecha: Date = new Date('');
 
   vuelos: Vuelo[] = [];
 
+  pasajeros : number = 1;
+  
 
-
-  constructor(private tokenService: TokenService, private vueloService: VueloService,private router:Router) {}
+  constructor(
+    private tokenService: TokenService,
+    private vueloService: VueloService,
+    private router: Router,
+    private paisService: PaisService
+  ) {}
 
   isLogged = false;
 
   ngOnInit(): void {
-
     this.cargar();
+    this.cargarPaises();
 
     if (this.tokenService.getToken()) {
       this.isLogged = true;
     } else {
       this.isLogged = false;
     }
+
+    this.filteredOptions = this.myControl.valueChanges.pipe(
+      startWith(''),
+      map(value => {
+        const name = typeof value === 'string' ? value : value?.nombre;
+        return name ? this._filter(name as string) : this.options.slice();
+      }),
+    );
   }
 
-  cargar() : void{
-    this.vueloService.getList().subscribe(data => {this.vuelos = data, console.log(data)});
-    this.origen="";
-    this.destino="";
-    this.fecha= new Date("");
-
+  displayFn(pais: Pais): string {
+    return pais && pais.nombre ? pais.nombre : '';
   }
 
-  recargar() : void{
+  private _filter(pais: string): Pais[] {
+    const filterValue = pais.toLowerCase();
+
+    return this.options.filter(option => option.nombre.toLowerCase().includes(filterValue));
+  }
+
+  cargar(): void {
+    this.vueloService.getList().subscribe((data) => {
+      (this.vuelos = data), console.log(data);
+    });
+    this.origen = '';
+    this.destino = '';
+    this.fecha = new Date('');
+  }
+
+  cargarPaises(): void {
+    this.paisService.getList().subscribe((data) => {
+      (this.options = data), console.log(data);
+    });
+  }
+
+  recargar(): void {
     window.location.reload();
   }
 
-
-
-  cargarFiltrado() : void{
-    this.vueloService.getList().subscribe( resp=>{
-      this.vuelos = resp.filter((elem)=> elem.aeropuertoLlegada.pais.nombre == this.destino && elem.aeropuertoPartida.pais.nombre == this.origen);
-    })
+  cargarFiltrado(): void {
+    this.vueloService.getList().subscribe((resp) => {
+      this.vuelos = resp.filter(
+        (elem) =>
+          elem.aeropuertoLlegada.pais.nombre == this.destino &&
+          elem.aeropuertoPartida.pais.nombre == this.origen
+      );
+    });
   }
 
-  mensaje() : void{
-    Swal.fire('Esta seccion va a estar disponible proximamente <3')
+  mensaje(): void {
+    Swal.fire('Esta seccion va a estar disponible proximamente <3');
   }
-  
 
-
+    // material
 
 }

@@ -14,6 +14,9 @@
         <button type="button" class="btn btn-dark m-2 px-2 float-end" (click)="login()" *ngIf="!isLogged">Iniciar Sesion</button>
         <button type="button" class="btn btn-secondary m-2 px-2 float-end" (click)="onLogOut()" *ngIf="isLogged">Cerrar Sesion</button>
       </li>
+      <li>
+        <a type="button" class="btn btn-dark m-2 px-2 float-end" href="/registro" *ngIf="!isLogged">Registrarse</a>
+      </li>
       
     </ul>
   </div>
