@@ -65,7 +65,7 @@
                     </mat-cell>
                   </ng-container>
             
-                  <!-- Precio Column -->
+                  <!-- COLUMNA Precio  -->
                   <ng-container matColumnDef="apellido">
                     <mat-header-cell *matHeaderCellDef> <h2>Apellido</h2></mat-header-cell>
                     <mat-cell *matCellDef="let element;" [formGroup]="element">
@@ -75,7 +75,7 @@
                     </mat-cell>
                   </ng-container>
             
-                  <!-- Delete Column -->
+                  <!-- COLUMNA DNI -->
                   <ng-container matColumnDef="dni">
                     <mat-header-cell *matHeaderCellDef> <h2>DNI</h2></mat-header-cell>
                     <mat-cell *matCellDef="let element;" [formGroup]="element">
@@ -85,7 +85,6 @@
                     </mat-cell>
                   </ng-container>
             
-                  <!-- header titles -->
             
                   <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                   <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
@@ -115,7 +114,72 @@
             <!-------------------------------- PAGO ------------------------------------>
             <mat-step>
               <ng-template matStepLabel>Pago</ng-template>
-              <p>You are now done.</p>
+              
+              <!-- STEPPER VERTICAL -->
+
+
+              <mat-stepper orientation="vertical" [linear]="isLinear" #stepper>
+                <mat-step>
+                  <form>
+                    <ng-template matStepLabel>Metodo de pago</ng-template>
+                    <select class="form-select m-3" aria-label="Default select example">
+                      <option value="0" selected>Tarjeta de Crédito</option>
+                      <option value="1">Tarjeta de Débito</option>
+                      <option disabled value="2">Prisma</option>
+                      <option disabled value="3">Mercado Pago</option>
+                      
+                  </select>
+                    <div>
+                      <button class="bg-light float-end m-3" mat-button matStepperNext>Next</button>
+                    </div>
+                  </form>
+                </mat-step>
+                <!-- Seccion de datos de pago -->
+                <mat-step>
+                  <form>
+                    <ng-template matStepLabel>Datos de pago</ng-template>
+                        <div class="mb-3  m-3">
+                          <label for="exampleFormControlInput1" class="form-label">Numero de Tarjeta</label>
+                          <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="1234 1234 1234 1234">
+                      </div>
+              
+                      <div class="mb-3  m-3">
+                          <label for="exampleFormControlInput1" class="form-label">Fecha de caducidad</label>
+                          <input type="month" class="form-control" id="exampleFormControlInput1" placeholder="Rodriguez">
+                      </div>
+              
+                      <div class="mb-3  m-3">
+                          <label for="exampleFormControlInput1" class="form-label">Código de Seguridad</label>
+                          <input type="text" class="form-control" id="cod-seg" placeholder="123">
+                      </div>
+              
+                      <div class="compra">
+              
+              
+                          <button type="button" class="btn btn-success float-end  m-3">Pagar</button>
+              
+                      </div>
+                    <div>
+                      <button class="btn btn-secondary bg-light  m-3" mat-button matStepperPrevious>Back</button>
+                    <!--  <button mat-button matStepperNext>Next</button>-->
+                    </div>
+                  </form>
+                </mat-step>
+
+                <!-- Finalizar compra -->
+                <mat-step>
+                  <ng-template matStepLabel>Resumen</ng-template>
+                  <p>Gracias por su compra!</p>
+                  <div>
+                    <button mat-button matStepperPrevious>Back</button>
+                    <button mat-button (click)="stepper.reset()">Reset</button>
+                  </div>
+                </mat-step>
+              </mat-stepper>
+
+
+
+              <!-- STEPPER VERTICAL -->
               <div>
                 <button mat-button matStepperPrevious>Back</button>
                 <button mat-button (click)="stepper.reset()">Reset</button>
