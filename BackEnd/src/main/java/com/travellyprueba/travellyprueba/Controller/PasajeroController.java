@@ -1,11 +1,11 @@
-/*
 package com.travellyprueba.travellyprueba.Controller;
 
-import com.travellyprueba.travellyprueba.Dto.Mensaje;
-import com.travellyprueba.travellyprueba.Dto.PasajeroDto;
 import com.travellyprueba.travellyprueba.Entity.Pasajero;
-import com.travellyprueba.travellyprueba.Service.PasajeroService;
+import com.travellyprueba.travellyprueba.Repository.PasajeroRepository;
+import java.net.URI;
 import java.util.List;
+import java.util.Optional;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,56 +18,66 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-@RequestMapping("/pasajeros")
+@RequestMapping("/api/pasajeros")
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
 public class PasajeroController {
     
-    @Autowired PasajeroService pasajeroService;
+    @Autowired private PasajeroRepository pasajeroRepository;
     
-    @GetMapping("/list")
-    public ResponseEntity<List<Pasajero>> list(){
-        List<Pasajero>list=pasajeroService.list();
+     @GetMapping("/{id}")
+    public ResponseEntity<Pasajero> obtenerPasajeroPorId(@PathVariable Integer id){
+        Optional<Pasajero> pasajeroOptional = pasajeroRepository.findById(id);
+        
+        if(!pasajeroOptional.isPresent()){
+            return ResponseEntity.unprocessableEntity().build();
+        }
+        
+        return ResponseEntity.ok(pasajeroOptional.get());
+        
+    }
+    
+    @GetMapping("/listar")
+    public ResponseEntity <List<Pasajero>> listarPasajeros(){
+        List<Pasajero> list = pasajeroRepository.findAll();
         return new ResponseEntity(list,HttpStatus.OK);
     }
     
-    @GetMapping("/detail/{id}")
-    public ResponseEntity<Pasajero> getById(@PathVariable("id") int id){
-        if(!pasajeroService.existsById(id))
-            return new ResponseEntity(new Mensaje("no existe"), HttpStatus.NOT_FOUND);
-        Pasajero pasajero = pasajeroService.getOne(id).get();
-        return new ResponseEntity(pasajero, HttpStatus.OK);
+    
+    @PostMapping("/crear")
+    public ResponseEntity<Pasajero> guardarPasajero(@Valid @RequestBody Pasajero pasajero){
+        Pasajero pasajeroGuardado = pasajeroRepository.save(pasajero);
+        URI ubicacion = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                .buildAndExpand(pasajeroGuardado.getId()).toUri();
+        
+        return ResponseEntity.created(ubicacion).body(pasajeroGuardado);
     }
     
-    @PostMapping("/create")
-    public ResponseEntity<?>create(@RequestBody PasajeroDto pasajeroDto){
-        Pasajero pasajero=new Pasajero(pasajeroDto.getNombre(),pasajeroDto.getApellido(),pasajeroDto.getDni());
-        pasajeroService.save(pasajero);
-        return new ResponseEntity(new Mensaje("Pasajero agregado"),HttpStatus.OK);
+    @PutMapping("/{id}")
+    public ResponseEntity<Pasajero> editarPasajero(@PathVariable Integer id, @Valid @RequestBody Pasajero pasajero){
+        Optional<Pasajero> pasajeroOptional = pasajeroRepository.findById(id);
+        
+        if(!pasajeroOptional.isPresent()){
+            return ResponseEntity.unprocessableEntity().build();
+        }
+        
+        pasajero.setId(pasajeroOptional.get().getId());
+        pasajeroRepository.save(pasajero);
+        return ResponseEntity.noContent().build();
     }
     
-    @PutMapping("/update/{id}")
-    public ResponseEntity<?>update(@PathVariable("id")int id,@RequestBody PasajeroDto pasajeroDto){
-        // Validamos si existe el ID
-        if(!pasajeroService.existsById(id))
-            return new ResponseEntity(new Mensaje("El ID no existe"),HttpStatus.BAD_REQUEST);
-        Pasajero pasajero=pasajeroService.getOne(id).get();
-        pasajero.setNombre(pasajeroDto.getNombre());
-        pasajero.setApellido(pasajeroDto.getApellido());
-        pasajero.setDni(pasajeroDto.getDni());
-        pasajeroService.save(pasajero);
-        return new ResponseEntity(new Mensaje("Pasajero Actualizado"),HttpStatus.OK);
-    }
-    
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?>delete(@PathVariable("id")int id){
-    // Validamos si existe el ID
-        if(!pasajeroService.existsById(id))
-            return new ResponseEntity(new Mensaje("El ID no existe"),HttpStatus.BAD_REQUEST);
-        pasajeroService.delete(id);
-        return new ResponseEntity(new Mensaje("Pasajero eliminado"),HttpStatus.OK);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Pasajero> eliminarPasajero(@PathVariable Integer id){
+        Optional<Pasajero> pasajeroOptional = pasajeroRepository.findById(id);
+        
+        if(!pasajeroOptional.isPresent()){
+            return ResponseEntity.unprocessableEntity().build();
+        }
+        
+        pasajeroRepository.delete(pasajeroOptional.get());
+        return ResponseEntity.noContent().build();
     }
     
 }
-*/

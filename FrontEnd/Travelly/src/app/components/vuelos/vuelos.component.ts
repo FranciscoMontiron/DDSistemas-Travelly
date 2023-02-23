@@ -37,6 +37,10 @@ export class VuelosComponent implements OnInit {
 
   vuelos: Vuelo[] = [];
 
+  vueloSeleccionado!: Vuelo;
+  
+  comprar = false;
+
   pasajeros : number = 1;
   
 
@@ -52,7 +56,7 @@ export class VuelosComponent implements OnInit {
   ngOnInit(): void {
     this.cargar();
     this.cargarPaises();
-
+    this.comprar = false;
     if (this.tokenService.getToken()) {
       this.isLogged = true;
     } else {
@@ -78,10 +82,18 @@ export class VuelosComponent implements OnInit {
     return this.options.filter(option => option.nombre.toLowerCase().includes(filterValue));
   }
 
-  cargar(): void {
-    this.vueloService.getList().subscribe((data) => {
-      (this.vuelos = data), console.log(data);
-    });
+  async cargar(): Promise<any> {
+    let vuelos = await this.vueloService.getList().toPromise();
+    vuelos!.sort((x,y)=> x.precio - y.precio);
+    let i = 0;
+    for(let vuelo of vuelos!) {
+      if(i < 4){
+        this.vuelos.push(vuelo);
+        i++;
+      }else{break}
+    }
+
+
     this.origen = '';
     this.destino = '';
     this.fecha = new Date('');
@@ -112,5 +124,12 @@ export class VuelosComponent implements OnInit {
   }
 
     // material
+
+
+  seleccionDeVuelo(vuelo: Vuelo): void {
+    this.vueloSeleccionado=vuelo;
+    this.comprar = !this.comprar
+    //console.log(this.vueloSeleccionado);
+  }
 
 }

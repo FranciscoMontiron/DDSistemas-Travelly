@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import lombok.Getter;
@@ -27,12 +28,10 @@ public class Pago {
     
     private Double monto;
     
-    private Integer cantidadPasajes;
     
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "usuario_id")
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private Usuario usuario;
+    @OneToOne
+    @JoinColumn(name = "reserva_id")
+    private Reserva reserva;
 
     public Pago() {
     }
@@ -40,7 +39,6 @@ public class Pago {
     public Pago(Calendar fechaYHora, Double monto, Integer cantidadPasajes) {
         this.fechaYHora = fechaYHora;
         this.monto = monto;
-        this.cantidadPasajes = cantidadPasajes;
     }
     
     

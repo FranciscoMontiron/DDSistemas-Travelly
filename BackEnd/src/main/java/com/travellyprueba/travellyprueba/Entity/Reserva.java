@@ -1,4 +1,4 @@
-package com.travellyprueba.travellyprueba.Entity;
+    package com.travellyprueba.travellyprueba.Entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.Calendar;
@@ -38,13 +38,8 @@ public class Reserva {
     @OneToOne
     @JoinColumn(name = "vuelo_id")
     private Vuelo vuelo;
-    
-    
-    
-    @OneToOne
-    @JoinColumn(name = "pago_id")
-    private Pago pago;
 
+    
     public Reserva() {
     }
 

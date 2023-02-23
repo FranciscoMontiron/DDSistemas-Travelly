@@ -1,3 +1,4 @@
+import { Pago } from "./pago";
 import { Reserva } from "./reserva";
 
 export class Usuario {
@@ -9,9 +10,11 @@ export class Usuario {
     dni: number;
     direccion: string;
     password: string;
+    roles: string[];
     reservas: Reserva;
 
-    constructor(nombre: string,apellido: string, correo: string, nombreUsuario: string, dni: number, direccion: string, password: string, reservas: Reserva) {
+
+    constructor(nombre: string,apellido: string, correo: string, nombreUsuario: string, dni: number, direccion: string, password: string, reservas: Reserva, roles: string[]) {
         this.nombre = nombre;
         this.apellido =apellido;
         this.correo = correo;
@@ -20,5 +23,6 @@ export class Usuario {
         this.direccion = direccion;
         this.password = password;
         this.reservas = reservas;
+        this.roles = roles;
     }
 }

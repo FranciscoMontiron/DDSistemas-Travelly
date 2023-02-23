@@ -1,0 +1,15 @@
+.pago {
+    color: #00A91D;
+}
+
+.pendiente {
+    color: #FFC300 ;
+}
+
+.cancelada {
+    color: #B60A0A;
+}
+
+td, th {
+    vertical-align: middle;
+  }

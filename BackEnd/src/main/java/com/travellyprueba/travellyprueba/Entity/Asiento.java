@@ -25,6 +25,9 @@ public class Asiento {
     
     @Column(columnDefinition="tinyint(1) default 1")
     private Boolean estado;
+    
+    @Column(columnDefinition="tinyint(1) default 0")
+    private Boolean seleccionado;
  
     private Integer numero;
     

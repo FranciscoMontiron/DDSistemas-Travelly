@@ -6,6 +6,7 @@ import { HomeComponent } from './components/home/home.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegistroComponent } from './components/registro/registro.component';
 import { ReservasComponent } from './components/reservas/reservas.component';
+import { VuelosComponent } from './components/vuelos/vuelos.component';
 
 const routes: Routes = [
   {path:'', component: HomeComponent},
@@ -13,7 +14,8 @@ const routes: Routes = [
   {path:'admin', component: AdminComponent},
   {path:'reservas', component: ReservasComponent},
   {path:'registro', component: RegistroComponent},
-  {path:'compra', component: CompraComponent}
+  {path:'compra', component: CompraComponent},
+  {path:'vuelos', component: VuelosComponent}
 
 ];
 

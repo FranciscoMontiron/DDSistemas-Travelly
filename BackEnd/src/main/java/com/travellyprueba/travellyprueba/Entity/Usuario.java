@@ -51,11 +51,6 @@ public class Usuario {
     @JoinTable(name = "usuario_rol", joinColumns = @JoinColumn(name = "usuario_id"), inverseJoinColumns = @JoinColumn(name = "rol_id"))
     private Set<Rol> roles= new HashSet<>();
     
-    
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
-    private Set<Pago> pagos = new HashSet<>();
-    
-    
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
     private Set<Reserva> reservas = new HashSet<>();
     
@@ -127,17 +122,6 @@ public class Usuario {
 
     public void setDireccion(String direccion) {
         this.direccion = direccion;
-    }
-
-    public Set<Pago> getPagos() {
-        return pagos;
-    }
-
-    public void setPagos(Set<Pago> pagos) {
-        this.pagos = pagos;
-        for(Pago pago : pagos){
-            pago.setUsuario(this);
-        }
     }
 
     public Set<Reserva> getReservas() {

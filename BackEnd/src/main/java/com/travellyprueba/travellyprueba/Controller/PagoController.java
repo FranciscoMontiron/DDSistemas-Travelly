@@ -36,6 +36,8 @@ public class PagoController {
     
     @PostMapping("/crear")
     public ResponseEntity<Pago> guardarPago(@Valid @RequestBody Pago pago){
+        return new ResponseEntity<>(pagoRepository.save(pago), HttpStatus.CREATED);
+        /*
         Optional<Usuario> usuarioOptional = usuarioRepository.findById(pago.getUsuario().getId());
 
         if(!usuarioOptional.isPresent()){
@@ -47,11 +49,23 @@ public class PagoController {
         URI ubicacion = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                         .buildAndExpand(pagoGuardado.getId()).toUri();
 
-        return ResponseEntity.created(ubicacion).body(pagoGuardado);
+        return ResponseEntity.created(ubicacion).body(pagoGuardado);*/
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Pago> editarReserva(@Valid @RequestBody Pago pago, @PathVariable Integer id){
+        
+        Optional<Pago> pagoOptional = pagoRepository.findById(id);
+        
+        if(!pagoOptional.isPresent()){
+            return ResponseEntity.unprocessableEntity().build();
+        }
+        
+        pago.setId(pagoOptional.get().getId());
+        pagoRepository.save(pago);
+        return ResponseEntity.noContent().build();
+        
+        /*
         Optional<Usuario> usuarioOptional = usuarioRepository.findById(pago.getUsuario().getId());
 
         if(!usuarioOptional.isPresent()){
@@ -68,7 +82,7 @@ public class PagoController {
         pago.setId(pagoOptional.get().getId());
         pagoRepository.save(pago);
 
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.noContent().build();*/
     }
     
     @DeleteMapping("/{id}")

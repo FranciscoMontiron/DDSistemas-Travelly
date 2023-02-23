@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Asiento } from '../model/asiento';
@@ -25,7 +25,31 @@ export class AsientosService {
   }
   
   public update(id : number, asiento : Asiento) : Observable<any>{
-    return this.httpClient.put<any>(this.URL + `edit/${id}`, asiento);
+    
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    const body = {
+      estado: asiento.estado,
+      seleccionado: asiento.seleccionado,
+      numero: asiento.numero,
+      clase: asiento.clase,
+      asientoColumna: asiento.asientoColumna,
+      pasajero : {
+        id: asiento.pasajero.id,
+        nombre: asiento.pasajero.nombre,
+        apellido: asiento.pasajero.apellido,
+        dni: asiento.pasajero.dni
+      },
+      avion : {
+        id: asiento.avion.id,
+        cantidadAsientos: asiento.avion.cantidadAsientos,
+        matricula: asiento.avion.matricula,
+        marca: asiento.avion.marca,
+        asientos: asiento.avion.asientos
+      }
+    }
+
+    return this.httpClient.put<any>(this.URL + `${id}`, body, { headers });
   }
   
 

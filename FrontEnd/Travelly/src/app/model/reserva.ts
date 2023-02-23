@@ -1,4 +1,5 @@
 import { LoginUsuario } from "./login-usuario";
+import { Pago } from "./pago";
 import { Usuario } from "./usuario";
 import { Vuelo } from "./vuelo";
 

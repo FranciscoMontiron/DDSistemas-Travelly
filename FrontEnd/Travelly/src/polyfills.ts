@@ -47,7 +47,7 @@
  */
 import 'zone.js';  // Included with Angular CLI.
 
-
+'resolve.fallback: { "util": require.resolve("util/") }'
 /***************************************************************************************************
  * APPLICATION IMPORTS
  */

@@ -28,7 +28,7 @@ public class UsuarioController {
     
     @Autowired
     private UsuarioRepository usuarioRepository;
-    
+        
     
     @GetMapping("/{id}")
     public ResponseEntity<Usuario> obtenerUsuarioPorId(@PathVariable Integer id){
@@ -47,8 +47,8 @@ public class UsuarioController {
         List<Usuario> list = usuarioRepository.findAll();
         return new ResponseEntity(list,HttpStatus.OK);
     }
-    
-    
+
+
     @PostMapping("/crear")
     public ResponseEntity<Usuario> guardarUsuario(@Valid @RequestBody Usuario usuario){
         Usuario usuarioGuardado = usuarioRepository.save(usuario);

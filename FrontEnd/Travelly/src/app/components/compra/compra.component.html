@@ -1,4 +1,3 @@
-<app-header></app-header>
 <div class="container mt-5">
     <div class="row">
         <!--
@@ -31,14 +30,15 @@
                       <td class="p-3">{{asiento.asientoColumna}}</td>
                       <td>
                         <button class="btn btn-outline-secondary btn-lg btn-round p-2 m-2" id="btn-editar" 
-                        (click)="reserva(asiento)" [ngClass]="{'reservado': !asiento.estado}">
+                        (click)="reserva(asiento)" [ngClass]="{'reservado': asiento.seleccionado}">
                         </button>
                       </td>
                     </tr>
                   </tbody>
                 </table>
 
-          
+                <a href="" class="btn btn-warning float-start">Volver</a>
+                <!--<button (click)="mostrarVuelo()" (click)="obtenerUsuario()">ver vuelo</button>-->
                 <div class="float-end btn btn-outline-success">
                   <button mat-button matStepperNext (click)="datosPasajeros()">Siguiente</button>
                 </div>
@@ -93,7 +93,7 @@
               
               <div>
                 <button mat-button matStepperPrevious>Volver</button>
-                <button mat-button matStepperNext type="submit">Continuar</button>
+                <button mat-button matStepperNext type="submit" (click)="crearPasajeros()">Continuar</button>
               </div>
               <!--
               <button class="btn-save" type="submit">Guardar</button>
@@ -119,62 +119,118 @@
 
 
               <mat-stepper orientation="vertical" [linear]="isLinear" #stepper>
+                
+                <!------------------------- Resumen de datos y precio final  ---------------------->
+
                 <mat-step>
-                  <form>
+                  <ng-template matStepLabel>Resumen</ng-template>
+
+                  <!-- Datos de los pasajeros-->
+                  <div class="col-12 m-3">
+
+                  <p class="lead">Pasajeros</p>
+                  
+                  <table mat-table [dataSource]="infoPasajeros" class="mat-elevation-z8 demo-table">
+                  
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="nombre">
+                      <th mat-header-cell *matHeaderCellDef> Nombre </th>
+                      <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+                    </ng-container>
+                  
+                    <!-- Weight Column -->
+                    <ng-container matColumnDef="apellido">
+                      <th mat-header-cell *matHeaderCellDef> Apellido </th>
+                      <td mat-cell *matCellDef="let element"> {{element.apellido}} </td>
+                    </ng-container>
+                  
+                    <!-- Symbol Column -->
+                    <ng-container matColumnDef="dni">
+                      <th mat-header-cell *matHeaderCellDef> DNI </th>
+                      <td mat-cell *matCellDef="let element"> {{element.dni}} </td>
+                    </ng-container>
+                  
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                  </table>
+
+                </div>
+
+                <!-- Resumen de precios -->
+                <div class="col-12 m-5">
+
+                  <p class="lead m-3"><b>Detalle de precio</b></p>
+                  <hr>
+                  <p class="lead m-3">Precio total de asientos: {{precioDeAsientos}}</p>
+                  <hr>
+                  <p class="lead m-3">IVA: {{precioIVA}}</p>
+                  <hr>
+                  <p class="lead m-3">Precio Final: {{precioFinal}}</p>
+
+                </div>
+
+                  <div>
+                    <button class="bg-light float-end m-3" mat-button matStepperNext>Next</button>
+                  </div>
+                </mat-step>
+
+                <!---------------------------------------------------------------------------------->
+
+                <mat-step>
                     <ng-template matStepLabel>Metodo de pago</ng-template>
-                    <select class="form-select m-3" aria-label="Default select example">
-                      <option value="0" selected>Tarjeta de Crédito</option>
-                      <option value="1">Tarjeta de Débito</option>
-                      <option disabled value="2">Prisma</option>
-                      <option disabled value="3">Mercado Pago</option>
+
+                    <select [(ngModel)]="metodoDePago" class="form-select m-3" (change)="optionSelected()">
+                      <option [ngValue]="undefined" selected disabled>Seleccione metodo de pago</option>
+                      <option *ngFor="let option of options" [value]="option.value" required>
+                        {{ option.label }}
+                      </option>
                       
-                  </select>
+                    </select>
+
                     <div>
                       <button class="bg-light float-end m-3" mat-button matStepperNext>Next</button>
                     </div>
-                  </form>
                 </mat-step>
                 <!-- Seccion de datos de pago -->
                 <mat-step>
-                  <form>
                     <ng-template matStepLabel>Datos de pago</ng-template>
                         <div class="mb-3  m-3">
                           <label for="exampleFormControlInput1" class="form-label">Numero de Tarjeta</label>
-                          <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="1234 1234 1234 1234">
+                          <input type="text" [(ngModel)]="numeroDeTarjeta" class="form-control"  id="numeroDeTarjeta" placeholder="1234 1234 1234 1234" required>
                       </div>
               
                       <div class="mb-3  m-3">
                           <label for="exampleFormControlInput1" class="form-label">Fecha de caducidad</label>
-                          <input type="month" class="form-control" id="exampleFormControlInput1" placeholder="Rodriguez">
+                          <input type="month" [(ngModel)]="fechaDeCaducidad"  class="form-control" id="fechaDeCaducidad" required>
                       </div>
               
                       <div class="mb-3  m-3">
                           <label for="exampleFormControlInput1" class="form-label">Código de Seguridad</label>
-                          <input type="text" class="form-control" id="cod-seg" placeholder="123">
+                          <input type="text" [(ngModel)]="codigoDeSeguridad" class="form-control" id="codigoDeSeguridad" placeholder="123" required>
                       </div>
+
+                      <div class="mb-3  m-3" *ngIf="metodoDePago == 1 ">
+                        <label for="exampleFormControlInput1" class="form-label">Cuotas</label>
+                        <input type="number" [(ngModel)]="cuotas" class="form-control" id="cuotas" [defaultValue]="1" min="1" max="3">
+                     </div>
+                     <!--
+                     <div>
+                      <button mat-button matStepperPrevious>Back</button>
+                    </div>-->
               
                       <div class="compra">
-              
-              
-                          <button type="button" class="btn btn-success float-end  m-3">Pagar</button>
-              
+                          <button type="button" *ngIf="reservaAct === undefined" (click)="reservar()" class="btn btn-success float-end  m-3">Confirmar</button>
+                          <button type="button" *ngIf="reservaAct !== undefined" (click)="pagar()" class="btn btn-success float-end  m-3">Pagar</button>
                       </div>
+
                     <div>
                       <button class="btn btn-secondary bg-light  m-3" mat-button matStepperPrevious>Back</button>
                     <!--  <button mat-button matStepperNext>Next</button>-->
                     </div>
-                  </form>
                 </mat-step>
 
                 <!-- Finalizar compra -->
-                <mat-step>
-                  <ng-template matStepLabel>Resumen</ng-template>
-                  <p>Gracias por su compra!</p>
-                  <div>
-                    <button mat-button matStepperPrevious>Back</button>
-                    <button mat-button (click)="stepper.reset()">Reset</button>
-                  </div>
-                </mat-step>
+                
               </mat-stepper>
 
 
@@ -187,44 +243,5 @@
             </mat-step>
           </mat-stepper>
 
-
-
-
-        <!--
-        <h1 class="titulo-central"> Completá tus datos</h1>
-
-        <div class="datos">
-
-            <div class="mb-3">
-
-                <label for="exampleFormControlInput1" class="form-label">Cantidad de Pasajeros</label>
-                <input type="number" aria-label="cantidad de pasajeros" class="form-control" [defaultValue]="1" [(ngModel)]="cantidadPasajeros">
-                <button type="button" class="btn btn-success float-end" (click)="datosPasajeros()">Continuar</button>
-
-            </div>
-
-            <div class="pasajeros" *ngFor="let pasajero of pasajeros">
-
-            <div class="col input-group mt-5 ">
-                
-                <span class="input-group-text">Nombre</span>
-                <input type="text" aria-label="First name" class="form-control">
-                <span class="input-group-text">Apellido</span>
-                <input type="text" aria-label="Last name" class="form-control">
-                <span class="input-group-text">DNI</span>
-                <input type="number" aria-label="Last name" class="form-control">
-            </div>
-        </div>
-        <div class="compra mt-5">
-
-          <button type="button" class="btn btn-success float-end" *ngIf="mostrar">Continuar</button>
-          <button type="button" class="btn btn-danger">Volver</button>
-
-      </div>
-
-
-        </div>
-
-      -->
     </div>
 </div>
