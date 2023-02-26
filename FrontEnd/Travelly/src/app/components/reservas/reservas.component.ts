@@ -18,7 +18,7 @@ export class ReservasComponent implements OnInit {
   reservas!: any;
   usuario: any;
   nombreUsuario: any;
-
+  
 
   constructor(private tokenService: TokenService, private reservaService: ReservasService,private router:Router, private usuarioService: UsuarioService) { }
 

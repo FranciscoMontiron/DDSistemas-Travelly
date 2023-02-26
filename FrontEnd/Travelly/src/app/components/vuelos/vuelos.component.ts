@@ -9,6 +9,8 @@ import { TokenService } from 'src/app/service/token.service';
 import { VueloService } from 'src/app/service/vuelo.service';
 import Swal from 'sweetalert2';
 import { ErrorStateMatcher } from '@angular/material/core';
+import { Aeropuerto } from 'src/app/model/aeropuerto';
+import { AeropuertoService } from 'src/app/service/aeropuerto.service';
 
 export class MyErrorStateMatcher implements ErrorStateMatcher {
   isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
@@ -27,13 +29,23 @@ export class VuelosComponent implements OnInit {
 
   matcher = new MyErrorStateMatcher();
 
-  myControl = new FormControl<string | Pais>('', [Validators.required]);
-  options: Pais[] = [];
-  filteredOptions?: Observable<Pais[]>;
+  origenControl = new FormControl<string | Aeropuerto>('', [Validators.required]);
+  destinoControl = new FormControl<string | Aeropuerto>('', [Validators.required]);
+  fechaControl = new FormControl(Date, [Validators.required]);
 
-  origen: string = '';
-  destino: string = '';
-  fecha: Date = new Date('');
+
+  optionsOrigen: Aeropuerto[] = [];
+  optionsDestino: Aeropuerto[] = [];
+  filteredOptionsOrigen?: Observable<Aeropuerto[]>;
+  filteredOptionsDestino?: Observable<Aeropuerto[]>;
+
+  origen: any;
+  destino: any;
+  fecha: any; 
+
+  fechaFormat: any;
+
+
 
   vuelos: Vuelo[] = [];
 
@@ -42,13 +54,18 @@ export class VuelosComponent implements OnInit {
   comprar = false;
 
   pasajeros : number = 1;
+
+  imgAerolineas = {
+    'Aerolineas Argentinas' : 'assets/Aeroarg.png'
+  }
   
 
   constructor(
     private tokenService: TokenService,
     private vueloService: VueloService,
     private router: Router,
-    private paisService: PaisService
+    private paisService: PaisService,
+    private aeropuertoService: AeropuertoService
   ) {}
 
   isLogged = false;
@@ -63,23 +80,55 @@ export class VuelosComponent implements OnInit {
       this.isLogged = false;
     }
 
-    this.filteredOptions = this.myControl.valueChanges.pipe(
+    this.filteredOptionsOrigen = this.origenControl.valueChanges.pipe(
       startWith(''),
       map(value => {
-        const name = typeof value === 'string' ? value : value?.nombre;
-        return name ? this._filter(name as string) : this.options.slice();
+        const name = typeof value === 'string' ? value : value?.region;
+        return name ? this._filterOrigen(name as string) : this.optionsOrigen.slice();
+      }),
+    );
+    this.filteredOptionsDestino = this.origenControl.valueChanges.pipe(
+      startWith(''),
+      map(value => {
+        const name = typeof value === 'string' ? value : value?.region;
+        return name ? this._filterDestino(name as string) : this.optionsDestino.slice();
       }),
     );
   }
 
-  displayFn(pais: Pais): string {
-    return pais && pais.nombre ? pais.nombre : '';
+  verFecha(): void {
+    /*
+    const anio = this.fecha.getFullYear();
+    const mes = this.fecha.getMonth() + 1;
+    const dia = this.fecha.getDate();
+    const fechaformateada = `${anio}/${mes.toString().padStart(2, '0')}/${dia.toString().padStart(2, '0')}`;
+    const objFecha = new Date(fechaformateada)*/
+
+    console.log(this.fecha);
+    console.log(this.origen)
+    console.log(this.destino)
+  
+    
   }
 
-  private _filter(pais: string): Pais[] {
-    const filterValue = pais.toLowerCase();
+  displayFnOrigen(aeropuerto: Aeropuerto): string {
+    return aeropuerto && aeropuerto.region ? aeropuerto.region : '';
+  }
 
-    return this.options.filter(option => option.nombre.toLowerCase().includes(filterValue));
+  displayFnDestino(aeropuerto: Aeropuerto): string {
+    return aeropuerto && aeropuerto.region ? aeropuerto.region : '';
+  }
+
+  private _filterOrigen(region: string): Aeropuerto[] {
+    const filterValue = region.toLowerCase();
+
+    return this.optionsOrigen.filter(option => option.region.toLowerCase().includes(filterValue));
+  }
+
+  private _filterDestino(region: string): Aeropuerto[] {
+    const filterValue = region.toLowerCase();
+
+    return this.optionsDestino.filter(option => option.region.toLowerCase().includes(filterValue));
   }
 
   async cargar(): Promise<any> {
@@ -87,7 +136,7 @@ export class VuelosComponent implements OnInit {
     vuelos!.sort((x,y)=> x.precio - y.precio);
     let i = 0;
     for(let vuelo of vuelos!) {
-      if(i < 4){
+      if(i < 30){
         this.vuelos.push(vuelo);
         i++;
       }else{break}
@@ -100,9 +149,10 @@ export class VuelosComponent implements OnInit {
   }
 
   cargarPaises(): void {
-    this.paisService.getList().subscribe((data) => {
-      (this.options = data), console.log(data);
+    this.aeropuertoService.getList().subscribe((data) => {
+      (this.optionsOrigen = data, this.optionsDestino = data);
     });
+    console.log(this.optionsDestino, this.optionsOrigen);
   }
 
   recargar(): void {
@@ -110,13 +160,24 @@ export class VuelosComponent implements OnInit {
   }
 
   cargarFiltrado(): void {
-    this.vueloService.getList().subscribe((resp) => {
+
+    const anio = this.fecha.getFullYear();
+    const mes = this.fecha.getMonth() + 1;
+    const dia = this.fecha.getDate();
+    const fechaformateada = `${anio}-${mes.toString().padStart(2, '0')}-${dia.toString().padStart(2, '0')} 00:00:00`;
+    console.log(fechaformateada)
+
+    //console.log(this.origen)
+    //console.log(this.destino)
+
+    this.vueloService.traerVueloFiltrados(fechaformateada,'Buenos Aires','Mendoza').subscribe((data) => {console.log(data),this.vuelos=data;}, err => console.log(err));
+    /*this.vueloService.getList().subscribe((resp) => {
       this.vuelos = resp.filter(
         (elem) =>
           elem.aeropuertoLlegada.pais.nombre == this.destino &&
           elem.aeropuertoPartida.pais.nombre == this.origen
       );
-    });
+    });*/
   }
 
   mensaje(): void {

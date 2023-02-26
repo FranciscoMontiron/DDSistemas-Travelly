@@ -16,7 +16,8 @@
           <th scope="col">Hora Llegada</th>
           <th scope="col">Estado</th>
           <!--<th scope="col">Recibo</th>-->
-          <th scope="col">Eliminar</th>
+          <th scope="col">Gestion</th>
+          <th scope="col"></th>
         </tr>
       </thead>
       <tbody class="text-center lead align-item-center">
@@ -31,7 +32,10 @@
           <td>{{reserva.vuelo.fechaYHoraArribo | date: 'HH:MM'}}</td>
           <td class="p-3"  [ngClass]="{'pago':reserva.estado ==='pago', 'pendiente': reserva.estado === 'pendiente','cancelada':reserva.estado === 'cancelada'}"><strong><span class="h4">{{reserva.estado}}</span></strong></td>
           <!--<td><button type="button" class="btn btn-secondary" (click)="recibo()"><i class="fa-solid fa-print"></i></button></td>-->
-          <td><button type="button" class="btn btn-danger" (click)="cancelar(reserva)"><i class="fa-solid fa-xmark "></i></button></td>
+          <td><button type="button" class="btn btn-danger" *ngIf="reserva.estado==='pendiente' " (click)="cancelar(reserva)"><i class="fa-solid fa-xmark "></i></button></td>
+          <td><button type="button" class="btn btn-danger" *ngIf="reserva.estado==='pago' " (click)="cancelar(reserva)"><i class="fa-solid fa-xmark "></i></button></td>
+          
+          <td><button type="button" class="btn btn-success" *ngIf="reserva.estado==='pendiente' ">Pagar</button></td>
         </tr>
       </tbody>
     </table>

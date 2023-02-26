@@ -1,54 +1,18 @@
 .card{
-    background: linear-gradient(to right, rgb(157, 210, 144),rgb(186, 226, 226));
- }
-
- .row {
-    min-height: 670px;
- }
-
- .example-form {
-   min-width: 150px;
-   max-width: 500px;
-   width: 100%;
- }
- 
- .example-full-width {
-   width: 100%;
- }
-
-
- section {
-  display: table;
+    background: linear-gradient(to right, rgb(157, 210, 144,0.2),rgb(186, 226, 226,0.2));
+    box-shadow: 2px 4px 10px rgba(34, 34, 34, 0.974);
 }
 
-.example-label {
-  display: table-cell;
-  font-size: 14px;
-  margin-left: 8px;
-  min-width: 120px;
+.Aerolinea img {
+    max-width: 7rem;
 }
 
-.example-button-row {
-  display: table-cell;
-  max-width: 600px;
+.card {
+    vertical-align: middle;
 }
 
-.example-button-row .mat-mdc-button-base {
-  margin: 8px 8px 8px 0;
+.buscador {
+    background: rgb(216, 216, 216);
 }
 
-.example-flex-container {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
 
-.example-button-container {
-  display: flex;
-  justify-content: center;
-  width: 120px;
-}
-
-.buscador mat-form-field .pasajeros{
-  width: 10%;
-}

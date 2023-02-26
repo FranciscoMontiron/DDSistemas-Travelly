@@ -33,5 +33,9 @@ export class VueloService {
     return this.httpClient.delete<any>(this.URL + `${id}`);
   }
 
+  public traerVueloFiltrados(fecha : string, origen: string, destino: string) : Observable<Vuelo[]>{
+    return this.httpClient.get<Vuelo[]>(this.URL + `traerVuelosFiltrados/${fecha}/${origen}/${destino}`);
+  }
+
 
 }

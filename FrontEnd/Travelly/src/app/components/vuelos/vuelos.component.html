@@ -1,63 +1,41 @@
 <div class="row mt-5" *ngIf="!comprar">
 
-  <!--
-  <div class="col-12">
-    <div class="input-group input-group mb-3">
-      <span class="input-group-text" id="inputGroup-sizing-lg">Origen</span>
-      <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg"
-        name="origen" [(ngModel)]="origen" required>
-      <span class="input-group-text" id="inputGroup-sizing-lg">Destino</span>
-      <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg"
-        name="destino" [(ngModel)]="destino" required>
-      <span class="input-group-text" id="inputGroup-sizing-lg">Fecha</span>
-      <input type="date" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
-      <button class="btn btn-outline-secondary" type="button" id="button-addon2" (click)="cargarFiltrado()"><i
-          class="fa-solid fa-magnifying-glass"></i></button>
-    </div>
-   
-  </div> -->
-
-  <div class="buscador col-12 text-center">
-    <form>
+  <div class="buscador col-12 text-center border rounded">
       <mat-form-field appearance="fill">
         <mat-label><mat-icon>flight_takeoff</mat-icon> Origen </mat-label>
-        <input type="text" matInput [formControl]="myControl" [errorStateMatcher]="matcher" [matAutocomplete]="auto"
+        <input type="text" matInput [formControl]="origenControl" [errorStateMatcher]="matcher" [matAutocomplete]="auto"
           [(ngModel)]="origen">
-        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-          <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-            {{option.nombre}}
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFnOrigen">
+          <mat-option *ngFor="let option of filteredOptionsOrigen | async" [value]="option">
+            {{option.region}}-{{option.pais.nombre}}-{{option.codigo}}
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
       <mat-form-field appearance="fill">
         <mat-label> <mat-icon>flight_land</mat-icon> Destino </mat-label>
-        <input type="text" matInput [formControl]="myControl" [errorStateMatcher]="matcher" [matAutocomplete]="auto"
+        <input type="text" matInput [formControl]="destinoControl" [errorStateMatcher]="matcher" [matAutocomplete]="auto"
           [(ngModel)]="destino">
-        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-          <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-            {{option.nombre}}
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFnDestino">
+          <mat-option *ngFor="let option of filteredOptionsDestino | async" [value]="option">
+            {{option.region}}-{{option.pais.nombre}}-{{option.codigo}}
           </mat-option>
         </mat-autocomplete>
       </mat-form-field>
       <mat-form-field appearance="fill">
         <mat-label>Fecha</mat-label>
-        <input matInput [formControl]="myControl" [matDatepicker]="picker" [errorStateMatcher]="matcher">
+        <input matInput [formControl]="fechaControl" [matDatepicker]="picker" [errorStateMatcher]="matcher" [(ngModel)]="fecha">
         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </mat-form-field>
-      <!--
-      <mat-form-field class="pasajeros" appearance="fill">
-        <mat-label><mat-icon>person_add</mat-icon> Pasajeros</mat-label>
-        <input type="number" matInput [formControl]="myControl" [errorStateMatcher]="matcher" [ngModel]="pasajeros">
-      </mat-form-field>
-    -->
+
       <div class="m-3 d-inline-block">
-        <button mat-fab color="primary" aria-label="Example icon button with a bookmark icon">
+        <button class="p-3" mat-fab color="primary" aria-label="Example icon button with a bookmark icon" (click)="cargarFiltrado()">
           <mat-icon>search</mat-icon>
         </button>
       </div>
-    </form>
   </div>
+      
+
 
 
   <div class="col-12 m-5">
@@ -68,11 +46,17 @@
   <div class="col-12 m-3" *ngFor="let vuelo of vuelos">
 
     <div class="card  shadow-sm text-center">
-      <div class="card-body d-flex">
+      <div class="card-body d-flex align-items-center">
         <div class="Aerolinea">
-          <p class="lead m-5">{{vuelo.avion.marca}}</p>
+          <!--<p class="lead m-5">{{vuelo.avion.marca}}</p>-->
+          <img *ngIf="vuelo.avion.marca === 'Aerolineas Argentinas'" src="../../../assets/Aeroarg.png">
+          <img *ngIf="vuelo.avion.marca === 'Gol'" src="../../../assets/gol.png">
+          <img *ngIf="vuelo.avion.marca === 'Latam'" src="../../../assets/latam.png">
+          <img *ngIf="vuelo.avion.marca === 'Jetsmart'" src="../../../assets/JetSmart.png">
+          <img *ngIf="vuelo.avion.marca === 'Emirates'" src="../../../assets/emirates.png">
+          <img *ngIf="vuelo.avion.marca === 'American Airlines'" src="../../../assets/americanAirlines.png">
         </div>
-        <div class="card-body m-5">
+        <div class="card-body">
           <div>
             <h3 class="card-title"><i class="fa-solid fa-plane-departure"></i><span class="m-3 lead">Partida</span></h3>
             <p class="card-text lead">{{vuelo.aeropuertoPartida.region}} - {{vuelo.aeropuertoPartida.pais.nombre}}</p>
@@ -80,7 +64,7 @@
             <p class="card-text lead">{{vuelo.aeropuertoPartida.codigo}}</p>
           </div>
         </div>
-        <div class="card-body m-5">
+        <div class="card-body">
           <div>
             <h3 class="card-title"><i class="fa-solid fa-solid fa-plane-arrival"></i><span class="m-3 lead">Llegada</span></h3>
             <p class="card-text lead">{{vuelo.aeropuertoLlegada.region}} - {{vuelo.aeropuertoLlegada.pais.nombre}}</p>
@@ -88,10 +72,10 @@
             <p class="card-text lead">{{vuelo.aeropuertoLlegada.codigo}}</p>
           </div>
         </div>
-        <div class="card-body m-5">
+        <div class="card-body">
           <div>
-            <h5 class="card-title"><span class="lead">Precio</span></h5>
-            <p class="card-text lead"><strong>$ {{vuelo.precio}}</strong></p>
+            <h5 class="card-title"><span class="lead">Precio Ars</span></h5>
+            <p class="card-text lead"><strong>{{vuelo.precio}}</strong></p>
           </div>
         </div>
         <div class="d-flex align-items-center justify-content-end m-3">
