@@ -28,6 +28,8 @@ public class Reserva {
 
     @Temporal(TemporalType.TIMESTAMP)
     private Calendar fechaYHora;
+    
+    private Float montoFinal;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "usuario_id")
@@ -43,9 +45,10 @@ public class Reserva {
     public Reserva() {
     }
 
-    public Reserva(String estado, Calendar fechaYHora) {
+    public Reserva(String estado, Calendar fechaYHora,Float montoFinal) {
         this.estado = estado;
         this.fechaYHora = fechaYHora;
+        this.montoFinal = montoFinal;
     }
 
 }

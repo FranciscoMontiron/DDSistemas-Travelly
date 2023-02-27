@@ -34,10 +34,9 @@ export class VuelosComponent implements OnInit {
   fechaControl = new FormControl(Date, [Validators.required]);
 
 
-  optionsOrigen: Aeropuerto[] = [];
-  optionsDestino: Aeropuerto[] = [];
-  filteredOptionsOrigen?: Observable<Aeropuerto[]>;
-  filteredOptionsDestino?: Observable<Aeropuerto[]>;
+  options: Aeropuerto[] = [];
+  
+  filteredOptions?: Observable<Aeropuerto[]>;
 
   origen: any;
   destino: any;
@@ -63,8 +62,6 @@ export class VuelosComponent implements OnInit {
   constructor(
     private tokenService: TokenService,
     private vueloService: VueloService,
-    private router: Router,
-    private paisService: PaisService,
     private aeropuertoService: AeropuertoService
   ) {}
 
@@ -80,56 +77,26 @@ export class VuelosComponent implements OnInit {
       this.isLogged = false;
     }
 
-    this.filteredOptionsOrigen = this.origenControl.valueChanges.pipe(
+    this.filteredOptions = this.origenControl.valueChanges.pipe(
       startWith(''),
       map(value => {
         const name = typeof value === 'string' ? value : value?.region;
-        return name ? this._filterOrigen(name as string) : this.optionsOrigen.slice();
-      }),
-    );
-    this.filteredOptionsDestino = this.origenControl.valueChanges.pipe(
-      startWith(''),
-      map(value => {
-        const name = typeof value === 'string' ? value : value?.region;
-        return name ? this._filterDestino(name as string) : this.optionsDestino.slice();
+        return name ? this._filter(name as string) : this.options.slice();
       }),
     );
   }
 
-  verFecha(): void {
-    /*
-    const anio = this.fecha.getFullYear();
-    const mes = this.fecha.getMonth() + 1;
-    const dia = this.fecha.getDate();
-    const fechaformateada = `${anio}/${mes.toString().padStart(2, '0')}/${dia.toString().padStart(2, '0')}`;
-    const objFecha = new Date(fechaformateada)*/
-
-    console.log(this.fecha);
-    console.log(this.origen)
-    console.log(this.destino)
-  
-    
-  }
-
-  displayFnOrigen(aeropuerto: Aeropuerto): string {
+  displayFn(aeropuerto: Aeropuerto): string {
+    console.log('selected aeropuerto:', aeropuerto);
     return aeropuerto && aeropuerto.region ? aeropuerto.region : '';
   }
 
-  displayFnDestino(aeropuerto: Aeropuerto): string {
-    return aeropuerto && aeropuerto.region ? aeropuerto.region : '';
-  }
-
-  private _filterOrigen(region: string): Aeropuerto[] {
+  private _filter(region: string): Aeropuerto[] {
     const filterValue = region.toLowerCase();
 
-    return this.optionsOrigen.filter(option => option.region.toLowerCase().includes(filterValue));
+    return this.options.filter(option => option.region.toLowerCase().includes(filterValue));
   }
 
-  private _filterDestino(region: string): Aeropuerto[] {
-    const filterValue = region.toLowerCase();
-
-    return this.optionsDestino.filter(option => option.region.toLowerCase().includes(filterValue));
-  }
 
   async cargar(): Promise<any> {
     let vuelos = await this.vueloService.getList().toPromise();
@@ -149,10 +116,24 @@ export class VuelosComponent implements OnInit {
   }
 
   cargarPaises(): void {
+    /*
     this.aeropuertoService.getList().subscribe((data) => {
-      (this.optionsOrigen = data, this.optionsDestino = data);
+      (this.options = data, this.options = data);
     });
-    console.log(this.optionsDestino, this.optionsOrigen);
+    console.log(this.options);*/
+    this.aeropuertoService.getList().subscribe((data) => {
+      this.options = data.map((aeropuerto) => {
+        return {
+          codigo: aeropuerto.codigo,
+          latitud: aeropuerto.latitud,
+          longitud: aeropuerto.longitud,
+          nombre: aeropuerto.nombre,
+          region: aeropuerto.region,
+          pais: aeropuerto.pais
+        };
+      });
+    });
+    console.log(this.options);
   }
 
   recargar(): void {
@@ -167,30 +148,18 @@ export class VuelosComponent implements OnInit {
     const fechaformateada = `${anio}-${mes.toString().padStart(2, '0')}-${dia.toString().padStart(2, '0')} 00:00:00`;
     console.log(fechaformateada)
 
-    //console.log(this.origen)
-    //console.log(this.destino)
+    this.vueloService.traerVueloFiltrados(fechaformateada,this.origen.region,this.destino.region).subscribe((data) => {console.log(data),this.vuelos=data;}, err => console.log(err));
 
-    this.vueloService.traerVueloFiltrados(fechaformateada,'Buenos Aires','Mendoza').subscribe((data) => {console.log(data),this.vuelos=data;}, err => console.log(err));
-    /*this.vueloService.getList().subscribe((resp) => {
-      this.vuelos = resp.filter(
-        (elem) =>
-          elem.aeropuertoLlegada.pais.nombre == this.destino &&
-          elem.aeropuertoPartida.pais.nombre == this.origen
-      );
-    });*/
   }
 
   mensaje(): void {
     Swal.fire('Esta seccion va a estar disponible proximamente <3');
   }
 
-    // material
-
 
   seleccionDeVuelo(vuelo: Vuelo): void {
     this.vueloSeleccionado=vuelo;
     this.comprar = !this.comprar
-    //console.log(this.vueloSeleccionado);
   }
 
 }

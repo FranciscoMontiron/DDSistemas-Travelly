@@ -1,0 +1,47 @@
+<h1 mat-dialog-title>Vuelos - <strong>{{operacion}}</strong></h1>
+<div mat-dialog-content>
+    <div class="col">
+        <mat-form-field>
+            <input type="date" matInput placeholder="Fecha y hora de arribo" [(ngModel)]="fechaHoraArribo">
+        </mat-form-field>
+        <mat-form-field>
+            <input type="date" matInput placeholder="Fecha y hora de partida" [(ngModel)]="fechaHoraPartida">
+        </mat-form-field>
+        <mat-form-field>
+            <input type="number" matInput placeholder="Precio" [(ngModel)]="precio">
+        </mat-form-field>
+    </div>
+    <div class="col">
+        <mat-form-field>
+            <mat-label>Avión</mat-label>
+            <mat-select [(ngModel)]="avionSelect">
+                <mat-option *ngFor="let avion of aviones" [value]="avion">{{ avion.marca }}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Aeropuerto de partida</mat-label>
+            <mat-select [(ngModel)]="aeropuertoPartida">
+                <mat-option *ngFor="let aeropuerto of aeropuertos" [value]="aeropuerto">{{ aeropuerto.nombre
+                    }}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Aeropuerto de llegada</mat-label>
+            <mat-select [(ngModel)]="aeropuertoLlegada">
+                <mat-option *ngFor="let aeropuerto of aeropuertos" [value]="aeropuerto">{{ aeropuerto.nombre
+                    }}</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="onCancelClick()">Cancelar</button>
+    <button mat-button [mat-dialog-close]="{
+        fechaHoraArribo: fechaHoraArribo,
+        fechaHoraPartida: fechaHoraPartida,
+        precio: precio,
+        avion: avionSelect,
+        aeropuertoPartida: aeropuertoPartida,
+        aeropuertoLlegada: aeropuertoLlegada
+      }" cdkFocusInitial (click)="mostarInfo()">Aceptar</button>
+</div>

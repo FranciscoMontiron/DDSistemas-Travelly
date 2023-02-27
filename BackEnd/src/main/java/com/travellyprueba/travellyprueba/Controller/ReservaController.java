@@ -1,6 +1,7 @@
     
 package com.travellyprueba.travellyprueba.Controller;
 
+import com.travellyprueba.travellyprueba.Entity.Pago;
 import com.travellyprueba.travellyprueba.Entity.Reserva;
 import com.travellyprueba.travellyprueba.Entity.Usuario;
 import com.travellyprueba.travellyprueba.Repository.ReservaRepository;
@@ -8,6 +9,7 @@ import com.travellyprueba.travellyprueba.Repository.UsuarioRepository;
 import java.net.URI;
 import java.util.Collection;
 import java.util.Optional;
+import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -99,9 +101,12 @@ public class ReservaController {
     public ResponseEntity <Collection<Reserva>> listarReservas(){
         return new ResponseEntity<>(reservaRepository.findAll(),HttpStatus.OK);
     }
-    
-   
-    
-        
+        /*
+    @GetMapping("/buscarPagoPorIdReserva/{id}")
+    public ResponseEntity<Pago> buscarPagoPorIdReserva(@PathVariable Integer id){
+        Pago pago = reservaRepository.buscarPagoPorReservaId(id);
+        return new ResponseEntity<>(pago, HttpStatus.OK);}*/
+
+
 }
 

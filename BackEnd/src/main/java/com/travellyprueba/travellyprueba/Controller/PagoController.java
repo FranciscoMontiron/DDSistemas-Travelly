@@ -113,4 +113,10 @@ public class PagoController {
         return new ResponseEntity(list,HttpStatus.OK);
     }
     
+    @GetMapping("/traerPagoDeReserva/{id}")
+    public ResponseEntity<Pago> obtenerPagoPorReservaID(@PathVariable Integer id){
+        Pago pago = pagoRepository.obtenerPagoPorReservaID(id);
+        return new ResponseEntity(pago,HttpStatus.OK);
+    }
+    
 }

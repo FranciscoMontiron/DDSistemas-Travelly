@@ -1,7 +1,16 @@
 .card{
-    background: linear-gradient(to right, rgb(186, 226, 226), rgb(157, 210, 144));
- }
+   background: linear-gradient(to right, rgb(157, 210, 144,0.2),rgb(186, 226, 226,0.2));
+   box-shadow: 2px 4px 10px rgba(34, 34, 34, 0.974);
+}
 
- .row {
-    min-height: 670px;
- }
+.Aerolinea img {
+   max-width: 7rem;
+}
+
+.card {
+   vertical-align: middle;
+}
+
+.buscador {
+   background: rgb(216, 216, 216);
+}

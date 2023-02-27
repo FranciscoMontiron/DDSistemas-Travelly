@@ -7,6 +7,8 @@ import { TokenService } from 'src/app/service/token.service';
 import { UsuarioService } from 'src/app/service/usuario.service';
 import Swal from 'sweetalert2';
 import jwt_decode from 'jwt-decode';
+import { PagoService } from 'src/app/service/pago.service';
+import { Pago } from 'src/app/model/pago';
 
 @Component({
   selector: 'app-reservas',
@@ -18,9 +20,12 @@ export class ReservasComponent implements OnInit {
   reservas!: any;
   usuario: any;
   nombreUsuario: any;
+  pago: any;
   
 
-  constructor(private tokenService: TokenService, private reservaService: ReservasService,private router:Router, private usuarioService: UsuarioService) { }
+  constructor(private tokenService: TokenService, private reservaService: ReservasService,
+              private router:Router, private usuarioService: UsuarioService, private pagoService : PagoService
+              ) { }
 
   isLogged = false;
 
@@ -54,7 +59,7 @@ export class ReservasComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         if( reserva.id!= undefined){
-          let reservaModi = new Reserva('cancelada',fechaActual,this.usuario,reserva.vuelo);
+          let reservaModi = new Reserva('cancelada',fechaActual,reserva.montoFinal,this.usuario,reserva.vuelo);
           this.reservaService.update(reserva.id, reservaModi).subscribe(data => {
             this.obtenerReservasDelUsuario();
           }, err => {
@@ -69,7 +74,17 @@ export class ReservasComponent implements OnInit {
       }
     })
   }
-}
+  }
+
+  pagar(reserva: Reserva):void   {
+      let fechaActual = new Date();
+
+      const pago = new Pago(fechaActual,reserva.montoFinal,reserva);
+      this.pagoService.crearPago(pago).subscribe(data => {this.pago = data});
+
+      let reservaModi = new Reserva('pago',fechaActual,reserva.montoFinal,this.usuario,reserva.vuelo);
+      this.reservaService.update(reserva.id!, reservaModi).subscribe(data => {});
+  }
 
   async obtenerReservasDelUsuario(): Promise<void>{
 
@@ -92,6 +107,10 @@ export class ReservasComponent implements OnInit {
     this.usuario = usuarioObj!;
 
     this.reservas = usuarioObj?.reservas
+  }
+
+  obtenerPagoPorReservaId(reserva : Reserva){
+    this.pagoService.traerPagoDeReserva(reserva.id!).subscribe((data)=>{console.log(data);})
   }
 
 }

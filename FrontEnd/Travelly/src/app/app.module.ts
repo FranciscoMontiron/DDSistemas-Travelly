@@ -32,6 +32,9 @@ import { MatButtonModule } from '@angular/material/button'
 import { MatTableModule } from '@angular/material/table'
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatStepperModule } from '@angular/material/stepper';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatDialogModule } from '@angular/material/dialog';
+import { DialogADMComponent } from './components/dialog-adm/dialog-adm.component';
 
 
 @NgModule({
@@ -47,7 +50,8 @@ import { MatStepperModule } from '@angular/material/stepper';
     ReservasComponent,
     HeaderAdmComponent,
     RegistroComponent,
-    CompraComponent
+    CompraComponent,
+    DialogADMComponent
   ],
   imports: [
     BrowserModule,
@@ -67,7 +71,9 @@ import { MatStepperModule } from '@angular/material/stepper';
     MatDatepickerModule,
     MatNativeDateModule,
     MatStepperModule,
-    MatTableModule
+    MatTableModule,
+    MatMenuModule,
+    MatDialogModule
     
   ],
   providers: [

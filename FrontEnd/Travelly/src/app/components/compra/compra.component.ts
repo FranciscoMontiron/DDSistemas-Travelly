@@ -155,7 +155,7 @@ export class CompraComponent implements OnInit {
       const pago = new Pago(fecha,this.precioFinal,this.reservaAct);
       this.pagoService.crearPago(pago).subscribe(data => {this.pago = data});
 
-      let reservaModi = new Reserva('pago',fecha,this.usuario,this.vuelo);
+      let reservaModi = new Reserva('pago',fecha,this.precioFinal,this.usuario,this.vuelo);
       this.reservaService.update(this.reservaAct.id, reservaModi).subscribe(data => {});
 
       alert('Pago realizado con exito');
@@ -167,7 +167,7 @@ export class CompraComponent implements OnInit {
   reservar():void {
     let fecha: Date = moment().toDate();
 
-    const reserva = new Reserva('pendiente',fecha,this.usuario,this.vuelo);
+    const reserva = new Reserva('pendiente',fecha,this.precioFinal,this.usuario,this.vuelo);
     this.reservaService.crearReserva(reserva).subscribe(data => {this.reservaAct = data});
   }
 

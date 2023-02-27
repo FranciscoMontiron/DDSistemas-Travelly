@@ -1,15 +1,18 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { map, Observable, startWith } from 'rxjs';
 import { Aeropuerto } from 'src/app/model/aeropuerto';
-import { Asiento } from 'src/app/model/asiento';
 import { Avion } from 'src/app/model/avion';
-import { Pais } from 'src/app/model/pais';
-import { Pasajero } from 'src/app/model/pasajero';
 import { Vuelo } from 'src/app/model/vuelo';
+import { AeropuertoService } from 'src/app/service/aeropuerto.service';
 import { TokenService } from 'src/app/service/token.service';
 import { VueloService } from 'src/app/service/vuelo.service';
 import Swal from 'sweetalert2';
+import { MyErrorStateMatcher } from '../vuelos/vuelos.component';
+import { DialogADMComponent } from '../dialog-adm/dialog-adm.component'
+import { AvionService } from 'src/app/service/avion.service';
 
 @Component({
   selector: 'app-vuelo-adm',
@@ -18,170 +21,143 @@ import Swal from 'sweetalert2';
 })
 export class VueloAdmComponent implements OnInit {
 
-  origen: string = '';
-  destino: string = '';
-  fecha: Date = new Date("");
+  matcher = new MyErrorStateMatcher();
 
-  fechaYHoraArribo = new Date("");
-  fechaYHoraPartida = new Date("");
-  precio: number = 0;
-  avion: Avion = new Avion(0,"", "",[]);
-  aeropuertoLlegada: Aeropuerto = new Aeropuerto("","","","","",new Pais(0,""))
-  aeropuertoPartida : Aeropuerto = new Aeropuerto("","","","","",new Pais(0,""))
+  origenControl = new FormControl<string | Aeropuerto>('', [Validators.required]);
+  destinoControl = new FormControl<string | Aeropuerto>('', [Validators.required]);
+  fechaControl = new FormControl(Date, [Validators.required]);
 
-  closeResult: string = "";
 
-  v: Vuelo = new Vuelo(new Date(""),new Date(""),0,new Avion(0,"", "",[]),new Aeropuerto("","","","","",new Pais(0,"")),new Aeropuerto("","","","","",new Pais(0,"")));
+  optionsOrigen: Aeropuerto[] = [];
+  optionsDestino: Aeropuerto[] = [];
+  filteredOptionsOrigen?: Observable<Aeropuerto[]>;
+  filteredOptionsDestino?: Observable<Aeropuerto[]>;
 
+  origen: any;
+  destino: any;
+  fecha: any; 
+
+  fechaFormat: any;
+
+  aeropuertos: Aeropuerto[] = [];
+  aviones: Avion[] = [];
   vuelos: Vuelo[] = [];
 
+  vueloSeleccionado!: Vuelo;
+  
+  dialogResult: any;
 
+  imgAerolineas = {
+    'Aerolineas Argentinas' : 'assets/Aeroarg.png'
+  }
+  
 
-  constructor(private tokenService: TokenService, private vueloService: VueloService,private router:Router, private modalService: NgbModal) {}
+  constructor(
+    private tokenService: TokenService,
+    private vueloService: VueloService,
+    private aeropuertoService: AeropuertoService,
+    private avionService: AvionService,
+    public dialog: MatDialog
+  ) {}
 
   isLogged = false;
 
   ngOnInit(): void {
-
     this.cargar();
-
+    this.cargarPaises();
     if (this.tokenService.getToken()) {
       this.isLogged = true;
     } else {
       this.isLogged = false;
     }
+
+    this.filteredOptionsOrigen = this.origenControl.valueChanges.pipe(
+      startWith(''),
+      map(value => {
+        const name = typeof value === 'string' ? value : value?.region;
+        return name ? this._filterOrigen(name as string) : this.optionsOrigen.slice();
+      }),
+    );
+    this.filteredOptionsDestino = this.origenControl.valueChanges.pipe(
+      startWith(''),
+      map(value => {
+        const name = typeof value === 'string' ? value : value?.region;
+        return name ? this._filterDestino(name as string) : this.optionsDestino.slice();
+      }),
+    );
   }
 
-  cargar() : void{
-    this.vueloService.getList().subscribe(data => {this.vuelos = data, console.log(data)});
-    this.origen="";
-    this.destino="";
-    this.fecha= new Date("");
-
+  abrirDialogo(operacion: string) {
+    const dialogRef = this.dialog.open(DialogADMComponent, {
+      data: {
+        aviones: this.aviones,
+        aeropuertos: this.aeropuertos,
+        operacion: operacion
+      }
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      this.dialogResult =  result;
+    });
   }
 
-  recargar() : void{
+  displayFnOrigen(aeropuerto: Aeropuerto): string {
+    return aeropuerto && aeropuerto.region ? aeropuerto.region : '';
+  }
+
+  displayFnDestino(aeropuerto: Aeropuerto): string {
+    return aeropuerto && aeropuerto.region ? aeropuerto.region : '';
+  }
+
+  private _filterOrigen(region: string): Aeropuerto[] {
+    const filterValue = region.toLowerCase();
+
+    return this.optionsOrigen.filter(option => option.region.toLowerCase().includes(filterValue));
+  }
+
+  private _filterDestino(region: string): Aeropuerto[] {
+    const filterValue = region.toLowerCase();
+
+    return this.optionsDestino.filter(option => option.region.toLowerCase().includes(filterValue));
+  }
+
+  async cargar(): Promise<any> {
+    let vuelos = await this.vueloService.getList().toPromise();
+    this.vuelos = vuelos!.sort((x,y)=> x.precio - y.precio);
+    
+
+    let aviones= await this.avionService.getList().toPromise();
+    this.aviones = aviones!;
+
+    let aeropuertos = await this.aeropuertoService.getList().toPromise();
+    this.aeropuertos = aeropuertos!;
+
+    this.origen = '';
+    this.destino = '';
+    this.fecha = new Date('');
+  }
+
+  cargarPaises(): void {
+    this.aeropuertoService.getList().subscribe((data) => {
+      (this.optionsOrigen = data, this.optionsDestino = data);
+    });
+    console.log(this.optionsDestino, this.optionsOrigen);
+  }
+
+  recargar(): void {
     window.location.reload();
   }
 
+  cargarFiltrado(): void {
 
+    const anio = this.fecha.getFullYear();
+    const mes = this.fecha.getMonth() + 1;
+    const dia = this.fecha.getDate();
+    const fechaformateada = `${anio}-${mes.toString().padStart(2, '0')}-${dia.toString().padStart(2, '0')} 00:00:00`;
+    console.log(fechaformateada)
 
-  cargarFiltrado() : void{
-    this.vueloService.getList().subscribe( resp=>{
-      this.vuelos = resp.filter((elem)=> elem.aeropuertoLlegada.pais.nombre == this.destino && elem.aeropuertoPartida.pais.nombre == this.origen);
-    })
+    this.vueloService.traerVueloFiltrados(fechaformateada,this.origen.region,this.destino.region).subscribe((data) => {console.log(data),this.vuelos=data;}, err => console.log(err));
   }
-  
-
-  delete(id?: number){
-
-    Swal.fire({
-      title: '¿Estas seguro?',
-      text: "Este cambio no se puede revertir",
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Si!',
-      cancelButtonText: 'No!'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        if( id!= undefined){
-          this.vueloService.delete(id).subscribe(data =>{
-            this.cargar();
-          }, err => {
-            alert("No se puedo borrar el vuelo");
-          })
-        }
-        Swal.fire(
-          'Borrardo!',
-          'Su vuelo se elimino con exito',
-          'success'
-        )
-      }
-    })
-  }
-
-  open(content: any) {
-    this.fechaYHoraArribo = new Date("");
-    this.fechaYHoraPartida = new Date("");
-    this.precio= 0;
-    this.avion = new Avion(0,"", "",[]);
-    this.aeropuertoLlegada = new Aeropuerto("","","","","",new Pais(0,""))
-    this.aeropuertoPartida = new Aeropuerto("","","","","",new Pais(0,""))
-
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then(async (result) => {
-      this.closeResult = `Closed with: ${result}`;
-      const e = new Vuelo(this.fechaYHoraArribo, this.fechaYHoraPartida,this.precio, this.avion, this.aeropuertoLlegada,this.aeropuertoPartida);
-      this.vueloService.save(e).subscribe(
-        data => {
-          this.cargar();
-          Swal.fire({
-            position: 'center',
-            icon: 'success',
-            title: 'Vuelo añadido',
-            showConfirmButton: false,
-            timer: 1700
-
-})
-        }, err => {
-          alert("Fallo");
-        }
-      )
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    },
-    );
-  }
-
-  update(content: any, id:number) {
-    this.vueloService.getVuelo(id).subscribe(
-      data => {
-        this.v=data;
-        this.fechaYHoraArribo=data.fechaYHoraArribo;
-        this.fechaYHoraPartida=data.fechaYHoraPartida;
-        this.precio=data.precio;
-        this.avion=data.avion;
-        this.aeropuertoPartida=data.aeropuertoPartida;
-        this.aeropuertoLlegada=data.aeropuertoLlegada;
-      },err => { alert ("Fallo");}
-    )
-    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then(async (result) => {
-      this.closeResult = `Closed with: ${result}`;
-      const expe = new Vuelo(this.fechaYHoraArribo, this.fechaYHoraPartida,this.precio, this.avion, this.aeropuertoLlegada,this.aeropuertoPartida);
-      this.vueloService.update(id,expe).subscribe(
-        data => {
-          this.cargar();
-          Swal.fire({
-            position: 'center',
-            icon: 'success',
-            title: 'Vuelo actualizado',
-            showConfirmButton: false,
-            timer: 1700
-
-})
-        }, err => {
-          alert("Fallo");
-        }
-      )
-    }, (reason) => {
-      this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-    },
-    );
-  }
-
-
-
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return `with: ${reason}`;
-    }
-  }
-
-
 
 }
+

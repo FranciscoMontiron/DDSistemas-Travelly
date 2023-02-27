@@ -1,5 +1,6 @@
 footer {
-    background: linear-gradient(to right, rgb(39, 192, 192), rgb(62, 190, 30));
+    
+    background: linear-gradient(to right, rgb(39, 192, 192,0.5), rgb(62, 190, 30,0.5));
 }
 
 

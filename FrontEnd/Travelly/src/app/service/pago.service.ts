@@ -50,4 +50,8 @@ export class PagoService {
   public delete(id: number): Observable<any> {
     return this.httpClient.delete<any>(this.URL + `${id}`);
   }
+
+  public traerPagoDeReserva(id : number): Observable<Pago> {
+    return this.httpClient.get<Pago>(this.URL + `traerPagoDeReserva/${id}`);
+  }
 }
