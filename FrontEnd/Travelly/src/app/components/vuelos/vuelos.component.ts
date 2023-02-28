@@ -19,7 +19,6 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   }
 }
 
-
 @Component({
   selector: 'app-vuelos',
   templateUrl: './vuelos.component.html',
@@ -33,31 +32,18 @@ export class VuelosComponent implements OnInit {
   destinoControl = new FormControl<string | Aeropuerto>('', [Validators.required]);
   fechaControl = new FormControl(Date, [Validators.required]);
 
-
   options: Aeropuerto[] = [];
-  
   filteredOptions?: Observable<Aeropuerto[]>;
 
   origen: any;
   destino: any;
   fecha: any; 
-
   fechaFormat: any;
 
-
-
   vuelos: Vuelo[] = [];
-
   vueloSeleccionado!: Vuelo;
   
   comprar = false;
-
-  pasajeros : number = 1;
-
-  imgAerolineas = {
-    'Aerolineas Argentinas' : 'assets/Aeroarg.png'
-  }
-  
 
   constructor(
     private tokenService: TokenService,
@@ -93,7 +79,6 @@ export class VuelosComponent implements OnInit {
 
   private _filter(region: string): Aeropuerto[] {
     const filterValue = region.toLowerCase();
-
     return this.options.filter(option => option.region.toLowerCase().includes(filterValue));
   }
 
@@ -108,19 +93,13 @@ export class VuelosComponent implements OnInit {
         i++;
       }else{break}
     }
-
-
     this.origen = '';
     this.destino = '';
     this.fecha = new Date('');
   }
 
   cargarPaises(): void {
-    /*
-    this.aeropuertoService.getList().subscribe((data) => {
-      (this.options = data, this.options = data);
-    });
-    console.log(this.options);*/
+
     this.aeropuertoService.getList().subscribe((data) => {
       this.options = data.map((aeropuerto) => {
         return {
@@ -141,7 +120,6 @@ export class VuelosComponent implements OnInit {
   }
 
   cargarFiltrado(): void {
-
     const anio = this.fecha.getFullYear();
     const mes = this.fecha.getMonth() + 1;
     const dia = this.fecha.getDate();
