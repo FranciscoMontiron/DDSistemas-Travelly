@@ -1,4 +1,3 @@
-    
 package com.travellyprueba.travellyprueba.Controller;
 
 import com.travellyprueba.travellyprueba.Entity.Vuelo;
@@ -32,63 +31,68 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
 public class VueloController {
-    
-    @Autowired VueloRepository vueloRepository;
-    
-            
+
+    @Autowired
+    VueloRepository vueloRepository;
+
     @GetMapping("/listar")
-    public ResponseEntity<Collection<Vuelo>> listarVuelos(){
-            return new ResponseEntity<>(vueloRepository.findAll(),HttpStatus.OK);
+    public ResponseEntity<Collection<Vuelo>> listarVuelos() {
+        return new ResponseEntity<>(vueloRepository.findAll(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Vuelo> obtenerVuelo(@PathVariable Integer id){
-            Vuelo vuelo = vueloRepository.findById(id).orElseThrow();
+    public ResponseEntity<Vuelo> obtenerVuelo(@PathVariable Integer id) {
+        Vuelo vuelo = vueloRepository.findById(id).orElseThrow();
 
-            if(vuelo != null) {
-                    return new ResponseEntity<>(vueloRepository.findById(id).orElseThrow(),HttpStatus.OK);
-            }else {
-                    return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
-            }
-    }
-    
-    @PreAuthorize("hasRole('ADMIN')")
-    @PostMapping("/crear")
-    public ResponseEntity<?> guardarVuelo(@RequestBody Vuelo vuelo){
-            return new ResponseEntity<>(vueloRepository.save(vuelo),HttpStatus.CREATED);
-    }
-    
-    @PreAuthorize("hasRole('ADMIN')")
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> eliminarVuelo(@PathVariable Integer id){
-            vueloRepository.deleteById(id);
-            return new ResponseEntity<Void>(HttpStatus.OK);
-    }
-    
-    @PutMapping("/{id}")
-    public ResponseEntity<Vuelo> editarVuelo(@Valid @RequestBody Vuelo vuelo, @PathVariable Integer id){
-        Optional<Vuelo> reservaOptional = vueloRepository.findById(id);
-        if(!reservaOptional.isPresent()){
-                return ResponseEntity.unprocessableEntity().build();
+        if (vuelo != null) {
+            return new ResponseEntity<>(vueloRepository.findById(id).orElseThrow(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
-        vuelo.setId(reservaOptional.get().getId());
-        vueloRepository.save(vuelo);
+    }
 
-        return ResponseEntity.noContent().build();
+    //@PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/crear")
+    public ResponseEntity<?> guardarVuelo(@RequestBody Vuelo vuelo) {
+        return new ResponseEntity<>(vueloRepository.save(vuelo), HttpStatus.CREATED);
     }
-    
+
+    //@PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> eliminarVuelo(@PathVariable Integer id) {
+        vueloRepository.deleteById(id);
+        return new ResponseEntity<Void>(HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Vuelo> actualizarVuelo(@PathVariable Integer id, @RequestBody Vuelo vueloActualizado) {
+        Optional<Vuelo> vueloOptional = vueloRepository.findById(id);
+        if (!vueloOptional.isPresent()) {
+            return ResponseEntity.notFound().build();
+        }
+            Vuelo vueloExistente = vueloOptional.get();
+            vueloExistente.setFechaYHoraArribo(vueloActualizado.getFechaYHoraArribo());
+            vueloExistente.setFechaYHoraPartida(vueloActualizado.getFechaYHoraPartida());
+            vueloExistente.setPrecio(vueloActualizado.getPrecio());
+            vueloExistente.setAvion(vueloActualizado.getAvion());
+            vueloExistente.setAeropuertoPartida(vueloActualizado.getAeropuertoPartida());
+            vueloExistente.setAeropuertoLlegada(vueloActualizado.getAeropuertoLlegada());
+            Vuelo vualoAct = vueloRepository.save(vueloExistente);
+            return ResponseEntity.ok(vueloActualizado);
+        
+    }
+
     @GetMapping("/traerVuelosFiltrados/{fecha}/{origen}/{destino}")
-    public ResponseEntity<List<Vuelo>> getFlights(@PathVariable String fecha,@PathVariable String origen, @PathVariable String destino) {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-    try {
-        Date date = formatter.parse(fecha);
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        return new ResponseEntity<>(vueloRepository.findByOriginAndDate(calendar,origen,destino), HttpStatus.OK);
-    } catch (ParseException e) {
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    public ResponseEntity<List<Vuelo>> getFlights(@PathVariable String fecha, @PathVariable String origen, @PathVariable String destino) {
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date date = formatter.parse(fecha);
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date);
+            return new ResponseEntity<>(vueloRepository.findByOriginAndDate(calendar, origen, destino), HttpStatus.OK);
+        } catch (ParseException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
-    }
-    
-    
+
 }

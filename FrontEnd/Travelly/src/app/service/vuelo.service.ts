@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Vuelo } from '../model/vuelo';
@@ -6,7 +6,7 @@ import { Vuelo } from '../model/vuelo';
 @Injectable({
   providedIn: 'root'
 })
-export class VueloService {
+export class VueloService {  
 
   URL = 'http://localhost:8080/api/vuelos/';
 
@@ -20,12 +20,53 @@ export class VueloService {
     return this.httpClient.get<Vuelo>(this.URL + `${id}`);
   }
 
-  public save(vuelo : Vuelo) : Observable<any>{
-    return this.httpClient.post<any>(this.URL + `crear`, vuelo);
+  public save(vuelo : Vuelo) {
+    
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    const isoDateStringArribo = vuelo.fechaYHoraArribo;
+    const dateObjArribo = new Date(isoDateStringArribo);
+    const serializedDateArribo = dateObjArribo.toISOString();
+
+    const isoDateStringPartida = vuelo.fechaYHoraPartida;
+    const dateObjPartida = new Date(isoDateStringPartida);
+    const serializedDatePartida = dateObjPartida.toISOString();
+
+    const body = {
+      fechaYHoraArribo: serializedDateArribo,
+      fechaYHoraPartida: serializedDatePartida,
+      precio: vuelo.precio,
+      avion: vuelo.avion,
+      aeropuertoPartida: vuelo.aeropuertoPartida,
+      aeropuertoLlegada: vuelo.aeropuertoLlegada
+    }
+
+
+    return this.httpClient.post<any>(this.URL + `crear`, body, { headers });
   }
   
-  public update(id : number, vuelo : Vuelo) : Observable<any>{
-    return this.httpClient.put<any>(this.URL + `edit/${id}`, vuelo);
+  public update(id : number, vuelo : Vuelo) {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+
+    const isoDateStringArribo = vuelo.fechaYHoraArribo;
+    const dateObjArribo = new Date(isoDateStringArribo);
+    const serializedDateArribo = dateObjArribo.toISOString();
+
+    const isoDateStringPartida = vuelo.fechaYHoraPartida;
+    const dateObjPartida = new Date(isoDateStringPartida);
+    const serializedDatePartida = dateObjPartida.toISOString();
+
+    const body = {
+      fechaYHoraArribo: serializedDateArribo,
+      fechaYHoraPartida: serializedDatePartida,
+      precio: vuelo.precio,
+      avion: vuelo.avion,
+      aeropuertoPartida: vuelo.aeropuertoPartida,
+      aeropuertoLlegada: vuelo.aeropuertoLlegada
+    }
+
+
+    return this.httpClient.put<any>(this.URL + `${id}`, body, { headers });
   }
   
 

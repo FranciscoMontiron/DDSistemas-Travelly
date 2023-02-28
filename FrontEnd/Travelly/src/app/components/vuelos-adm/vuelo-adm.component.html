@@ -42,7 +42,7 @@
     <p class="text-center display-5">ABM VUELOS</p>
   </div>
   <div class="col-12 text-end"><button class="btn btn-outline-secondary" (click)="cargar()"><i class="fa-solid fa-rotate-left"></i></button></div>
-  <div class="col-12 text-start m-3"><button class="btn btn-outline-success rounded-circle"><i class="fa-solid fa-plus"></i></button></div>
+  <div class="col-12 text-start m-3"><button class="btn btn-outline-success rounded-circle" (click)="abrirDialogoCrear('crear')"><i class="fa-solid fa-plus"></i></button></div>
   <div class="col-12 m-3" *ngFor="let vuelo of vuelos">
 
     <div class="card  shadow-sm text-center">
@@ -79,9 +79,8 @@
           </div>
         </div>
         <div class="d-flex align-items-center justify-content-end m-3">
-          <button class="btn btn-outline-warning m-1 rounded float-end" *ngIf="isLogged" (click)="abrirDialogo('editar')"><i class="fa-solid fa-pen-to-square"></i></button>
-          <button class="btn btn-outline-danger m-1 rounded float-end" *ngIf="isLogged"><i class="fa-solid fa-xmark"></i></button>
-          
+          <button class="btn btn-outline-warning m-1 rounded float-end" *ngIf="isLogged" (click)="abrirDialogo('editar',vuelo)"><i class="fa-solid fa-pen-to-square"></i></button>
+          <button class="btn btn-outline-danger m-1 rounded float-end" *ngIf="isLogged" (click)="borrar(vuelo)"><i class="fa-solid fa-xmark"></i></button>  
         </div>
       </div>
     </div>

@@ -87,17 +87,34 @@ export class VueloAdmComponent implements OnInit {
     );
   }
 
-  abrirDialogo(operacion: string) {
+  abrirDialogo(operacion: string, vuelo: Vuelo) {
     const dialogRef = this.dialog.open(DialogADMComponent, {
       data: {
         aviones: this.aviones,
         aeropuertos: this.aeropuertos,
-        operacion: operacion
+        operacion: operacion,
+        vuelo: vuelo
       }
     });
   
     dialogRef.afterClosed().subscribe(result => {
       this.dialogResult =  result;
+      this.cargar();
+    });
+  }
+
+  abrirDialogoCrear(operacion: string) {
+    const dialogRef = this.dialog.open(DialogADMComponent, {
+      data: {
+        aviones: this.aviones,
+        aeropuertos: this.aeropuertos,
+        operacion: operacion,
+      }
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      this.dialogResult =  result;
+      this.cargar();
     });
   }
 
@@ -157,6 +174,51 @@ export class VueloAdmComponent implements OnInit {
     console.log(fechaformateada)
 
     this.vueloService.traerVueloFiltrados(fechaformateada,this.origen.region,this.destino.region).subscribe((data) => {console.log(data),this.vuelos=data;}, err => console.log(err));
+  }
+
+  editarVuelo(): void {
+    let fechaPartida = this.dialogResult.fechaHoraPartida;
+    let fechaArribo = this.dialogResult.fechaHoraArribo;
+
+    let vuelo = new Vuelo(fechaArribo,fechaPartida,this.dialogResult.precio,this.dialogResult.avion,this.dialogResult.aeropuertoPartida,this.dialogResult.aeropuertoLlegada);
+  }
+
+  borrar(vuelo: Vuelo): void {
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: 'btn btn-success m-3 px-3',
+        cancelButton: 'btn btn-danger'
+      },
+      buttonsStyling: false
+    })
+    
+    swalWithBootstrapButtons.fire({
+      title: 'Estas Seguro?',
+      text: "Este cambio sera permanente",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Si  ',
+      cancelButtonText: 'No',
+      reverseButtons: true
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.vueloService.delete(vuelo.id).subscribe(data => {console.log(data),this.cargar();})
+        swalWithBootstrapButtons.fire(
+          'Borrado!',
+          'El vuelo se a eliminado correctamente',
+          'success'
+        )
+      } else if (
+        /* Read more about handling dismissals below */
+        result.dismiss === Swal.DismissReason.cancel
+      ) {
+        swalWithBootstrapButtons.fire(
+          'Cacelado',
+          'El vuelo no sufrio ninguna cambio!',
+          'error'
+        )
+      }
+    })
   }
 
 }

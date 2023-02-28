@@ -35,6 +35,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDialogModule } from '@angular/material/dialog';
 import { DialogADMComponent } from './components/dialog-adm/dialog-adm.component';
+import { MatDatetimepickerModule, MatNativeDatetimeModule } from '@mat-datetimepicker/core';
 
 
 @NgModule({
@@ -73,8 +74,9 @@ import { DialogADMComponent } from './components/dialog-adm/dialog-adm.component
     MatStepperModule,
     MatTableModule,
     MatMenuModule,
-    MatDialogModule
-    
+    MatDialogModule,
+    MatDatetimepickerModule,
+    MatNativeDatetimeModule
   ],
   providers: [
     interceptorProvider,

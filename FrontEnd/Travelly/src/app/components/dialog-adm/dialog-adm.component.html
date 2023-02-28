@@ -2,22 +2,37 @@
 <div mat-dialog-content>
     <div class="col">
         <mat-form-field>
-            <input type="date" matInput placeholder="Fecha y hora de arribo" [(ngModel)]="fechaHoraArribo">
+            <mat-label>Fecha de partida</mat-label>
+            <input type="date" matInput placeholder="Fecha de partida" [(ngModel)]="fechaPartida">
         </mat-form-field>
         <mat-form-field>
-            <input type="date" matInput placeholder="Fecha y hora de partida" [(ngModel)]="fechaHoraPartida">
-        </mat-form-field>
-        <mat-form-field>
-            <input type="number" matInput placeholder="Precio" [(ngModel)]="precio">
+            <mat-label>Hora de partida</mat-label>
+            <input type="time" matInput placeholder="Hora de partida" [(ngModel)]="horaPartida">
         </mat-form-field>
     </div>
     <div class="col">
+        <mat-form-field>
+            <mat-label>Fecha de arriblo</mat-label>
+            <input type="date" matInput placeholder="Fecha de arribo" [(ngModel)]="fechaArribo">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Hora de arribo</mat-label>
+            <input type="time" matInput placeholder="Hora de arribo" [(ngModel)]="horaArribo">
+        </mat-form-field>
+    </div>
+    <div class="col d-flex align-items-center">
+        <mat-form-field>
+            <mat-label>Precio Ars</mat-label>
+            <input type="number" matInput placeholder="Precio" [(ngModel)]="precio">
+        </mat-form-field>
         <mat-form-field>
             <mat-label>Avión</mat-label>
             <mat-select [(ngModel)]="avionSelect">
                 <mat-option *ngFor="let avion of aviones" [value]="avion">{{ avion.marca }}</mat-option>
             </mat-select>
         </mat-form-field>
+    </div>
+    <div class="col">
         <mat-form-field>
             <mat-label>Aeropuerto de partida</mat-label>
             <mat-select [(ngModel)]="aeropuertoPartida">
@@ -34,14 +49,22 @@
         </mat-form-field>
     </div>
 </div>
-<div mat-dialog-actions>
+<div mat-dialog-actions class="float-end">
     <button mat-button (click)="onCancelClick()">Cancelar</button>
     <button mat-button [mat-dialog-close]="{
-        fechaHoraArribo: fechaHoraArribo,
-        fechaHoraPartida: fechaHoraPartida,
+        fechaHoraArribo: fechaArribo,
+        horaArribo: horaArribo,
+
+        fechaHoraPartida: fechaPartida,
+        horaPartida: horaPartida,
+
         precio: precio,
+
         avion: avionSelect,
+
         aeropuertoPartida: aeropuertoPartida,
-        aeropuertoLlegada: aeropuertoLlegada
-      }" cdkFocusInitial (click)="mostarInfo()">Aceptar</button>
+        aeropuertoLlegada: aeropuertoLlegada,
+
+        operacion: operacion
+      }" cdkFocusInitial (click)="operacion === 'editar' ? editar() : crear()">Aceptar</button>
 </div>

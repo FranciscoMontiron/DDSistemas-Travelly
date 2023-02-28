@@ -103,7 +103,7 @@ export class VuelosComponent implements OnInit {
     vuelos!.sort((x,y)=> x.precio - y.precio);
     let i = 0;
     for(let vuelo of vuelos!) {
-      if(i < 30){
+      if(i < 5){
         this.vuelos.push(vuelo);
         i++;
       }else{break}

@@ -13,7 +13,6 @@ import javax.persistence.TemporalType;
 import lombok.Getter;
 
 @Entity
-@Getter
 public class Vuelo {
     
     @Id
@@ -75,5 +74,44 @@ public class Vuelo {
     public void setAvion(Avion avion) {
         this.avion = avion;
     }
+
+    public void setAeropuertoPartida(Aeropuerto aeropuertoPartida) {
+        this.aeropuertoPartida = aeropuertoPartida;
+    }
+
+    public void setAeropuertoLlegada(Aeropuerto aeropuertoLlegada) {
+        this.aeropuertoLlegada = aeropuertoLlegada;
+    }
+    
+
+    public int getId() {
+        return id;
+    }
+
+    public Calendar getFechaYHoraArribo() {
+        return fechaYHoraArribo;
+    }
+
+    public Calendar getFechaYHoraPartida() {
+        return fechaYHoraPartida;
+    }
+
+    public Float getPrecio() {
+        return precio;
+    }
+
+    public Avion getAvion() {
+        return avion;
+    }
+
+    public Aeropuerto getAeropuertoPartida() {
+        return aeropuertoPartida;
+    }
+
+    public Aeropuerto getAeropuertoLlegada() {
+        return aeropuertoLlegada;
+    }
+    
+    
     
 }
