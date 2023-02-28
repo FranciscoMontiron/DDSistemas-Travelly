@@ -9,6 +9,9 @@ import Swal from 'sweetalert2';
 import jwt_decode from 'jwt-decode';
 import { PagoService } from 'src/app/service/pago.service';
 import { Pago } from 'src/app/model/pago';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogADMComponent } from '../dialog-adm/dialog-adm.component';
+import { DialogPagoComponent } from '../dialog-pago/dialog-pago.component';
 
 @Component({
   selector: 'app-reservas',
@@ -21,10 +24,13 @@ export class ReservasComponent implements OnInit {
   usuario: any;
   nombreUsuario: any;
   pago: any;
+
+  dialogResult: any;
   
 
   constructor(private tokenService: TokenService, private reservaService: ReservasService,
-              private router:Router, private usuarioService: UsuarioService, private pagoService : PagoService
+              private router:Router, private usuarioService: UsuarioService, private pagoService : PagoService,
+              public dialog: MatDialog
               ) { }
 
   isLogged = false;
@@ -38,12 +44,30 @@ export class ReservasComponent implements OnInit {
     }
   }
 
+  abrirDialogo(reserva: Reserva) {
+    const dialogRef = this.dialog.open(DialogPagoComponent, {
+      data: {
+        reserva: reserva,
+        usuario: this.usuario
+      }
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      this.dialogResult =  result;
+      this.router.navigate(['reservas']);
+      window.location.reload();
+    });
+  }
 
   cancelar(reserva: any): void {
     
     let fechaActual = new Date();
     if(fechaActual >= reserva.fechaYHora){
-      alert("El vuelo ya Expiro!");
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'La reserva a expiro!',
+      })
         
     }else{
     
@@ -63,7 +87,11 @@ export class ReservasComponent implements OnInit {
           this.reservaService.update(reserva.id, reservaModi).subscribe(data => {
             this.obtenerReservasDelUsuario();
           }, err => {
-            alert("No se puedo borrar la reserva");
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'Algo salio mal vuelve a intentarlo mas tarde!',
+            })
           })
         }
         Swal.fire(

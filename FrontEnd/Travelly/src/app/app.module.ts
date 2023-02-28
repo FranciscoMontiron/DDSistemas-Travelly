@@ -36,6 +36,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatDialogModule } from '@angular/material/dialog';
 import { DialogADMComponent } from './components/dialog-adm/dialog-adm.component';
 import { MatDatetimepickerModule, MatNativeDatetimeModule } from '@mat-datetimepicker/core';
+import { NgCreditCardModule } from "angular-credit-card";
+import { DialogPagoComponent } from './components/dialog-pago/dialog-pago.component';
 
 
 @NgModule({
@@ -52,7 +54,9 @@ import { MatDatetimepickerModule, MatNativeDatetimeModule } from '@mat-datetimep
     HeaderAdmComponent,
     RegistroComponent,
     CompraComponent,
-    DialogADMComponent
+    DialogADMComponent,
+    DialogPagoComponent
+
   ],
   imports: [
     BrowserModule,
@@ -76,7 +80,8 @@ import { MatDatetimepickerModule, MatNativeDatetimeModule } from '@mat-datetimep
     MatMenuModule,
     MatDialogModule,
     MatDatetimepickerModule,
-    MatNativeDatetimeModule
+    MatNativeDatetimeModule,
+    NgCreditCardModule
   ],
   providers: [
     interceptorProvider,

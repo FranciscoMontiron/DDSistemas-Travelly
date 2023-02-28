@@ -33,7 +33,9 @@ export class VuelosComponent implements OnInit {
   fechaControl = new FormControl(Date, [Validators.required]);
 
   options: Aeropuerto[] = [];
-  filteredOptions?: Observable<Aeropuerto[]>;
+
+  filteredOrigenes?: Observable<any[]>;
+  filteredDestinos?: Observable<any[]>;
 
   origen: any;
   destino: any;
@@ -63,13 +65,23 @@ export class VuelosComponent implements OnInit {
       this.isLogged = false;
     }
 
-    this.filteredOptions = this.origenControl.valueChanges.pipe(
+    this.filteredOrigenes = this.origenControl.valueChanges.pipe(
       startWith(''),
       map(value => {
         const name = typeof value === 'string' ? value : value?.region;
         return name ? this._filter(name as string) : this.options.slice();
       }),
     );
+
+    this.filteredDestinos = this.destinoControl.valueChanges.pipe(
+      startWith(''),
+      map(value => {
+        const name = typeof value === 'string' ? value : value?.region;
+        return name ? this._filter(name as string) : this.options.slice();
+      }),
+    );
+
+
   }
 
   displayFn(aeropuerto: Aeropuerto): string {

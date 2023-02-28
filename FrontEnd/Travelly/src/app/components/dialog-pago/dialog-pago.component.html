@@ -1,0 +1,44 @@
+<h1 mat-dialog-title>Pago</h1>
+<div mat-dialog-content>
+    <div class="col">
+      <ng-template matStepLabel>Datos de pago</ng-template>
+      <ng-credit-card [name]="nomTitular" [number]="numeroDeTarjeta" [cvc]="codigoDeSeguridad" [expiry]=" fechaDeCaducidad"></ng-credit-card>
+      <div class="mb-3  m-3">
+        <label for="exampleFormControlInput1" class="form-label">Nombre y apellido del titular</label>
+        <input type="text" [(ngModel)]="nomTitular" class="form-control" id="nomTitular"
+          placeholder="nombre y apellido" ng-required="true">
+      </div>
+      <div class="mb-3  m-3">
+        <label for="exampleFormControlInput1" class="form-label">Numero de Tarjeta</label>
+        <input type="text" [(ngModel)]="numeroDeTarjeta" class="form-control" id="numeroDeTarjeta"
+          placeholder="1234 1234 1234 1234" ng-required="true">
+      </div>
+
+      <div class="mb-3  m-3">
+        <label for="exampleFormControlInput1" class="form-label">Fecha de caducidad</label>
+        <input type="month" [(ngModel)]="fechaDeCaducidad" class="form-control" id="fechaDeCaducidad" ng-required="true">
+      </div>
+
+      <div class="mb-3  m-3">
+        <label for="exampleFormControlInput1" class="form-label">Código de Seguridad</label>
+        <input type="text" [(ngModel)]="codigoDeSeguridad" class="form-control" id="codigoDeSeguridad"
+          placeholder="123" ng-required="true">
+      </div>
+
+      <div class="mb-3  m-3" *ngIf="metodoDePago == 1 ">
+        <label for="exampleFormControlInput1" class="form-label">Cuotas</label>
+        <input type="number" [(ngModel)]="cuotas" class="form-control" id="cuotas" [defaultValue]="1" min="1"
+          max="3">
+      </div>
+    </div>
+</div>
+<div mat-dialog-actions class="float-end">
+    <button mat-button (click)="onCancelClick()">Cancelar</button>
+    <button mat-button [mat-dialog-close]="{
+      nomTitular: nomTitular,
+      numeroDeTarjeta: numeroDeTarjeta,
+      fechaDeCaducidad:fechaDeCaducidad,
+      codigoDeSeguridad: codigoDeSeguridad,
+      cuotas: cuotas
+      }" cdkFocusInitial (click)="pagar()">Pagar</button>
+</div>

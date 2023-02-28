@@ -6,7 +6,7 @@
         <input type="text" matInput [formControl]="origenControl" [errorStateMatcher]="matcher" [matAutocomplete]="autoOrigen"
           [(ngModel)]="origen">
         <mat-autocomplete #autoOrigen="matAutocomplete" [displayWith]="displayFn">
-          <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+          <mat-option *ngFor="let option of filteredOrigenes | async" [value]="option">
             {{option.region}}-{{option.pais.nombre}}-{{option.codigo}}
           </mat-option>
         </mat-autocomplete>
@@ -16,7 +16,7 @@
         <input type="text" matInput [formControl]="destinoControl" [errorStateMatcher]="matcher" [matAutocomplete]="autoDestino"
           [(ngModel)]="destino">
         <mat-autocomplete #autoDestino="matAutocomplete" [displayWith]="displayFn">
-          <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+          <mat-option *ngFor="let option of filteredDestinos | async" [value]="option">
             {{option.region}}-{{option.pais.nombre}}-{{option.codigo}}
           </mat-option>
         </mat-autocomplete>

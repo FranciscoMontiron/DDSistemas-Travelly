@@ -18,6 +18,7 @@ import * as moment from 'moment-timezone';
 import { ReservasService } from 'src/app/service/reservas.service';
 import { PasajeroService } from 'src/app/service/pasajero.service';
 import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 
   @Component({
@@ -43,6 +44,7 @@ import Swal from 'sweetalert2';
   
   
     //----- Pago ---------------------------
+
     
     options = [
       { value: 1 , label: 'Credito' },
@@ -51,9 +53,10 @@ import Swal from 'sweetalert2';
       { value: 4, label: 'Prisma'}
     ];
   
-    numeroDeTarjeta: number = 0;
-    fechaDeCaducidad: string = '12/12/2020';
-    codigoDeSeguridad: number = 0;
+    nomTitular: string = '';
+    numeroDeTarjeta: string = '';
+    fechaDeCaducidad: string = '';
+    codigoDeSeguridad: string='';
     cuotas: number = 1;
   
     pago! : any;
@@ -93,7 +96,11 @@ import Swal from 'sweetalert2';
   
         
   
-    constructor(private tokenService: TokenService, private usuarioService: UsuarioService ,private _fb: FormBuilder, private asientoService: AsientosService, private cd: ChangeDetectorRef, private pagoService: PagoService, private reservaService:ReservasService, private pasajeroService: PasajeroService){}
+    constructor(private tokenService: TokenService, private usuarioService: UsuarioService ,
+                private _fb: FormBuilder, private asientoService: AsientosService, private cd: ChangeDetectorRef,
+                private pagoService: PagoService, private reservaService:ReservasService,
+                private pasajeroService: PasajeroService,
+                private router: Router){}
   
     isLogged = false;
     
@@ -118,7 +125,8 @@ import Swal from 'sweetalert2';
         dni: this.dni,
         formsPasajeros: this._fb.array([])
       });
-    }  
+    }
+  
     
     async obtenerUsuario(): Promise<void>{
   
@@ -144,9 +152,9 @@ import Swal from 'sweetalert2';
   
       pagar():void   {
   
-      if(this.numeroDeTarjeta != 0 && this.codigoDeSeguridad != 0){      
+      if(this.numeroDeTarjeta != '' && this.codigoDeSeguridad != ''){      
         let fecha: Date = moment().toDate();
-        console.log(this.usuario)
+        //console.log(this.usuario)
   
         const pago = new Pago(fecha,this.precioFinal,this.reservaAct);
         this.pagoService.crearPago(pago).subscribe(data => {this.pago = data});
@@ -154,9 +162,18 @@ import Swal from 'sweetalert2';
         let reservaModi = new Reserva('pago',fecha,this.precioFinal,this.usuario,this.vuelo);
         this.reservaService.update(this.reservaAct.id, reservaModi).subscribe(data => {});
   
-        alert('Pago realizado con exito');
+        Swal.fire(
+          'Pago!',
+          'Operacion realizada con exito!',
+          'success'
+        );
+        this.router.navigate(['']);
       }else{
-        alert('No se puedo realizar el pago');
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'Algo salio mal verifique los campos!'
+        })
       }
     }
   
@@ -171,7 +188,7 @@ import Swal from 'sweetalert2';
       )});
       
     }
-  
+    
     async crearPasajeros(): Promise<any>{
       this.pasajeroService.getList().subscribe(data=>{});
   
@@ -275,6 +292,10 @@ import Swal from 'sweetalert2';
       console.log(this.vuelo);  
       console.log(this.asientosSeleccionados);
     }
+
+    //-------- Mercado Pago ---------------
+
+
   
   
   }

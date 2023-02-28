@@ -1,7 +1,11 @@
 nav.navbar {
     background-color: greenyellow !important;
-    background: linear-gradient(to right, rgb(39, 192, 192), rgb(62, 190, 30)) !important;
+    background: linear-gradient(to right, rgb(39, 192, 192,0.8), rgb(62, 190, 30,0.8)) !important;
 }
+
+.header-custom {
+    box-shadow: 1px 2px 15px #CDAC81 !important;
+  }
 
 
 

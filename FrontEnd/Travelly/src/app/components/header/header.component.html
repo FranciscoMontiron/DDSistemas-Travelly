@@ -1,5 +1,5 @@
 
-  <nav class="navbar navbar-expand-lg">
+  <nav class="navbar navbar-expand-lg header-custom">
     <div class="container-fluid">
     <a class="navbar-brand col-xs-12 col-sm-2 col-md-2 col-lg-2 d-none d-xl-inline-block d-sm-inline-block col-auto" href="/">
       <img src="../../../assets/pngwing.com (1).png" alt="logo" width="70" height="70"
@@ -11,12 +11,13 @@
         <button type="button" class="btn btn-dark m-2 px-2 float-end" *ngIf="isLogged" (click)="reservas()">Mis Reservas</button>
       </li>
       <li class="nav-item">
-        <button type="button" class="btn btn-dark m-2 px-2 float-end" (click)="login()" *ngIf="!isLogged">Iniciar Sesion</button>
+        <button type="button" class="btn btn-primary m-2 px-2 float-end" (click)="login()" *ngIf="!isLogged">Iniciar Sesion</button>
         <button type="button" class="btn btn-secondary m-2 px-2 float-end" (click)="onLogOut()" *ngIf="isLogged">Cerrar Sesion</button>
       </li>
+      <!--
       <li>
         <a type="button" class="btn btn-dark m-2 px-2 float-end" href="/registro" *ngIf="!isLogged">Registrarse</a>
-      </li>
+      </li>-->
       
     </ul>
   </div>

@@ -46,10 +46,6 @@ export class VueloAdmComponent implements OnInit {
   vueloSeleccionado!: Vuelo;
   
   dialogResult: any;
-
-  imgAerolineas = {
-    'Aerolineas Argentinas' : 'assets/Aeroarg.png'
-  }
   
 
   constructor(

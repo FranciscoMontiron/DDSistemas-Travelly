@@ -38,6 +38,12 @@ export class LoginComponent implements OnInit {
       this.tokenService.setUserName(data.nombreUsuario);
       this.tokenService.setAuthorities(data.authorities);
       this.roles = data.authorities;
+      Swal.fire({
+        icon: 'success',
+        title: 'Se ha iniciado sesion correctamente!',
+        showConfirmButton: false,
+        timer: 1500
+      })
       //console.log(JSON.stringify(data.authorities[0]));
       if(JSON.stringify(data.authorities[0]) == '{"authority":"ROLE_ADMIN"}'){
         this.router.navigate(['admin'])
@@ -50,7 +56,11 @@ export class LoginComponent implements OnInit {
       this.isLogged = false;
       this.isLogginFail = true;
       this.errMsj = err.error.mensaje;
-      console.log(this.errMsj);
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Algo salio mal! revise los campos nuevamente...',
+      })
     })
 
   }

@@ -22,9 +22,8 @@ export class HeaderAdmComponent implements OnInit {
   }
 
   onLogOut():void{
-    this.tokenService.logOut();
+    this.tokenService.logOut();  
     this.router.navigate([''])
-    window.location.reload();
   }
 
   login(){

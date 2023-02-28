@@ -90,7 +90,12 @@ export class DialogADMComponent {
     let fechaYHoraArribo = this.fechaArribo + ' ' + this.horaArribo + ':00';
     let fechaYHoraPartida = this.fechaPartida + ' ' + this.horaPartida + ':00';
     let nuevoVuelo = new Vuelo(fechaYHoraArribo, fechaYHoraPartida,this.precio,this.avionSelect,this.aeropuertoPartida,this.aeropuertoLlegada);
-    this.vueloService.save(nuevoVuelo).subscribe(data => {console.log(data);});
+    this.vueloService.save(nuevoVuelo).subscribe(data => {console.log(data),Swal.fire(
+      'Vuelo Creado!',
+      'Su vuelo se creo correctamente!',
+      'success'
+    );});
+
   }
 
 }

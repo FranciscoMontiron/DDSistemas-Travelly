@@ -2,7 +2,10 @@
 <div class="container mt-5">
 <div class="row">
     <p class="display-6 text-center m-5"> Gestioná tus Reservas</p>
-
+    <div class="float-end m-3">
+      <a href="" class="btn btn-outline-secondary float-end"><mat-icon>home</mat-icon></a> 
+    </div>
+    
     <table class="table mb-5">
       <thead class="text-center">
         <tr>
@@ -35,7 +38,7 @@
               <mat-icon>more_vert</mat-icon>
             </button>
             <mat-menu #menu="matMenu">
-              <button mat-menu-item [disabled]="reserva.estado === 'pago'" (click)="pagar(reserva)">
+              <button mat-menu-item [disabled]="reserva.estado === 'pago'" (click)="abrirDialogo(reserva)">
                 <mat-icon>check_circle_outline</mat-icon>
                 <span>Pagar</span>
               </button>
