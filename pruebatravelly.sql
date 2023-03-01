@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 23-02-2023 a las 21:59:57
+-- Tiempo de generación: 01-03-2023 a las 15:22:14
 -- Versión del servidor: 8.0.28
 -- Versión de PHP: 7.4.26
 
@@ -38,16 +38,16 @@ CREATE TABLE IF NOT EXISTS `aeropuerto` (
   `pais_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FK7fgwpdvmb5xyc7yq23logh7ti` (`pais_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Volcado de datos para la tabla `aeropuerto`
 --
 
 INSERT INTO `aeropuerto` (`id`, `codigo`, `latitud`, `longitud`, `nombre`, `region`, `pais_id`) VALUES
-(7, 'AFA', '11° 11\' 1', '11° 11\' 11', 'Aeropuerto Internacional Suboficial Ayudante Santiago Germano', ' Mendoza', 6),
+(7, 'AFA', '11° 11\' 1', '11° 11\' 11', 'Aeropuerto Internacional Suboficial Ayudante Santiago Germano', 'Mendoza', 6),
 (6, 'AEP', '11° 11\' 1', '11° 11\' 11', 'Aeroparque Jorge Newbery', 'Buenos Aires', 6),
-(5, 'ABC', '11° 11\' 1', '11° 11\' 11', 'Aeropuerto de Albacete  ', ' Castilla-La Mancha', 5),
+(5, 'ABC', '11° 11\' 1', '11° 11\' 11', 'Aeropuerto de Albacete  ', 'Castilla-La Mancha', 5),
 (8, 'AOL', '11° 11\' 1', '11° 11\' 11', 'Aeropuerto Internacional de Paso de los Libres', 'Corrientes', 6),
 (9, 'BRC', '11° 11\' 1', '11° 11\' 11', 'Aeropuerto Internacional Teniente Luis Candelaria ', 'Río Negro', 6),
 (10, 'COR', '11° 11\' 1', '11° 11\' 11', 'Aeropuerto Internacional Ing. Ambrosio Taravella', 'Córdoba', 6),
@@ -61,7 +61,7 @@ INSERT INTO `aeropuerto` (`id`, `codigo`, `latitud`, `longitud`, `nombre`, `regi
 (18, 'FMA', '11° 11\' 1', '11° 11\' 11', 'Aeropuerto Internacional de Formosa', 'Formosa', 6),
 (19, 'FTE', '11° 11\' 1', '11° 11\' 11', 'Aeropuerto Internacional Comandante Armando Tola', 'Santa Cruz', 6),
 (20, 'JUJ', '11° 11\' 1', '11° 11\' 11', 'Aeropuerto Internacional Gobernador Horacio Guzmán', 'Provincia de Jujuy', 6),
-(21, 'LGS', '11° 11\' 1', '11° 11\' 11', 'Aeropuerto Internacional Comodoro Ricardo Salomón', ' Mendoza', 6),
+(21, 'LGS', '11° 11\' 1', '11° 11\' 11', 'Aeropuerto Internacional Comodoro Ricardo Salomón', 'Mendoza', 6),
 (22, 'LEU', '11° 11\' 1', '11° 11\' 11', 'Aeropuerto de Andorra-La Seu', 'Cataluña', 5),
 (23, 'MAD', '11° 11\' 1', '11° 11\' 11', 'Aeropuerto Adolfo Suárez Madrid-Barajas', 'Comunidad de Madrid', 5),
 (24, 'LAX', '11° 11\' 1', '11° 11\' 11', 'Aeropuerto Internacional de Los Ángeles', 'California', 7),
@@ -78,7 +78,8 @@ INSERT INTO `aeropuerto` (`id`, `codigo`, `latitud`, `longitud`, `nombre`, `regi
 (36, 'YUL', '11° 11\' 1', '11° 11\' 11', 'Aeropuerto Internacional Pierre Elliott Trudeau', 'Quebec', 13),
 (37, 'UIO', '11° 11\' 1', '11° 11\' 11', 'Aeropuerto Internacional Mariscal Sucre', 'Pichincha', 14),
 (38, 'SUF', '11° 11\' 1', '11° 11\' 11', 'Aeropuerto Internacional de Lamezia Terme', 'Lamezia Terme', 15),
-(39, 'SYD', '11° 11\' 1', '11° 11\' 11', 'Aeropuerto Internacional Kingsford Smith', 'Nueva Gales del Sur', 16);
+(39, 'SYD', '11° 11\' 1', '11° 11\' 11', 'Aeropuerto Internacional Kingsford Smith', 'Nueva Gales del Sur', 16),
+(40, 'FLN', '11° 11\' 1', '11° 11\' 11', 'Aeropuerto Internacional Hercílio Luz', 'Florianopolis', 17);
 
 -- --------------------------------------------------------
 
@@ -136,16 +137,16 @@ INSERT INTO `asiento` (`id`, `asiento_columna`, `clase`, `estado`, `numero`, `av
 (42, 'B', 'Turista', 1, 8, 4, NULL, 0),
 (43, 'B', 'Turista', 1, 9, 4, NULL, 0),
 (44, 'B', 'Turista', 1, 10, 4, NULL, 0),
-(45, 'A', 'Ejecutiva', 0, 1, 5, 25, 1),
+(45, 'A', 'Ejecutiva', 1, 1, 5, NULL, 0),
 (46, 'A', 'Ejecutiva', 1, 2, 5, NULL, 0),
-(47, 'B', 'Premium', 0, 3, 5, 26, 1),
-(48, 'B', 'Premium', 0, 4, 5, 27, 1),
+(47, 'B', 'Premium', 1, 3, 5, NULL, 0),
+(48, 'B', 'Premium', 1, 4, 5, NULL, 0),
 (49, 'B', 'Turista', 1, 5, 5, NULL, 0),
-(50, 'B', 'Turista', 1, 6, 5, NULL, 0),
-(51, 'B', 'Turista', 0, 7, 5, 28, 1),
+(50, 'B', 'Turista', 0, 6, 5, 69, 1),
+(51, 'B', 'Turista', 1, 7, 5, NULL, 0),
 (52, 'A', 'Turista', 1, 8, 5, NULL, 0),
 (53, 'A', 'Turista', 1, 9, 5, NULL, 0),
-(54, 'A', 'Turista', 0, 10, 5, 24, 1),
+(54, 'A', 'Turista', 1, 10, 5, NULL, 0),
 (55, 'A', 'Ejecutivo', 1, 1, 7, NULL, 0),
 (56, 'A', 'Ejecutivo', 1, 2, 7, NULL, 0),
 (57, 'B', 'Premium', 1, 3, 7, NULL, 0),
@@ -208,17 +209,14 @@ CREATE TABLE IF NOT EXISTS `pago` (
   `reserva_id` int DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FKn8jkfq10o8ctrdwbr6nqjd8yd` (`reserva_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Volcado de datos para la tabla `pago`
 --
 
 INSERT INTO `pago` (`id`, `fechayhora`, `monto`, `reserva_id`) VALUES
-(10, '2023-02-23 05:17:43', 20570, 13),
-(11, '2023-02-23 18:05:33', 30855, 14),
-(12, '2023-02-23 19:52:59', 30855, 14),
-(13, '2023-02-23 20:07:20', 20570, 15);
+(30, '2023-03-01 15:20:24', 25410, 39);
 
 -- --------------------------------------------------------
 
@@ -232,7 +230,7 @@ CREATE TABLE IF NOT EXISTS `pais` (
   `codigo_pais` int DEFAULT NULL,
   `nombre` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Volcado de datos para la tabla `pais`
@@ -250,7 +248,8 @@ INSERT INTO `pais` (`id`, `codigo_pais`, `nombre`) VALUES
 (13, 9, 'Canadá'),
 (14, 10, 'Ecuador'),
 (15, 11, 'Italia'),
-(16, 12, 'Autralia');
+(16, 12, 'Autralia'),
+(17, 13, 'Brasil');
 
 -- --------------------------------------------------------
 
@@ -265,18 +264,14 @@ CREATE TABLE IF NOT EXISTS `pasajero` (
   `dni` int DEFAULT NULL,
   `nombre` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=29 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=70 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Volcado de datos para la tabla `pasajero`
 --
 
 INSERT INTO `pasajero` (`id`, `apellido`, `dni`, `nombre`) VALUES
-(25, 'francia', 1234567, 'roberta'),
-(24, 'Montiron', 38848564, 'Francisco'),
-(28, 'preuba', 12312312, 'prueba'),
-(27, 'Denis', 12341231, 'Ruben'),
-(26, 'Marczuk', 42456456, 'lucas');
+(69, 'monti', 38848564, 'fran');
 
 -- --------------------------------------------------------
 
@@ -291,19 +286,18 @@ CREATE TABLE IF NOT EXISTS `reserva` (
   `fechayhora` datetime DEFAULT NULL,
   `usuario_id` int NOT NULL,
   `vuelo_id` int DEFAULT NULL,
+  `monto_final` float DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FKiad9w96t12u3ms2ul93l97mel` (`usuario_id`),
   KEY `FK4tvli56vtc61fgd5dktdd24l` (`vuelo_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Volcado de datos para la tabla `reserva`
 --
 
-INSERT INTO `reserva` (`id`, `estado`, `fechayhora`, `usuario_id`, `vuelo_id`) VALUES
-(13, 'cancelada', '2023-02-23 18:06:17', 1, 8),
-(14, 'cancelada', '2023-02-23 20:08:08', 1, 8),
-(15, 'cancelada', '2023-02-23 21:55:51', 1, 8);
+INSERT INTO `reserva` (`id`, `estado`, `fechayhora`, `usuario_id`, `vuelo_id`, `monto_final`) VALUES
+(39, 'pago', '2023-03-01 15:20:24', 1, 10, 25410);
 
 -- --------------------------------------------------------
 
@@ -343,7 +337,7 @@ CREATE TABLE IF NOT EXISTS `usuario` (
   `nombre_usuario` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Volcado de datos para la tabla `usuario`
@@ -352,8 +346,11 @@ CREATE TABLE IF NOT EXISTS `usuario` (
 INSERT INTO `usuario` (`id`, `apellido`, `correo`, `direccion`, `dni`, `nombre`, `nombre_usuario`, `password`) VALUES
 (1, 'user', 'user@user.com', 'user', 123123, 'user', 'user', '$2a$10$VEYElg5HLp/FUDJ0JKrppOUYTz0JfwisTBz..d3o72HTtWTszTDG.'),
 (2, 'admin', 'admin@admin.com', 'admin', 99999999, 'admin', 'admin', '$2a$10$c9cbz/O4O08O6AZgiy4V9uqWqTU6d5RNzdQV3ch5mtO8zeuxuirlK'),
-(5, 'Montiron', 'francisco', '11 1111 1A', 38848564, 'Francisco', 'francisco', '$2a$10$PoagXYQ04X20qpPXlPNKye5Gjxhpw4pRwt36iMaNrlE4tpgvzUMpG'),
-(6, 'muruuc', 'user10', '58 415', 111111, 'Liquiñas', 'user10', '$2a$10$WF6c1yM9Ec7xW4cJF7ixgO4wi6Vwafg2sKsaxOh9O8C1QzAFp1k8O');
+(8, 'Montiron', 'francisco', 'av 11 1 1', 3848564, 'Francisco', 'francisco', '$2a$10$vlqAQYJg9BmLLMvCIh91YeGsD5JcHVjVKCoklAEyja7jxh76waasW'),
+(6, 'muruuc', 'user10', '58 415', 111111, 'Liquiñas', 'user10', '$2a$10$WF6c1yM9Ec7xW4cJF7ixgO4wi6Vwafg2sKsaxOh9O8C1QzAFp1k8O'),
+(7, 'Marczuk', 'printf', '1 111 1A', 42359560, 'Lucas', 'printf', '$2a$10$ESCko8sNA7Bb.F/aSS2dK.YnVOnOxYpw2SFAm4F0uJj2xB/Q1rmtO'),
+(9, 'Perez', 'use', 'av 1 444 5A', 28123157, 'Juan', 'use', '$2a$10$QN/NxslJfk357ntWUkBm/upnn62rrhe2QIHvQUzzBMOtzQvdKvmxW'),
+(10, 'asdasdasd', 'userpreuba', 'asdasd 1', 18336483, 'asdasdasd', 'userpreuba', '$2a$10$L7PPh85dLoKlEem0FueINuYmDiSTUrp0Qu.yGHd2RbeFF6GO1yYAm');
 
 -- --------------------------------------------------------
 
@@ -377,8 +374,11 @@ INSERT INTO `usuario_rol` (`usuario_id`, `rol_id`) VALUES
 (1, 2),
 (2, 1),
 (2, 2),
-(5, 2),
-(6, 2);
+(6, 2),
+(7, 2),
+(8, 2),
+(9, 2),
+(10, 2);
 
 -- --------------------------------------------------------
 
@@ -399,14 +399,13 @@ CREATE TABLE IF NOT EXISTS `vuelo` (
   KEY `FKlltp2aw5h0vgr1ogyxyokal6` (`aeropuero_llegada_id`),
   KEY `FKikpwds9x6un7gnb0woidx7jme` (`aeropuero_partida_id`),
   KEY `FK8j5widj67y5mcf830eqkvth2p` (`avion_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Volcado de datos para la tabla `vuelo`
 --
 
 INSERT INTO `vuelo` (`id`, `fechayhora_arribo`, `fechayhora_partida`, `precio`, `aeropuero_llegada_id`, `aeropuero_partida_id`, `avion_id`) VALUES
-(8, '2023-03-01 16:00:00', '2023-03-01 14:00:00', 17000, 7, 6, 5),
 (9, '2023-03-01 12:00:00', '2023-03-01 16:00:00', 21600, 9, 6, 5),
 (10, '2023-03-01 12:00:00', '2023-03-01 16:00:00', 21000, 20, 6, 5),
 (11, '2023-03-02 12:00:00', '2023-03-02 09:30:00', 21000, 10, 6, 6),
@@ -422,7 +421,8 @@ INSERT INTO `vuelo` (`id`, `fechayhora_arribo`, `fechayhora_partida`, `precio`, 
 (21, '2023-07-21 07:00:00', '2023-07-20 09:30:00', 440000, 36, 6, 7),
 (22, '2023-07-23 12:00:00', '2023-07-22 10:30:00', 700000, 37, 6, 7),
 (23, '2023-07-23 12:00:00', '2023-07-22 10:30:00', 450000, 38, 6, 8),
-(24, '2023-07-24 20:00:00', '2023-07-22 10:30:00', 1200000, 39, 6, 8);
+(24, '2023-07-24 20:00:00', '2023-07-22 10:30:00', 1200000, 39, 6, 8),
+(25, '2023-03-24 18:00:00', '2023-03-24 16:00:00', 150000, 40, 6, 3);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

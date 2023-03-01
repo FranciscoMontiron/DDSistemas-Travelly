@@ -215,9 +215,9 @@ import { Router } from '@angular/router';
   
     addPersona(): void {
       const personaForm = this._fb.group({
-        nombre: [''],
-        apellido: [''],
-        dni: [0]
+        nombre: [undefined],
+        apellido: [undefined],
+        dni: [undefined]
       });
   
       this.formsPasajeros.push(personaForm);
@@ -280,11 +280,10 @@ import { Router } from '@angular/router';
     }
     
     submitFormPasajeros(): void {
-      console.log(this.formsPasajeros.value);
-      this.infoPasajeros = this.formsPasajeros.value;
-      this.precioIVA = this.precioDeAsientos * 0.21;
-      this.precioFinal =this.precioDeAsientos + this.precioIVA;
-  
+        console.log(this.formsPasajeros.value);
+        this.infoPasajeros = this.formsPasajeros.value;
+        this.precioIVA = this.precioDeAsientos * 0.21;
+        this.precioFinal =this.precioDeAsientos + this.precioIVA;
     }
   
     async mostrarVuelo() {

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { NuevoUsuario } from 'src/app/model/nuevo-usuario';
 import { AuthService } from 'src/app/service/auth.service';
 import Swal from 'sweetalert2';
+import { FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-registro',
@@ -21,10 +22,10 @@ export class RegistroComponent implements OnInit {
 
   nuevoUsuario!: NuevoUsuario;
 
+
   constructor(private authService: AuthService, private router: Router){}
   
   ngOnInit(): void {}
-  
   
   onRegister(): void {
     this.nuevoUsuario = new NuevoUsuario(this.nombre, this.apellido, this.correo, this.nombreUsuario,
@@ -35,13 +36,12 @@ export class RegistroComponent implements OnInit {
       title: 'Se ha registrado el usuario correctamente!',
       showConfirmButton: false,
       timer: 1500
-    })},err => {
+    }),this.router.navigate(['']);},err => {
       Swal.fire({
         icon: 'error',
         title: 'Oops...',
         text: 'Algo salio mal! revise los campos nuevamente...',
       })
     });
-    this.router.navigate(['']);
   }
 }

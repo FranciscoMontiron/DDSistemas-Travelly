@@ -1,42 +1,41 @@
 <div class="row mt-5" *ngIf="!comprar">
 
   <div class="buscador col-12 text-center border rounded">
-      <mat-form-field appearance="fill">
-        <mat-label><mat-icon>flight_takeoff</mat-icon> Origen </mat-label>
-        <input type="text" matInput [formControl]="origenControl" [errorStateMatcher]="matcher" [matAutocomplete]="autoOrigen"
-          [(ngModel)]="origen">
-        <mat-autocomplete #autoOrigen="matAutocomplete" [displayWith]="displayFn">
-          <mat-option *ngFor="let option of filteredOrigenes | async" [value]="option">
-            {{option.region}}-{{option.pais.nombre}}-{{option.codigo}}
-          </mat-option>
-        </mat-autocomplete>
-      </mat-form-field>
-      <mat-form-field appearance="fill">
-        <mat-label> <mat-icon>flight_land</mat-icon> Destino </mat-label>
-        <input type="text" matInput [formControl]="destinoControl" [errorStateMatcher]="matcher" [matAutocomplete]="autoDestino"
-          [(ngModel)]="destino">
-        <mat-autocomplete #autoDestino="matAutocomplete" [displayWith]="displayFn">
-          <mat-option *ngFor="let option of filteredDestinos | async" [value]="option">
-            {{option.region}}-{{option.pais.nombre}}-{{option.codigo}}
-          </mat-option>
-        </mat-autocomplete>
-      </mat-form-field>
-      <mat-form-field appearance="fill">
-        <mat-label>Fecha</mat-label>
-        <input matInput [formControl]="fechaControl" [matDatepicker]="picker" [errorStateMatcher]="matcher" [(ngModel)]="fecha">
-        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-      </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label><mat-icon>flight_takeoff</mat-icon> Origen </mat-label>
+      <input type="text" matInput [formControl]="origenControl" [errorStateMatcher]="matcher"
+        [matAutocomplete]="autoOrigen" [(ngModel)]="origen">
+      <mat-autocomplete #autoOrigen="matAutocomplete" [displayWith]="displayFn">
+        <mat-option *ngFor="let option of filteredOrigenes | async" [value]="option">
+          {{option.region}}-{{option.pais.nombre}}-{{option.codigo}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label> <mat-icon>flight_land</mat-icon> Destino </mat-label>
+      <input type="text" matInput [formControl]="destinoControl" [errorStateMatcher]="matcher"
+        [matAutocomplete]="autoDestino" [(ngModel)]="destino">
+      <mat-autocomplete #autoDestino="matAutocomplete" [displayWith]="displayFn">
+        <mat-option *ngFor="let option of filteredDestinos | async" [value]="option">
+          {{option.region}}-{{option.pais.nombre}}-{{option.codigo}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    <mat-form-field appearance="fill">  
+      <mat-label>Fecha</mat-label>
+      <input matInput [formControl]="fechaControl" [matDatepicker]="picker" [errorStateMatcher]="matcher"
+        [(ngModel)]="fecha">
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
 
-      <div class="m-3 d-inline-block">
-        <button class="p-3" mat-fab color="primary" aria-label="Example icon button with a bookmark icon" (click)="cargarFiltrado()">
-          <mat-icon>search</mat-icon>
-        </button>
-      </div>
+    <div class="m-3 d-inline-block">
+      <button class="p-3" mat-fab color="primary" aria-label="Example icon button with a bookmark icon"
+        (click)="cargarFiltrado()">
+        <mat-icon>search</mat-icon>
+      </button>
+    </div>
   </div>
-      
-
-
 
   <div class="col-12 m-5">
     <p class="text-center display-5"> Nuestras Mejores Ofertas</p>
@@ -66,7 +65,8 @@
         </div>
         <div class="card-body">
           <div>
-            <h3 class="card-title"><i class="fa-solid fa-solid fa-plane-arrival"></i><span class="m-3 lead">Llegada</span></h3>
+            <h3 class="card-title"><i class="fa-solid fa-solid fa-plane-arrival"></i><span
+                class="m-3 lead">Llegada</span></h3>
             <p class="card-text lead">{{vuelo.aeropuertoLlegada.region}} - {{vuelo.aeropuertoLlegada.pais.nombre}}</p>
             <p class="card-text"><strong>{{vuelo.fechaYHoraArribo | date: 'dd/MM/yyyy - HH:MM'}}</strong></p>
             <p class="card-text lead">{{vuelo.aeropuertoLlegada.codigo}}</p>
@@ -79,27 +79,14 @@
           </div>
         </div>
         <div class="d-flex align-items-center justify-content-end m-3">
-          <a class="btn btn-success rounded-5 px-3 float-end" *ngIf="isLogged,else elseBlock" (click)="seleccionDeVuelo(vuelo)">Comprar</a>
-          <ng-template #elseBlock><p class="lead float-end text-secondary">Inicie sesion</p></ng-template>
+          <a class="btn btn-success rounded-5 px-3 float-end" *ngIf="isLogged,else elseBlock"
+            (click)="seleccionDeVuelo(vuelo)">Comprar</a>
+          <ng-template #elseBlock>
+            <p class="lead float-end text-secondary">Inicie sesion</p>
+          </ng-template>
         </div>
       </div>
     </div>
-
-
-
-    <!--
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title">
-          <p>{{vuelo.aeropuertoPartida.codigo}} : {{vuelo.fechaYHoraPartida | date: 'dd/MM/yyyy - HH:MM'}} <i
-              class="fa-solid fa-arrow-right"></i> {{vuelo.aeropuertoLlegada.codigo}} : {{vuelo.fechaYHoraArribo | date:
-            'dd/MM/yyyy - HH:MM'}}</p>
-        </h5>
-        <p class="card-text lead">{{vuelo.avion.marca}}<strong class="float-end"> ${{vuelo.precio}} </strong></p>
-        <a class="btn btn-success float-end" *ngIf="isLogged,else elseBlock" (click)="seleccionDeVuelo(vuelo)">Comprar</a>
-        <ng-template #elseBlock><p class="lead float-end text-secondary">Inicie sesion para comprar</p></ng-template>
-      </div>
-    </div>-->
   </div>
 
 </div>
@@ -108,4 +95,3 @@
 <div class="row mt-5" *ngIf="comprar">
   <app-compra [vuelo]="vueloSeleccionado"></app-compra>
 </div>
-

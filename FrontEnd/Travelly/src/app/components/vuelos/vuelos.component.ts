@@ -32,6 +32,8 @@ export class VuelosComponent implements OnInit {
   destinoControl = new FormControl<string | Aeropuerto>('', [Validators.required]);
   fechaControl = new FormControl(Date, [Validators.required]);
 
+  camposCompletos: boolean = false;    
+
   options: Aeropuerto[] = [];
 
   filteredOrigenes?: Observable<any[]>;
@@ -59,6 +61,9 @@ export class VuelosComponent implements OnInit {
     this.cargar();
     this.cargarPaises();
     this.comprar = false;
+      this.origenControl.valueChanges.subscribe(value => this.actualizarCamposCompletos());
+      this.destinoControl.valueChanges.subscribe(value => this.actualizarCamposCompletos());
+      this.fechaControl.valueChanges.subscribe(value => this.actualizarCamposCompletos());
     if (this.tokenService.getToken()) {
       this.isLogged = true;
     } else {
@@ -94,6 +99,12 @@ export class VuelosComponent implements OnInit {
     return this.options.filter(option => option.region.toLowerCase().includes(filterValue));
   }
 
+  actualizarCamposCompletos() {
+    // Comprobar si los tres campos tienen valores no nulos y no vacíos
+    this.camposCompletos = Boolean(this.origenControl.value && this.destinoControl.value && this.fechaControl.value);
+  }
+    
+
 
   async cargar(): Promise<any> {
     let vuelos = await this.vueloService.getList().toPromise();
@@ -105,9 +116,9 @@ export class VuelosComponent implements OnInit {
         i++;
       }else{break}
     }
-    this.origen = '';
-    this.destino = '';
-    this.fecha = new Date('');
+    this.origen = undefined;
+    this.destino = undefined;
+    this.fecha = undefined; 
   }
 
   cargarPaises(): void {
@@ -132,13 +143,22 @@ export class VuelosComponent implements OnInit {
   }
 
   cargarFiltrado(): void {
-    const anio = this.fecha.getFullYear();
-    const mes = this.fecha.getMonth() + 1;
-    const dia = this.fecha.getDate();
-    const fechaformateada = `${anio}-${mes.toString().padStart(2, '0')}-${dia.toString().padStart(2, '0')} 00:00:00`;
-    console.log(fechaformateada)
-
-    this.vueloService.traerVueloFiltrados(fechaformateada,this.origen.region,this.destino.region).subscribe((data) => {console.log(data),this.vuelos=data;}, err => console.log(err));
+    if(this.camposCompletos){
+      const anio = this.fecha.getFullYear();
+      const mes = this.fecha.getMonth() + 1;
+      const dia = this.fecha.getDate();
+      const fechaformateada = `${anio}-${mes.toString().padStart(2, '0')}-${dia.toString().padStart(2, '0')} 00:00:00`;
+      //console.log(fechaformateada)
+  
+      this.vueloService.traerVueloFiltrados(fechaformateada,this.origen.region,this.destino.region).subscribe((data) => {this.vuelos=data}, err => console.log(err));
+    }else{
+      Swal.fire({
+        icon: 'warning',
+        title: 'Oops...',
+        text: 'Por favor complete origen, destino y fecha antes de buscar'
+      })
+    }
+    
 
   }
 

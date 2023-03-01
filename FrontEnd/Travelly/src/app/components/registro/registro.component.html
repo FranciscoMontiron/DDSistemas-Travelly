@@ -17,50 +17,58 @@
 
             <!-- Login -->
 
-            <form #g="ngForm" (ngSubmit)="onRegister()" novalidate>
+            <form #g="ngForm" (ngSubmit)="onRegister()">        
 
                 <div class="mb-3 m-3">
                     <label for="nombre" class="form-label ">Nombre</label>
-                    <input type="text" class="form-control " id="nombre" name="nombre" [(ngModel)]="nombre" required>
+                    <input type="text" pattern="^[a-zA-Z]*$" class="form-control " id="nombre" name="nombre" [(ngModel)]="nombre" required>
+                    <div *ngIf="g.controls['nombre'].invalid && (g.controls['nombre'].dirty || g.controls['nombre'].touched)" class="text-danger">No se permiten numeros</div>
+                    <div *ngIf="g.submitted && g.controls['nombre'].hasError('required')" class="text-danger">Campo obligatorio</div>
                 </div>
-                <div class="mb-3 m-3">
+                <div class="mb-3 m-3">  
                     <label for="apellido" class="form-label">Apellido</label>
-                    <input type="text" class="form-control" id="apellido" name="apellido" [(ngModel)]="apellido" required>
+                    <input type="text" pattern="^[a-zA-Z]*$" class="form-control" id="apellido" name="apellido" [(ngModel)]="apellido" required>
+                    <div *ngIf="g.controls['apellido'].invalid && (g.controls['apellido'].dirty || g.controls['apellido'].touched)" class="text-danger">No se permiten numeros</div>
+                    <div *ngIf="g.submitted && g.controls['apellido'].hasError('required')" class="text-danger">Campo obligatorio</div>
                 </div>
                 <div class="mb-3 m-3">
                     <label for="dni" class="form-label">Dni</label>
-                    <input type="number" class="form-control" id="dni" name="dni" [(ngModel)]="dni" required>
+                    <input type="number" pattern="[0-9]{6,8}" class="form-control" id="dni" name="dni" [(ngModel)]="dni" required>
+                    <div *ngIf="g.controls['dni'].invalid && (g.controls['dni'].dirty || g.controls['dni'].touched)" class="text-danger">Solo numeros y debe contar entre 6 y 8 caracteres</div>
+                    <div *ngIf="g.submitted && g.controls['dni'].hasError('required')" class="text-danger">Campo obligatorio</div>
                 </div>
                 <div class="mb-3 m-3">
                     <label for="direccion" class="form-label">Direccion</label>
                     <input type="text" class="form-control" id="direccion" name="direccion" [(ngModel)]="direccion" required>
+                    <div *ngIf="g.submitted && g.controls['direccion'].hasError('required')" class="text-danger">Campo obligatorio</div>
                 </div>    
                 <div class="mb-3 m-3">
                     <label for="email" class="form-label">Correo Electrónico</label>
-                    <input type="email" class="form-control" id="email" aria-describedby="emailHelp" name="correro" [(ngModel)]="correo" required>
-                    <div id="emailHelp" class="form-text">Nunca compartiremos tu email con nadie.</div>
+                    <input type="email" class="form-control" id="email" aria-describedby="emailHelp" name="correo" [(ngModel)]="correo" required>
+                    <div id="emailHelp" class="form-text"><i class="fa-solid fa-circle-info"></i>  Nunca compartiremos tu email con nadie.</div>
+                    <div *ngIf="g.submitted && g.controls['correo'].hasError('required')" class="text-danger">Campo obligatorio</div>
                 </div>
                 <div class="mb-3 m-3">
                     <label for="usuario" class="form-label">Nombre de usuario</label>
-                    <input type="text" class="form-control" id="usuario" name="nombreUsuario" [(ngModel)]="nombreUsuario" required>
+                    <input type="text" pattern="^[\w\d]{4,8}$" class="form-control" id="nombreUsuario" name="nombreUsuario" [(ngModel)]="nombreUsuario" required>
+                    <div id="passwordHelpBlock" class="form-text">
+                        Tu usuario debe contener entre 4-8 caracteres y no puede contener espacios, caracteres especiales, o emojis.
+                    </div>
+                    <div *ngIf="g.submitted && g.controls['nombreUsuario'].hasError('required')" class="text-danger">Campo obligatorio</div>
                 </div>
 
                 <div class="mb-3 m-3">
                     <label for="password" class="form-label">Contraseña</label>
-                    <input type="password" id="password" class="form-control"
+                    <input type="password"  pattern="^[\w\d]{8,20}$" id="password" class="form-control"
                         aria-describedby="passwordHelpBlock" name="password" [(ngModel)]="password" required>
                     <div id="passwordHelpBlock" class="form-text">
                         Tu contraseña debe contener entre 8-20 caracteres, letras y números, y no puede contener
                         espacios, caracteres especiales, o emojis.
                     </div>
+                    <div *ngIf="g.submitted && g.controls['password'].hasError('required')" class="text-danger">Campo obligatorio</div>
                 </div>
 
-                <br>
-                <!--
-                <div class="mb-3 m-3">
-                    <label for="exampleInputPassword1" class="form-label">Repetir Contraseña</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1">
-                </div>-->
+                <br>    
                 <button type="submit" class="btn btn-primary m-3 float-end">Registrarse</button>
 
             </form>
